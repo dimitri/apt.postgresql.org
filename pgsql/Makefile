@@ -16,7 +16,7 @@ $(VERSIONS): minor-versions.txt
 	bash build-sources.sh $@ $< $(OUT)
 
 minor-versions.txt:
-	wget -q -O- $(SOURCE)  |gunzip |awk -f minor-versions.awk > $@
+	curl -s $(SOURCE) |awk -f minor-versions.awk > $@
 
 clean:
 	rm -f minor-versions.txt

@@ -12,7 +12,7 @@ ARCH = $(shell dpkg --print-architecture)
 VERSIONS = 8.3 8.4 9.0 9.1
 
 build-depends:
-	sudo apt-get install bzr wget bzip2 tar gawk lsb-release
+	sudo apt-get install bzr curl bzip2 tar gawk lsb-release
 	for v in $(VERSIONS); do \
 		sudo apt-get build-dep postgresql-$$v; \
 	done
