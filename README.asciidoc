@@ -1,0 +1,30 @@
+= apt.postgresql.org
+
+TODO: explain what we're doing and why
+
+== dependencies
+
+Not much, to install them:
+
+  make build-depends
+
+== how does it work?
+
+It's based on makefiles:
+
+  make postgresql
+  make OUT=/path/to/where/to/build postgresql-8.4
+
+Rules provided:
+
+build-depends::
+	will use +sudo apt-get install+ to bring in all dependencies
+	required to run the +apt.postgresql.org+ scripts.
+
+setup::
+	setup the debian repositories, using +bzr clone+
+
+postgresql::
+	builds the postgresql versions 8.3 8.4 9.0 and 9.1 for the current
+	architecture (the one the script is executed on)
+

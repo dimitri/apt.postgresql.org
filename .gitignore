@@ -1,0 +1,4 @@
+debian/debian-*
+pgsql/minor-versions.txt
+pgsql/*bz2
+pgsql/*md5
