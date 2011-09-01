@@ -21,8 +21,8 @@ setup:
 	make -C debian $@
 
 postgresql-%: setup
-	mkdir -p $(OUT)/$(REL)/$(ARCH)
-	make OUT=$(OUT)/$(REL)/$(ARCH) -C pgsql $@
+	mkdir -p $(abspath $(OUT))/$(REL)/$(ARCH)
+	make OUT=$(abspath $(OUT))/$(REL)/$(ARCH) -C pgsql $@
 
 postgresql: postgresql-8.4 postgresql-9.0 postgresql-9.1
 
