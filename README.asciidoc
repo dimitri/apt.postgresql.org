@@ -1,6 +1,6 @@
 = apt.postgresql.org
 
-TODO: explain what we're doing and why
+Policy draft: http://wiki.debian.org/pkg-postgresql/Workflow
 
 == dependencies
 
