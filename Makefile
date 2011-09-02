@@ -10,11 +10,12 @@ REL  = $(shell lsb_release -sc)
 ARCH = $(shell dpkg --print-architecture)
 
 VERSIONS = 8.3 8.4 9.0 9.1
+MAJORS   = $(addprefix postgresql-, $(VERSIONS))
 
 all: postgresql extensions
 
 postgresql: postgresql-common postgresql-8.4 postgresql-9.0 postgresql-9.1
-extensions: skytools postgresql-pgmp
+extensions: skytools postgresql-pgmp postgresql-plproxy
 
 build-depends:
 	sudo apt-get install bzr curl bzip2 tar gawk lsb-release git-core
@@ -31,11 +32,9 @@ setup:
 postgresql-common:
 	make -C debian $@
 
-postgresql-pgmp: build-dir
+$(MAJORS): setup build-dir
 	make OUT=$(abspath $(OUT))/$(REL)/$(ARCH) -C pgsql $@
 
-skytools: build-dir
-	make OUT=$(abspath $(OUT))/$(REL)/$(ARCH) -C pgsql $@
-
-postgresql-%: setup build-dir
+%: build-dir
+	echo $(MAJORS)
 	make OUT=$(abspath $(OUT))/$(REL)/$(ARCH) -C pgsql $@

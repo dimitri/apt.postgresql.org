@@ -34,3 +34,7 @@ skytools:
 	cd $(OUT) && apt-get source $@
 	cp -a $(SKYTOOLS_DEB)/* $(OUT)/$@-*/debian/
 	cd $(OUT)/$@-* && debuild -us -uc -sa
+
+postgresql-plproxy:
+	sudo apt-get build-dep $@
+	cd $(OUT) && apt-get source -b $@

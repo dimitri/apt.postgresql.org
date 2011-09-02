@@ -45,3 +45,5 @@ postgresql-pgmp::
 skytools::
 	Builds the skytools package, version 2
 
+plproxy::
+	Builds the plproxy package
