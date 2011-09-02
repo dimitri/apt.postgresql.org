@@ -11,8 +11,13 @@ ARCH = $(shell dpkg --print-architecture)
 
 VERSIONS = 8.3 8.4 9.0 9.1
 
+all: postgresql extensions
+
+postgresql: postgresql-common postgresql-8.4 postgresql-9.0 postgresql-9.1
+extensions: pgmp
+
 build-depends:
-	sudo apt-get install bzr curl bzip2 tar gawk lsb-release
+	sudo apt-get install bzr curl bzip2 tar gawk lsb-release git-core
 	for v in $(VERSIONS); do \
 		sudo apt-get build-dep postgresql-$$v; \
 	done
@@ -27,6 +32,5 @@ postgresql-%: setup
 	mkdir -p $(abspath $(OUT))/$(REL)/$(ARCH)
 	make OUT=$(abspath $(OUT))/$(REL)/$(ARCH) -C pgsql $@
 
-postgresql: postgresql-common postgresql-8.4 postgresql-9.0 postgresql-9.1
-
-
+pgmp:
+	make OUT=$(abspath $(OUT))/$(REL)/$(ARCH) -C pgsql $@
