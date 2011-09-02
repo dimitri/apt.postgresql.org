@@ -6,7 +6,7 @@
 PKG_URL  = svn://anonscm.debian.org/pkg-postgresql/trunk
 VERSIONS = debian-8.3 debian-8.4 debian-9.0 debian-9.1
 
-.PHONY: setup $(VERSIONS) pkg-postgresql
+.PHONY: setup $(VERSIONS)
 
 setup: $(VERSIONS) postgresql-common
 
@@ -29,7 +29,3 @@ postgresql-common: divert-supported-versions
 	mkdir -p build
 	(cd common && debc) | awk /^postgresql/ | xargs -I% mv % build
 	mv postgresql-common_*.{build,changes,dsc,tar.gz} build
-
-pkg-postgresql:
-	mkdir -p $@
-	cd $@ && (test -d trunk && (cd trunk && svn up) || svn checkout $(PKG_URL))

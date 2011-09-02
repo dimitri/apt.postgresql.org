@@ -5,7 +5,6 @@ debian/*dsc
 debian/*build
 debian/*changes
 debian/*.tar.gz
-debian/pkg-postgresql/*
 pgsql/minor-versions.txt
 pgsql/*bz2
 pgsql/*md5

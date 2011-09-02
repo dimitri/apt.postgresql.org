@@ -8,6 +8,9 @@ Not much, to install them:
 
   make build-depends
 
+Also you have to add a +deb-src+ line that points to sid so that +apt-get
+source+ will consider the right versions of the source packages.
+
 == how does it work?
 
 It's based on makefiles:
@@ -28,7 +31,17 @@ postgresql::
 	builds the postgresql versions 8.3 8.4 9.0 and 9.1 for the current
 	architecture (the one the script is executed on)
 
+extensions::
+	builds all supported postgresql extensions
+
 postgresql-common::
 	build an installs the latest +postgresql-common+, +postgresql-client-common+
 	and +postgresql-server-dev-all+ packages, which are needed for
 	building the other packages.  The +postgresql+ target includes it.
+
+postgresql-pgmp::
+	Builds the postgresql-X.Y-pgmp extension
+
+skytools::
+	Builds the skytools package, version 2
+
