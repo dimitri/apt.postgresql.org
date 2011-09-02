@@ -1,4 +1,10 @@
 debian/debian-*
+debian/common*
+debian/*deb
+debian/*dsc
+debian/*build
+debian/*changes
+debian/*.tar.gz
 pgsql/minor-versions.txt
 pgsql/*bz2
 pgsql/*md5

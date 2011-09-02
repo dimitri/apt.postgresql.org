@@ -28,3 +28,7 @@ postgresql::
 	builds the postgresql versions 8.3 8.4 9.0 and 9.1 for the current
 	architecture (the one the script is executed on)
 
+postgresql-common::
+	build an installs the latest +postgresql-common+, +postgresql-client-common+
+	and +postgresql-server-dev-all+ packages, which are needed for
+	building the other packages.  The +postgresql+ target includes it.

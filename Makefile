@@ -20,10 +20,13 @@ build-depends:
 setup:
 	make -C debian $@
 
+postgresql-common:
+	make -C debian $@
+
 postgresql-%: setup
 	mkdir -p $(abspath $(OUT))/$(REL)/$(ARCH)
 	make OUT=$(abspath $(OUT))/$(REL)/$(ARCH) -C pgsql $@
 
-postgresql: postgresql-8.4 postgresql-9.0 postgresql-9.1
+postgresql: postgresql-common postgresql-8.4 postgresql-9.0 postgresql-9.1
 
 
