@@ -1,0 +1,42 @@
+As a consequence of 51-default-sockets-in-var.patch we now need to explicitly
+specify the pg_regress socket dir as /tmp, since it runs the server as the
+invoking user.
+--- a/src/postgresql-8.3.15/src/test/regress/pg_regress.c	2011-04-15 05:18:15.000000000 +0200
++++ b/src/test/regress/pg_regress.c	2011-09-02 16:29:23.000000000 +0200
+@@ -882,7 +882,7 @@
+ 
+ 	/* And now we can build and execute the shell command */
+ 	snprintf(psql_cmd, sizeof(psql_cmd),
+-			 SYSTEMQUOTE "\"%s%spsql\" -X -c \"%s\" \"%s\"" SYSTEMQUOTE,
++			 SYSTEMQUOTE "\"%s%spsql\" -h /tmp -X -c \"%s\" \"%s\"" SYSTEMQUOTE,
+ 			 psqldir ? psqldir : "",
+ 			 psqldir ? "/" : "",
+ 			 query_escaped,
+@@ -2051,7 +2051,7 @@
+ 		 */
+ 		header(_("starting postmaster"));
+ 		snprintf(buf, sizeof(buf),
+-				 SYSTEMQUOTE "\"%s/postgres\" -D \"%s/data\" -F%s -c \"listen_addresses=%s\" > \"%s/log/postmaster.log\" 2>&1" SYSTEMQUOTE,
++				 SYSTEMQUOTE "\"%s/postgres\" -D \"%s/data\" -k /tmp -F%s -c \"listen_addresses=%s\" > \"%s/log/postmaster.log\" 2>&1" SYSTEMQUOTE,
+ 				 bindir, temp_install,
+ 				 debug ? " -d 5" : "",
+ 				 hostname ? hostname : "",
+@@ -2070,7 +2070,7 @@
+ 		 * forever, however.
+ 		 */
+ 		snprintf(buf, sizeof(buf),
+-				 SYSTEMQUOTE "\"%s/psql\" -X postgres <%s 2>%s" SYSTEMQUOTE,
++				 SYSTEMQUOTE "\"%s/psql\" -h /tmp -X postgres <%s 2>%s" SYSTEMQUOTE,
+ 				 bindir, DEVNULL, DEVNULL);
+ 		for (i = 0; i < 60; i++)
+ 		{
+--- a/src/postgresql-8.3.15/src/test/regress/pg_regress_main.c	2011-04-15 05:18:15.000000000 +0200
++++ b/src/test/regress/pg_regress_main.c	2011-09-02 16:36:51.000000000 +0200
+@@ -46,6 +46,7 @@
+ 
+ 	snprintf(psql_cmd, sizeof(psql_cmd),
+ 			 SYSTEMQUOTE "\"%s%spsql\" -X -a -q -d \"%s\" < \"%s\" > \"%s\" 2>&1" SYSTEMQUOTE,
++			 SYSTEMQUOTE "\"%s%spsql\" -h /tmp -X -a -q -d \"%s\" < \"%s\" > \"%s\" 2>&1" SYSTEMQUOTE,
+ 			 psqldir ? psqldir : "",
+ 			 psqldir ? "/" : "",
+ 			 dblist->str,

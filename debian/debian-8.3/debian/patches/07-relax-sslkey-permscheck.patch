@@ -1,0 +1,22 @@
+diff -Nur postgresql-8.2/build-tree/postgresql-8.2beta1/src/backend/libpq/be-secure.c postgresql-8.2.new/build-tree/postgresql-8.2beta1/src/backend/libpq/be-secure.c
+--- postgresql-8.2beta1/src/backend/libpq/be-secure.c	2006-09-04 16:57:27.000000000 +0200
++++ postgresql-8.2beta1/src/backend/libpq/be-secure.c	2006-09-25 19:24:13.000000000 +0200
+@@ -751,13 +751,15 @@
+ 		 * directory permission check in postmaster.c)
+ 		 */
+ #if !defined(WIN32) && !defined(__CYGWIN__)
+-		if (!S_ISREG(buf.st_mode) || (buf.st_mode & (S_IRWXG | S_IRWXO)) ||
+-			buf.st_uid != geteuid())
++		if (!S_ISREG(buf.st_mode) || (buf.st_mode & (S_IWGRP | S_IRWXO)) ||
++			(buf.st_uid != geteuid()) && buf.st_uid != 0)
+ 			ereport(FATAL,
+ 					(errcode(ERRCODE_CONFIG_FILE_ERROR),
+ 					 errmsg("unsafe permissions on private key file \"%s\"",
+ 							SERVER_PRIVATE_KEY_FILE),
+-					 errdetail("File must be owned by the database user and must have no permissions for \"group\" or \"other\".")));
++					 errdetail("File must be owned by the \
++database user or root, must have no write permission for \"group\", and must \
++have no permissions for \"other\".")));
+ #endif
+ 
+ 		if (!SSL_CTX_use_PrivateKey_file(SSL_context,

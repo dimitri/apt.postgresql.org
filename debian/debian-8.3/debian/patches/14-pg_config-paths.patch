@@ -1,0 +1,27 @@
+diff -Nur -x '*.orig' -x '*~' postgresql-8.3/build-tree/postgresql-8.3.0/src/bin/pg_config/pg_config.c postgresql-8.3.new/build-tree/postgresql-8.3.0/src/bin/pg_config/pg_config.c
+--- postgresql-8.3.0/src/bin/pg_config/pg_config.c	2008-02-03 12:12:01.000000000 +0100
++++ postgresql-8.3.0/src/bin/pg_config/pg_config.c	2008-02-03 12:13:09.000000000 +0100
+@@ -26,6 +26,8 @@
+ 
+ #include "port.h"
+ 
++#include "../port/pg_config_paths.h"
++
+ static const char *progname;
+ static char mypath[MAXPGPATH];
+ 
+@@ -465,13 +467,7 @@
+ 		}
+ 	}
+ 
+-	ret = find_my_exec(argv[0], mypath);
+-
+-	if (ret)
+-	{
+-		fprintf(stderr, _("%s: could not find own program executable\n"), progname);
+-		exit(1);
+-	}
++	snprintf(mypath, sizeof(mypath), "%s/%s", PGBINDIR, progname);
+ 
+ 	/* no arguments -> print everything */
+ 	if (argc < 2)

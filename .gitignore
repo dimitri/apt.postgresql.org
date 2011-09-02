@@ -1,4 +1,5 @@
-debian/debian-*
+debian/debian-8.4
+debian/debian-9.*
 debian/common*
 debian/*deb
 debian/*dsc

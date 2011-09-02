@@ -1,0 +1,33 @@
+diff -Nur postgresql-8.2/build-tree/postgresql-8.2beta1/src/backend/storage/file/fd.c postgresql-8.2.new/build-tree/postgresql-8.2beta1/src/backend/storage/file/fd.c
+--- postgresql-8.2beta1/src/backend/storage/file/fd.c	2006-08-24 05:15:43.000000000 +0200
++++ postgresql-8.2beta1/src/backend/storage/file/fd.c	2006-09-25 19:19:51.000000000 +0200
+@@ -51,6 +51,7 @@
+ #include "storage/fd.h"
+ #include "storage/ipc.h"
+ 
++#include <sys/resource.h>
+ 
+ /*
+  * We must leave some file descriptors free for system(), the dynamic loader,
+@@ -345,15 +346,21 @@
+ 	int			used = 0;
+ 	int			highestfd = 0;
+ 	int			j;
++ 	struct rlimit	    rlim;
+ 
+ 	size = 1024;
+ 	fd = (int *) palloc(size * sizeof(int));
++ 	getrlimit(RLIMIT_NOFILE, &rlim);
+ 
+ 	/* dup until failure or probe limit reached */
+ 	for (;;)
+ 	{
+ 		int			thisfd;
+ 
++                /* Don't go beyond RLIMIT_NOFILE */
++ 		if (highestfd >= rlim.rlim_cur - 1)
++ 		    break;
++
+ 		thisfd = dup(0);
+ 		if (thisfd < 0)
+ 		{

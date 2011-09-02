@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+VERSION=8.3
+
+#DEBHELPER#
+
+if [ "$1" = remove ]; then
+    . /usr/share/postgresql-common/maintscripts-functions
+    remove_version $VERSION
+fi
+

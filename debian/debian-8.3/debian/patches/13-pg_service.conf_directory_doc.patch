@@ -1,0 +1,14 @@
+diff -Nur -x '*.orig' -x '*~' postgresql-8.3/build-tree/postgresql-8.3RC2/src/interfaces/libpq/pg_service.conf.sample postgresql-8.3.new/build-tree/postgresql-8.3RC2/src/interfaces/libpq/pg_service.conf.sample
+--- postgresql-8.3RC2/src/interfaces/libpq/pg_service.conf.sample	2007-09-14 16:31:22.000000000 +0200
++++ postgresql-8.3RC2/src/interfaces/libpq/pg_service.conf.sample	2008-01-19 17:24:45.000000000 +0100
+@@ -8,8 +8,8 @@
+ # to look up such parameters.  A sample configuration for postgres is 
+ # included in this file.  Lines beginning with '#' are comments.
+ #
+-# Copy this to your sysconf directory (typically /usr/local/pgsql/etc) and
+-# rename it pg_service.conf.
++# Copy this to /etc/postgresql-common/ (or select its location with the
++# PGSYSCONFDIR environment variable) and rename it pg_service.conf.
+ #
+ #
+ #[postgres]

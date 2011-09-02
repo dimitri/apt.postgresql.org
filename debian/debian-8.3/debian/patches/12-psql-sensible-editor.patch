@@ -1,0 +1,11 @@
+--- postgresql-8.3beta3/src/bin/psql/settings.h	2007-01-05 23:19:49.000000000 +0100
++++ postgresql-8.3beta3/src/bin/psql/settings.h	2007-11-21 17:10:38.000000000 +0100
+@@ -19,7 +19,7 @@
+ #if defined(WIN32) || defined(__CYGWIN__)
+ #define DEFAULT_EDITOR	"notepad.exe"
+ #else
+-#define DEFAULT_EDITOR	"vi"
++#define DEFAULT_EDITOR	"sensible-editor"
+ #endif
+ 
+ #define DEFAULT_PROMPT1 "%/%R%# "

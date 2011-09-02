@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+VERSION=8.3
+
+. /usr/share/postgresql-common/maintscripts-functions
+
+if [ "$1" = configure ]; then
+    configure_contrib_version $VERSION "$2"
+fi
+
+#DEBHELPER#

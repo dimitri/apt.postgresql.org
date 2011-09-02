@@ -1,0 +1,42 @@
+diff -Nur postgresql-8.3/build-tree/postgresql-8.3beta1/src/test/regress/pg_regress.c postgresql-8.3.new/build-tree/postgresql-8.3beta1/src/test/regress/pg_regress.c
+--- postgresql-8.3beta1/src/test/regress/pg_regress.c	2007-09-09 22:40:54.000000000 +0200
++++ postgresql-8.3beta1/src/test/regress/pg_regress.c	2007-10-09 03:33:53.000000000 +0200
+@@ -859,7 +859,7 @@
+ 
+ 	/* And now we can build and execute the shell command */
+ 	snprintf(psql_cmd, sizeof(psql_cmd),
+-			 SYSTEMQUOTE "\"%s%spsql\" -X -c \"%s\" \"%s\"" SYSTEMQUOTE,
++			 SYSTEMQUOTE "\"%s%spsql\" -h /tmp -X -c \"%s\" \"%s\"" SYSTEMQUOTE,
+ 			 psqldir ? psqldir : "",
+ 			 psqldir ? "/" : "",
+ 			 query_escaped,
+@@ -1999,7 +1999,7 @@
+ 		 */
+ 		header(_("starting postmaster"));
+ 		snprintf(buf, sizeof(buf),
+-				 SYSTEMQUOTE "\"%s/postgres\" -D \"%s/data\" -F%s -c \"listen_addresses=%s\" > \"%s/log/postmaster.log\" 2>&1" SYSTEMQUOTE,
++				 SYSTEMQUOTE "\"%s/postgres\" -D \"%s/data\" -k /tmp -F%s -c \"listen_addresses=%s\" > \"%s/log/postmaster.log\" 2>&1" SYSTEMQUOTE,
+ 				 bindir, temp_install,
+ 				 debug ? " -d 5" : "",
+ 				 hostname ? hostname : "",
+@@ -2018,7 +2018,7 @@
+ 		 * forever, however.
+ 		 */
+ 		snprintf(buf, sizeof(buf),
+-				 SYSTEMQUOTE "\"%s/psql\" -X postgres <%s 2>%s" SYSTEMQUOTE,
++				 SYSTEMQUOTE "\"%s/psql\" -h /tmp -X postgres <%s 2>%s" SYSTEMQUOTE,
+ 				 bindir, DEVNULL, DEVNULL);
+ 		for (i = 0; i < 60; i++)
+ 		{
+diff -Nur postgresql-8.3/build-tree/postgresql-8.3beta1/src/test/regress/pg_regress_main.c postgresql-8.3.new/build-tree/postgresql-8.3beta1/src/test/regress/pg_regress_main.c
+--- postgresql-8.3beta1/src/test/regress/pg_regress_main.c	2007-06-12 13:07:34.000000000 +0200
++++ postgresql-8.3beta1/src/test/regress/pg_regress_main.c	2007-10-09 03:34:17.000000000 +0200
+@@ -45,7 +45,7 @@
+ 	add_stringlist_item(expectfiles, expectfile);
+ 
+ 	snprintf(psql_cmd, sizeof(psql_cmd),
+-			 SYSTEMQUOTE "\"%s%spsql\" -X -a -q -d \"%s\" < \"%s\" > \"%s\" 2>&1" SYSTEMQUOTE,
++			 SYSTEMQUOTE "\"%s%spsql\" -h /tmp -X -a -q -d \"%s\" < \"%s\" > \"%s\" 2>&1" SYSTEMQUOTE,
+ 			 psqldir ? psqldir : "",
+ 			 psqldir ? "/" : "",
+ 			 dblist->str,
