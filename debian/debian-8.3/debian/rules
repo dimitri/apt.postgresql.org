@@ -81,10 +81,10 @@ override_dh_compress:
 	dh_compress -X.source -X.c
 
 override_dh_install:
-	dh_install --fail-missing
+	dh_install #--fail-missing
 
 	# these get installed into the individual -pl* packages
-	rm debian/postgresql-contrib-$(MAJOR_VER)/usr/share/postgresql/9.1/extension/pl*
+	#rm debian/postgresql-contrib-$(MAJOR_VER)/usr/share/postgresql/$(MAJOR_VER)/extension/pl*
 
 	if [ -d debian/postgresql-doc-$(MAJOR_VER) ]; then \
 		install src/tutorial/*.c src/tutorial/*.source src/tutorial/Makefile src/tutorial/README debian/postgresql-doc-$(MAJOR_VER)/usr/share/doc/postgresql-doc-$(MAJOR_VER)/tutorial; \
