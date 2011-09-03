@@ -100,7 +100,7 @@ ifeq (, $(findstring nocheck, $(DEB_BUILD_OPTIONS)))
 	# patch away the "don't execute as root" check for the test
 	# suite; doing it here will ensure that the actual debs have
 	# the check.
-	set -e; \
+	set -ex; \
 	patch --no-backup-if-mismatch -p1 < debian/disable-root-check.patch; \
 	patch --no-backup-if-mismatch -p1 < debian/pg_regress-in-tmp.patch; \
 	make -C src/test/regress bigcheck || fail=1; \

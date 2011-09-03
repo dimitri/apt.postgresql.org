@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Martin Pitt <mpitt@debian.org>
 Standards-Version: 3.8.3
 XS-Python-Version: current
-Build-Depends: debhelper (>= 5.0.37.2), cdbs (>= 0.4.43), perl (>= 5.8),
+Build-Depends: debhelper (>= 7), perl (>= 5.8),
  libperl-dev, tcl8.5-dev, libreadline-dev | libreadline5-dev, libssl-dev, 
  zlib1g-dev | libz-dev, libpam0g-dev | libpam-dev, libxml2-dev, libkrb5-dev,
  libldap2-dev, libxslt1-dev, libossp-uuid-dev, python-dev,

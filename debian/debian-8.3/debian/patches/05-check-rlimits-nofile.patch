@@ -1,15 +1,14 @@
-diff -Nur postgresql-8.2/build-tree/postgresql-8.2beta1/src/backend/storage/file/fd.c postgresql-8.2.new/build-tree/postgresql-8.2beta1/src/backend/storage/file/fd.c
---- postgresql-8.2beta1/src/backend/storage/file/fd.c	2006-08-24 05:15:43.000000000 +0200
-+++ postgresql-8.2beta1/src/backend/storage/file/fd.c	2006-09-25 19:19:51.000000000 +0200
-@@ -51,6 +51,7 @@
- #include "storage/fd.h"
- #include "storage/ipc.h"
+--- a/src/backend/storage/file/fd.c
++++ b/src/backend/storage/file/fd.c
+@@ -54,6 +54,7 @@
+ #include "utils/guc.h"
+ #include "utils/resowner.h"
  
 +#include <sys/resource.h>
  
  /*
   * We must leave some file descriptors free for system(), the dynamic loader,
-@@ -345,15 +346,21 @@
+@@ -357,15 +358,21 @@ count_usable_fds(int max_to_probe, int *
  	int			used = 0;
  	int			highestfd = 0;
  	int			j;

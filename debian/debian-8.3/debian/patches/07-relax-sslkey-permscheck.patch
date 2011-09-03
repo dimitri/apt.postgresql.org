@@ -1,7 +1,6 @@
-diff -Nur postgresql-8.2/build-tree/postgresql-8.2beta1/src/backend/libpq/be-secure.c postgresql-8.2.new/build-tree/postgresql-8.2beta1/src/backend/libpq/be-secure.c
---- postgresql-8.2beta1/src/backend/libpq/be-secure.c	2006-09-04 16:57:27.000000000 +0200
-+++ postgresql-8.2beta1/src/backend/libpq/be-secure.c	2006-09-25 19:24:13.000000000 +0200
-@@ -751,13 +751,15 @@
+--- a/src/backend/libpq/be-secure.c
++++ b/src/backend/libpq/be-secure.c
+@@ -753,13 +753,15 @@ initialize_SSL(void)
  		 * directory permission check in postmaster.c)
  		 */
  #if !defined(WIN32) && !defined(__CYGWIN__)
@@ -19,4 +18,4 @@ diff -Nur postgresql-8.2/build-tree/postgresql-8.2beta1/src/backend/libpq/be-sec
 +have no permissions for \"other\".")));
  #endif
  
- 		if (!SSL_CTX_use_PrivateKey_file(SSL_context,
+ 		if (SSL_CTX_use_PrivateKey_file(SSL_context,
