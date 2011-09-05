@@ -4,13 +4,14 @@
 # See http://www.gnu.org/s/hello/manual/make/Phony-Targets.html
 
 PKG_URL  = svn://anonscm.debian.org/pkg-postgresql/trunk
+UPSTREAM = debian-8.4 debian-9.0 debian-9.1
 VERSIONS = debian-8.3 debian-8.4 debian-9.0 debian-9.1
 
-.PHONY: setup $(VERSIONS)
+.PHONY: setup $(UPSTREAM)
 
-setup: $(VERSIONS) postgresql-common
+setup: $(UPSTREAM) postgresql-common
 
-$(VERSIONS):
+$(UPSTREAM):
 	test -d $@ && (cd $@ && bzr pull) || bzr clone lp:~pitti/postgresql/$@
 
 divert-supported-versions:
@@ -28,4 +29,4 @@ postgresql-common: divert-supported-versions
 	done
 	mkdir -p build
 	(cd common && debc) | awk /^postgresql/ | xargs -I% mv % build
-	mv postgresql-common_*.{build,changes,dsc,tar.gz} build
+	mv postgresql-common_* build
