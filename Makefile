@@ -15,7 +15,6 @@ MAJORS   = $(addprefix postgresql-, $(VERSIONS))
 all: postgresql extensions
 
 postgresql: postgresql-common postgresql-8.4 postgresql-9.0 postgresql-9.1
-extensions: skytools postgresql-pgmp postgresql-plproxy
 
 build-depends:
 	sudo apt-get install bzr curl bzip2 tar gawk lsb-release git-core

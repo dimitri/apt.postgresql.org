@@ -39,11 +39,11 @@ postgresql-common::
 	and +postgresql-server-dev-all+ packages, which are needed for
 	building the other packages.  The +postgresql+ target includes it.
 
-postgresql-pgmp::
-	Builds the postgresql-X.Y-pgmp extension
+== supported extensions
 
-skytools::
-	Builds the skytools package, version 2
+See +pgsql/Makefile+, both the +EXTENSIONS+ variable and the +extensions+
+target.  To add support for an extension, first add its debian source
+package name to the +EXTENSIONS+ list and check that it builds.  If it's ok
+you're done, if not, remove from the list and add a special target, where
+you have to add-in whatever it takes to make the extension builds properly.
 
-plproxy::
-	Builds the plproxy package

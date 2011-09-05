@@ -9,7 +9,10 @@ VERSIONS = postgresql-8.3 postgresql-8.4 postgresql-9.0 postgresql-9.1
 
 SKYTOOLS_DEB = $(abspath ../debian/divert/skytools/debian)
 
-.PHONY: setup $(VERSIONS)
+EXTENSIONS = postgresql-plproxy prefix preprepare pgfincore \
+             postgresql-pllua postgresql-plsh
+
+.PHONY: setup $(VERSIONS) $(EXTENSIONS)
 
 build: $(VERSIONS)
 
@@ -23,6 +26,9 @@ minor-versions.txt:
 clean:
 	rm -f minor-versions.txt
 
+extensions: $(EXTENSIONS) postgresql-pgmp skytools
+
+# some extension require special care
 postgresql-pgmp:
 	sudo apt-get install libgmp3-dev
 	cd $(OUT) && apt-get source $@
@@ -35,6 +41,8 @@ skytools:
 	cp -a $(SKYTOOLS_DEB)/* $(OUT)/$@-*/debian/
 	cd $(OUT)/$@-* && debuild -us -uc -sa
 
-postgresql-plproxy:
+# most extension just work though
+$(EXTENSIONS):
 	sudo apt-get build-dep $@
 	cd $(OUT) && apt-get source -b $@
+
