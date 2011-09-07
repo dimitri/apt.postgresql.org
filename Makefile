@@ -33,6 +33,7 @@ postgresql-common:
 
 $(MAJORS): setup build-dir
 	make OUT=$(abspath $(OUT))/$(REL)/$(ARCH) -C pgsql $@
+	# make OUT=. -C pgsql $@
 
 %: build-dir
 	echo $(MAJORS)

@@ -47,3 +47,7 @@ package name to the +EXTENSIONS+ list and check that it builds.  If it's ok
 you're done, if not, remove from the list and add a special target, where
 you have to add-in whatever it takes to make the extension builds properly.
 
+== pbuilder
+
+The +hook.d+ directory contains hook scripts for +pbuilder+ to create images
+with PostgreSQL built and installed on them.
