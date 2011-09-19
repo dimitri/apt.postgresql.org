@@ -15,7 +15,7 @@ export DEB_BUILD_HARDENING_FORMAT=0
 export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 
 # build should fail on test suite failures on all arches
-TESTSUITE_FAIL_CMD=exit 0
+TESTSUITE_FAIL_CMD=exit 1
 
 
 %:
