@@ -1,0 +1,3 @@
+version=3
+opts=uversionmangle=s/alpha/~alpha/;s/beta/~beta/;s/rc/~rc/ \
+http://www.postgresql.org/ftp/source/ /ftp/source/v(9\.1.*)/

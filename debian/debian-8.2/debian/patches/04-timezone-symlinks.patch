@@ -1,0 +1,12 @@
+diff -Nur postgresql-8.2/build-tree/postgresql-8.2.4/src/timezone/Makefile postgresql-8.2.new/build-tree/postgresql-8.2.4/src/timezone/Makefile
+--- postgresql-8.2.4/src/timezone/Makefile	2007-03-14 18:38:15.000000000 +0100
++++ postgresql-8.2.4/src/timezone/Makefile	2007-04-20 09:25:20.000000000 +0200
+@@ -38,7 +38,7 @@
+ 	$(CC) $(CFLAGS) $(ZICOBJS) $(LDFLAGS) $(LIBS) -o $@$(X)
+ 
+ install: all installdirs
+-	./zic -d '$(DESTDIR)$(datadir)/timezone' -p '$(POSIXRULES)' $(TZDATAFILES)
++	ln -s /usr/share/zoneinfo '$(DESTDIR)$(datadir)/timezone'
+ 	$(MAKE) -C tznames $@
+ 
+ installdirs:
