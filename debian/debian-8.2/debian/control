@@ -58,7 +58,7 @@ Description: PostgreSQL C client library
  .
  PostgreSQL is an object-relational SQL database management system.
 
-Package: libecpg6
+Package: libecpg5
 Architecture: any
 Section: libs
 Depends: ${misc:Depends}, ${shlibs:Depends}
@@ -74,9 +74,9 @@ Section: libdevel
 Depends: ${misc:Depends},
  ${shlibs:Depends},
  libpq-dev,
- libecpg6 (= ${binary:Version}),
- libecpg-compat3 (= ${binary:Version}),
- libpgtypes3 (= ${binary:Version})
+ libecpg5 (= ${binary:Version}),
+ libecpg-compat2 (= ${binary:Version}),
+ libpgtypes2 (= ${binary:Version})
 Conflicts: postgresql-dev, libecpg3-dev
 Description: development files for ECPG (Embedded PostgreSQL for C)
  This package contains the necessary files to build ECPG (Embedded
@@ -88,7 +88,7 @@ Description: development files for ECPG (Embedded PostgreSQL for C)
  Install this package if you want to write C programs with SQL statements
  embedded in them (rather than run by an external process).
 
-Package: libecpg-compat3
+Package: libecpg-compat2
 Architecture: any
 Section: libs
 Depends: ${misc:Depends}, ${shlibs:Depends}
@@ -98,7 +98,7 @@ Description: older version of run-time library for ECPG programs
  .
  PostgreSQL is an object-relational SQL database management system.
 
-Package: libpgtypes3
+Package: libpgtypes2
 Architecture: any
 Section: libs
 Depends: ${misc:Depends}, ${shlibs:Depends}
@@ -223,20 +223,15 @@ Description: additional facilities for PostgreSQL
   earthdistance  - Operator for computing the distance (in miles) between
                    two points on the earth's surface
   fuzzystrmatch  - Levenshtein, metaphone, and soundex fuzzy string matching
-  hstore         - Store (key, value) pairs
   intagg         - Integer aggregator/enumerator
-  _int           - Index support for arrays of int4, using GiST (benchmark
-                   needs the libdbd-pg-perl package)
+  intarray       - Index support for arrays of int4, using GiST
   isn            - type extensions for ISBN, ISSN, ISMN, EAN13 product numbers
   lo             - Large Object maintenance
   ltree          - Tree-like data structures
   oid2name       - Maps OIDs to table names
-  pageinspect    - Inspection of database pages
-  passwordcheck  - Simple password strength checker
   pg_buffercache - Real time queries on the shared buffer cache
   pg_freespacemap- Displays the contents of the free space map (FSM)
   pg_trgm        - Determine the similarity of text based on trigram matching
-  pg_standby     - Create a warm stand-by server
   pgbench        - TPC-B like benchmark
   pgcrypto       - Cryptographic functions
   pgrowlocks     - A function to return row locking information
@@ -255,9 +250,9 @@ Description: additional facilities for PostgreSQL
                                 integrity.
                    timetravel - Re-implements in user code the time travel
                                 feature that was removed in 6.3.
-  tablefunc      - examples of functions returning tables
-  uuid-ossp      - UUID generation functions
+  tsearch2       - Full-text-index support using GiST
   vacuumlo       - Remove orphaned large objects
+  xml2           - Manipulate XML documents in the database
  .
  PostgreSQL is an object-relational SQL database management system.
 

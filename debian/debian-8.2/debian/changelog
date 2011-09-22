@@ -1,4 +1,4 @@
-postgresql-8.2 (8.2.21-1) sid-pgapt; urgency=low
+postgresql-8.2 (8.2.21-1~pgapt+1) sid-pgapt; urgency=low
 
   * Backport packaging to 8.2.
 

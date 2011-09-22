@@ -3,7 +3,7 @@ usr/include/postgresql/informix/*
 usr/include/postgresql/pgtypes_*.h
 usr/include/postgresql/sql3types.h
 usr/include/postgresql/sqlca.h
-usr/include/postgresql/sqlda*.h
+#usr/include/postgresql/sqlda*.h
 usr/lib/postgresql/8.2/bin/ecpg usr/bin
 usr/lib/libecpg.so
 usr/lib/libecpg_compat.so

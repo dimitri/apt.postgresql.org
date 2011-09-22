@@ -10,3 +10,4 @@
 52-tutorial-README.patch
 53-pg_service.conf_directory_doc.patch
 54-debian-alternatives-for-external-tools.patch
+debian-changes-8.2.21-1~pgapt+1

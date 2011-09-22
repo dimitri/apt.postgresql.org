@@ -57,6 +57,7 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	$(MAKE)
 	$(MAKE) -C contrib
+	$(MAKE) -C doc
 
 	# generate POT files for translators
 	find -name nls.mk -exec sh -c "make -C \$$(dirname {}) init-po" \;
@@ -67,6 +68,7 @@ override_dh_auto_build:
 override_dh_auto_install:
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 	$(MAKE) -C contrib install DESTDIR=$(CURDIR)/debian/tmp
+	$(MAKE) -C doc install DESTDIR=$(CURDIR)/debian/tmp
 
 override_dh_makeshlibs:
 	dh_makeshlibs -Xusr/lib/postgresql/$(MAJOR_VER)
@@ -82,9 +84,6 @@ override_dh_compress:
 
 override_dh_install:
 	dh_install --fail-missing
-
-	# these get installed into the individual -pl* packages
-	rm debian/postgresql-contrib-$(MAJOR_VER)/usr/share/postgresql/$(MAJOR_VER)/contrib/pl*
 
 	if [ -d debian/postgresql-doc-$(MAJOR_VER) ]; then \
 		install src/tutorial/*.c src/tutorial/*.source src/tutorial/Makefile src/tutorial/README debian/postgresql-doc-$(MAJOR_VER)/usr/share/doc/postgresql-doc-$(MAJOR_VER)/tutorial; \
@@ -103,7 +102,7 @@ ifeq (, $(findstring nocheck, $(DEB_BUILD_OPTIONS)))
 	set -e; \
 	patch --no-backup-if-mismatch -p1 < debian/disable-root-check.patch; \
 	patch --no-backup-if-mismatch -p1 < debian/pg_regress-in-tmp.patch; \
-	make -C src/test/regress bigcheck || fail=1; \
+	make -C src/test/regress check bigcheck || fail=1; \
 	patch --no-backup-if-mismatch -Rp1 < debian/pg_regress-in-tmp.patch; \
 	patch --no-backup-if-mismatch -Rp1 < debian/disable-root-check.patch; \
 	if [ -n "$$fail" ]; then \
