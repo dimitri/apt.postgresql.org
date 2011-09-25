@@ -4,18 +4,6 @@ VERSION=8.3
 
 
 if [ "$1" = configure ]; then
-    # fix init script stop priority on upgrades
-    if dpkg --compare-versions "$2" le-nl "8.3~rc2-1"; then
-        echo "Fixing init script priorities..."
-        for l in 0 1 6; do
-            old=/etc/rc$l.d/K19postgresql-8.3
-            new=/etc/rc$l.d/K21postgresql-8.3
-            if [ -e $old ] && ! [ -e $new ]; then
-                mv $old $new
-            fi
-        done
-    fi
-
     . /usr/share/postgresql-common/maintscripts-functions
 
     configure_version $VERSION "$2"

@@ -56,6 +56,7 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	$(MAKE)
+	$(MAKE) -C doc
 	$(MAKE) -C contrib
 
 	# generate POT files for translators
@@ -66,6 +67,7 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
+	$(MAKE) -C doc install DESTDIR=$(CURDIR)/debian/tmp
 	$(MAKE) -C contrib install DESTDIR=$(CURDIR)/debian/tmp
 
 override_dh_makeshlibs:
@@ -81,10 +83,7 @@ override_dh_compress:
 	dh_compress -X.source -X.c
 
 override_dh_install:
-	dh_install #--fail-missing
-
-	# these get installed into the individual -pl* packages
-	#rm debian/postgresql-contrib-$(MAJOR_VER)/usr/share/postgresql/$(MAJOR_VER)/extension/pl*
+	dh_install --fail-missing
 
 	if [ -d debian/postgresql-doc-$(MAJOR_VER) ]; then \
 		install src/tutorial/*.c src/tutorial/*.source src/tutorial/Makefile src/tutorial/README debian/postgresql-doc-$(MAJOR_VER)/usr/share/doc/postgresql-doc-$(MAJOR_VER)/tutorial; \
@@ -100,7 +99,7 @@ ifeq (, $(findstring nocheck, $(DEB_BUILD_OPTIONS)))
 	# patch away the "don't execute as root" check for the test
 	# suite; doing it here will ensure that the actual debs have
 	# the check.
-	set -ex; \
+	set -e; \
 	patch --no-backup-if-mismatch -p1 < debian/disable-root-check.patch; \
 	patch --no-backup-if-mismatch -p1 < debian/pg_regress-in-tmp.patch; \
 	make -C src/test/regress bigcheck || fail=1; \
