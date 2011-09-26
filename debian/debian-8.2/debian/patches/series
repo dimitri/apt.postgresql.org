@@ -1,3 +1,4 @@
+01-build-contrib.patch
 01-armel-tas.patch
 02-relax-sslkey-permscheck.patch
 03-gettext-domains.patch
