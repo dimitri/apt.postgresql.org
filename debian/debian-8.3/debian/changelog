@@ -1,3 +1,9 @@
+postgresql-8.3 (8.3.16-1~pgapt+1) sid-pgapt; urgency=low
+
+  * New upstream release.
+
+ -- Christoph Berg <myon@debian.org>  Tue, 27 Sep 2011 12:58:10 +0200
+
 postgresql-8.3 (8.3.15-1.pgapt+2) sid-pgapt; urgency=low
 
   * Backport packaging to 8.3.

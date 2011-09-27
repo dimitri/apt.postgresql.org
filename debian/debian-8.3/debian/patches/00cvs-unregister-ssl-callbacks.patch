@@ -5,7 +5,7 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
 
 --- a/src/backend/libpq/be-secure.c
 +++ b/src/backend/libpq/be-secure.c
-@@ -114,7 +114,6 @@ static DH  *tmp_dh_cb(SSL *s, int is_exp
+@@ -114,7 +114,6 @@
  static int	verify_cb(int, X509_STORE_CTX *);
  static void info_cb(const SSL *ssl, int type, int args);
  static void initialize_SSL(void);
@@ -13,7 +13,7 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
  static int	open_server_SSL(Port *);
  static void close_SSL(Port *);
  static const char *SSLerrmessage(void);
-@@ -219,17 +218,6 @@ secure_initialize(void)
+@@ -219,17 +218,6 @@
  }
  
  /*
@@ -31,7 +31,7 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
   *	Attempt to negotiate secure session.
   */
  int
-@@ -835,19 +823,6 @@ initialize_SSL(void)
+@@ -841,19 +829,6 @@
  	}
  }
  
@@ -61,7 +61,7 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
  #include <sys/stat.h>
  
  #ifdef ENABLE_THREAD_SAFETY
-@@ -148,20 +149,32 @@ static int	verify_peer(PGconn *);
+@@ -148,20 +149,32 @@
  static int	verify_cb(int ok, X509_STORE_CTX *ctx);
  static int	client_cert_cb(SSL *, X509 **, EVP_PKEY **);
  static int	init_ssl_system(PGconn *conn);
@@ -98,7 +98,7 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
  /*
   * Macros to handle disabling and then restoring the state of SIGPIPE handling.
   * Note that DISABLE_SIGPIPE() must appear at the start of a block.
-@@ -245,7 +258,7 @@ void
+@@ -245,7 +258,7 @@
  pqsecure_destroy(void)
  {
  #ifdef USE_SSL
@@ -107,7 +107,7 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
  #endif
  }
  
-@@ -813,6 +826,9 @@ client_cert_cb(SSL *ssl, X509 **x509, EV
+@@ -962,6 +975,9 @@
  }
  
  #ifdef ENABLE_THREAD_SAFETY
@@ -117,7 +117,7 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
  
  static unsigned long
  pq_threadidcallback(void)
-@@ -837,45 +853,75 @@ pq_lockingcallback(int mode, int n, cons
+@@ -986,45 +1002,75 @@
  }
  #endif   /* ENABLE_THREAD_SAFETY */
  
@@ -217,7 +217,7 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
  	if (!SSL_context)
  	{
  		if (pq_initssllib)
-@@ -896,19 +942,65 @@ init_ssl_system(PGconn *conn)
+@@ -1045,7 +1091,7 @@
  							  err);
  			SSLerrfree(err);
  #ifdef ENABLE_THREAD_SAFETY
@@ -226,8 +226,9 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
  #endif
  			return -1;
  		}
+@@ -1057,12 +1103,57 @@
+ 		SSL_CTX_set_mode(SSL_context, SSL_MODE_ACCEPT_MOVING_WRITE_BUFFER);
  	}
-+
  #ifdef ENABLE_THREAD_SAFETY
 -	pthread_mutex_unlock(&init_mutex);
 +	pthread_mutex_unlock(&ssl_config_mutex);
@@ -236,7 +237,6 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
  }
  
  /*
-- *	Initialize global SSL context.
 + *	This function is needed because if the libpq library is unloaded
 + *	from the application, the callback functions will no longer exist when
 + *	SSL used by other parts of the system.  For this reason,
@@ -282,11 +282,10 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
 +}
 +
 +/*
-+ *	Initialize SSL context.
+  *	Initialize global SSL context.
   */
  static int
- initialize_SSL(PGconn *conn)
-@@ -971,17 +1063,10 @@ initialize_SSL(PGconn *conn)
+@@ -1126,17 +1217,10 @@
  	return 0;
  }
  
@@ -306,7 +305,7 @@ Bug-Ubuntu: https://launchpad.net/bugs/63141
  }
  
  /*
-@@ -1145,6 +1230,7 @@ close_SSL(PGconn *conn)
+@@ -1300,6 +1384,7 @@
  		SSL_shutdown(conn->ssl);
  		SSL_free(conn->ssl);
  		conn->ssl = NULL;
