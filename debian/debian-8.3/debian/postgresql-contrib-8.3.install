@@ -1,5 +1,3 @@
-usr/share/doc/postgresql-doc-8.3/contrib/* usr/share/doc/postgresql-contrib-8.3
-usr/share/postgresql/8.3/contrib/*
 usr/lib/postgresql/8.3/bin/oid2name
 usr/lib/postgresql/8.3/bin/pgbench
 usr/lib/postgresql/8.3/bin/vacuumlo
@@ -37,3 +35,5 @@ usr/lib/postgresql/8.3/lib/uuid-ossp.so
 usr/lib/postgresql/8.3/lib/test_parser.so
 usr/lib/postgresql/8.3/lib/dict_int.so
 usr/lib/postgresql/8.3/lib/dict_xsyn.so
+usr/share/postgresql/8.3/contrib/*.sql
+usr/share/doc/postgresql-doc-8.3/contrib usr/share/doc/postgresql-contrib-8.3

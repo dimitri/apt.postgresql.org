@@ -1,0 +1,310 @@
+--- a/src/backend/main/main.c
++++ b/src/backend/main/main.c
+@@ -87,7 +87,7 @@ main(int argc, char *argv[])
+ 	 * error messages to be localized.
+ 	 */
+ 
+-	set_pglocale_pgservice(argv[0], "postgres");
++	set_pglocale_pgservice(argv[0], "postgres-8.2");
+ 
+ #ifdef WIN32
+ 
+--- a/src/backend/nls.mk
++++ b/src/backend/nls.mk
+@@ -1,5 +1,5 @@
+ # $PostgreSQL: pgsql/src/backend/nls.mk,v 1.20.4.1 2008/10/27 19:37:36 tgl Exp $
+-CATALOG_NAME	:= postgres
++CATALOG_NAME	:= postgres-8.2
+ AVAIL_LANGUAGES	:= af cs de es fr hr hu it ko nb pt_BR ro ru sk sl sv tr zh_CN zh_TW
+ GETTEXT_FILES	:= + gettext-files
+ GETTEXT_TRIGGERS:= _ errmsg errdetail errhint errcontext write_stderr yyerror
+--- a/src/bin/initdb/initdb.c
++++ b/src/bin/initdb/initdb.c
+@@ -2455,7 +2455,7 @@ main(int argc, char *argv[])
+ 	};
+ 
+ 	progname = get_progname(argv[0]);
+-	set_pglocale_pgservice(argv[0], "initdb");
++	set_pglocale_pgservice(argv[0], "initdb-8.2");
+ 
+ 	if (argc > 1)
+ 	{
+--- a/src/bin/initdb/nls.mk
++++ b/src/bin/initdb/nls.mk
+@@ -1,5 +1,5 @@
+ # $PostgreSQL: pgsql/src/bin/initdb/nls.mk,v 1.18 2005/01/09 17:38:18 petere Exp $
+-CATALOG_NAME	:= initdb
++CATALOG_NAME	:= initdb-8.2
+ AVAIL_LANGUAGES	:= cs de es fr it ko pl pt_BR ro ru sk sl sv tr zh_CN zh_TW
+ GETTEXT_FILES	:= initdb.c ../../port/dirmod.c ../../port/exec.c
+ GETTEXT_TRIGGERS:= _ simple_prompt
+--- a/src/bin/pg_config/nls.mk
++++ b/src/bin/pg_config/nls.mk
+@@ -1,5 +1,5 @@
+ # $PostgreSQL: pgsql/src/bin/pg_config/nls.mk,v 1.16 2006/10/21 21:03:01 petere Exp $
+-CATALOG_NAME	:= pg_config
++CATALOG_NAME	:= pg_config-8.2
+ AVAIL_LANGUAGES	:= cs de es fr ko nb pl pt_BR ro ru sl sv tr zh_CN zh_TW
+ GETTEXT_FILES	:= pg_config.c ../../port/exec.c
+ GETTEXT_TRIGGERS:= _
+--- a/src/bin/pg_config/pg_config.c
++++ b/src/bin/pg_config/pg_config.c
+@@ -451,7 +451,7 @@ main(int argc, char **argv)
+ 	int			j;
+ 	int			ret;
+ 
+-	set_pglocale_pgservice(argv[0], "pg_config");
++	set_pglocale_pgservice(argv[0], "pg_config-8.2");
+ 
+ 	progname = get_progname(argv[0]);
+ 
+--- a/src/bin/pg_controldata/nls.mk
++++ b/src/bin/pg_controldata/nls.mk
+@@ -1,5 +1,5 @@
+ # $PostgreSQL: pgsql/src/bin/pg_controldata/nls.mk,v 1.16 2005/01/14 08:57:05 petere Exp $
+-CATALOG_NAME	:= pg_controldata
++CATALOG_NAME	:= pg_controldata-8.2
+ AVAIL_LANGUAGES	:= cs de es fa fr hu it ko nb pl pt_BR ro ru sk sl sv tr zh_CN zh_TW
+ GETTEXT_FILES	:= pg_controldata.c
+ GETTEXT_TRIGGERS:= _
+--- a/src/bin/pg_controldata/pg_controldata.c
++++ b/src/bin/pg_controldata/pg_controldata.c
+@@ -75,7 +75,7 @@ main(int argc, char *argv[])
+ 	char	   *strftime_fmt = "%c";
+ 	const char *progname;
+ 
+-	set_pglocale_pgservice(argv[0], "pg_controldata");
++	set_pglocale_pgservice(argv[0], "pg_controldata-8.2");
+ 
+ 	progname = get_progname(argv[0]);
+ 
+--- a/src/bin/pg_ctl/nls.mk
++++ b/src/bin/pg_ctl/nls.mk
+@@ -1,5 +1,5 @@
+ # $PostgreSQL: pgsql/src/bin/pg_ctl/nls.mk,v 1.15 2004/12/16 11:27:41 petere Exp $
+-CATALOG_NAME	:= pg_ctl
++CATALOG_NAME	:= pg_ctl-8.2
+ AVAIL_LANGUAGES	:= cs de es fr ko pt_BR ro ru sk sl sv tr zh_CN zh_TW
+ GETTEXT_FILES	:= pg_ctl.c ../../port/exec.c
+ GETTEXT_TRIGGERS:= _ simple_prompt
+--- a/src/bin/pg_ctl/pg_ctl.c
++++ b/src/bin/pg_ctl/pg_ctl.c
+@@ -1596,7 +1596,7 @@ main(int argc, char **argv)
+ #endif
+ 
+ 	progname = get_progname(argv[0]);
+-	set_pglocale_pgservice(argv[0], "pg_ctl");
++	set_pglocale_pgservice(argv[0], "pg_ctl-8.2");
+ 
+ 	/*
+ 	 * save argv[0] so do_start() can look for the postmaster if necessary. we
+--- a/src/bin/pg_dump/nls.mk
++++ b/src/bin/pg_dump/nls.mk
+@@ -1,5 +1,5 @@
+ # $PostgreSQL: pgsql/src/bin/pg_dump/nls.mk,v 1.19 2005/01/25 17:32:00 petere Exp $
+-CATALOG_NAME	:= pg_dump
++CATALOG_NAME	:= pg_dump-8.2
+ AVAIL_LANGUAGES	:= cs de es fr it ko nb pt_BR ro ru sk sl sv tr zh_CN zh_TW
+ GETTEXT_FILES	:= pg_dump.c common.c pg_backup_archiver.c pg_backup_custom.c \
+                    pg_backup_db.c pg_backup_files.c pg_backup_null.c \
+--- a/src/bin/pg_dump/pg_dumpall.c
++++ b/src/bin/pg_dump/pg_dumpall.c
+@@ -117,7 +117,7 @@ main(int argc, char *argv[])
+ 
+ 	int			optindex;
+ 
+-	set_pglocale_pgservice(argv[0], "pg_dump");
++	set_pglocale_pgservice(argv[0], "pg_dump-8.2");
+ 
+ 	progname = get_progname(argv[0]);
+ 
+--- a/src/bin/pg_dump/pg_dump.c
++++ b/src/bin/pg_dump/pg_dump.c
+@@ -266,7 +266,7 @@ main(int argc, char **argv)
+ 	};
+ 	int			optindex;
+ 
+-	set_pglocale_pgservice(argv[0], "pg_dump");
++	set_pglocale_pgservice(argv[0], "pg_dump-8.2");
+ 
+ 	g_verbose = false;
+ 
+--- a/src/bin/pg_dump/pg_restore.c
++++ b/src/bin/pg_dump/pg_restore.c
+@@ -117,7 +117,7 @@ main(int argc, char **argv)
+ 		{NULL, 0, NULL, 0}
+ 	};
+ 
+-	set_pglocale_pgservice(argv[0], "pg_dump");
++	set_pglocale_pgservice(argv[0], "pg_dump-8.2");
+ 
+ 	opts = NewRestoreOptions();
+ 
+--- a/src/bin/pg_resetxlog/nls.mk
++++ b/src/bin/pg_resetxlog/nls.mk
+@@ -1,5 +1,5 @@
+ # $PostgreSQL: pgsql/src/bin/pg_resetxlog/nls.mk,v 1.17 2004/12/16 11:27:42 petere Exp $
+-CATALOG_NAME	:= pg_resetxlog
++CATALOG_NAME	:= pg_resetxlog-8.2
+ AVAIL_LANGUAGES	:= cs de es fr hu it ko nb pt_BR ro ru sk sl sv tr zh_CN zh_TW
+ GETTEXT_FILES	:= pg_resetxlog.c
+ GETTEXT_TRIGGERS:= _
+--- a/src/bin/pg_resetxlog/pg_resetxlog.c
++++ b/src/bin/pg_resetxlog/pg_resetxlog.c
+@@ -87,7 +87,7 @@ main(int argc, char *argv[])
+ 	int			fd;
+ 	char		path[MAXPGPATH];
+ 
+-	set_pglocale_pgservice(argv[0], "pg_resetxlog");
++	set_pglocale_pgservice(argv[0], "pg_resetxlog-8.2");
+ 
+ 	progname = get_progname(argv[0]);
+ 
+--- a/src/bin/psql/nls.mk
++++ b/src/bin/psql/nls.mk
+@@ -1,5 +1,5 @@
+ # $PostgreSQL: pgsql/src/bin/psql/nls.mk,v 1.21 2004/12/13 16:30:48 petere Exp $
+-CATALOG_NAME	:= psql
++CATALOG_NAME	:= psql-8.2
+ AVAIL_LANGUAGES	:= cs de es fa fr hu it ko nb pt_BR ro ru sk sl sv tr zh_CN zh_TW
+ GETTEXT_FILES	:= command.c common.c copy.c help.c input.c large_obj.c \
+                    mainloop.c print.c startup.c describe.c sql_help.h \
+--- a/src/bin/psql/startup.c
++++ b/src/bin/psql/startup.c
+@@ -110,7 +110,7 @@ main(int argc, char *argv[])
+ 	char	   *password_prompt = NULL;
+ 	bool		need_pass;
+ 
+-	set_pglocale_pgservice(argv[0], "psql");
++	set_pglocale_pgservice(argv[0], "psql-8.2");
+ 
+ 	if (argc > 1)
+ 	{
+--- a/src/bin/scripts/clusterdb.c
++++ b/src/bin/scripts/clusterdb.c
+@@ -56,7 +56,7 @@ main(int argc, char *argv[])
+ 	char	   *table = NULL;
+ 
+ 	progname = get_progname(argv[0]);
+-	set_pglocale_pgservice(argv[0], "pgscripts");
++	set_pglocale_pgservice(argv[0], "pgscripts-8.2");
+ 
+ 	handle_help_version_opts(argc, argv, "clusterdb", help);
+ 
+--- a/src/bin/scripts/createdb.c
++++ b/src/bin/scripts/createdb.c
+@@ -60,7 +60,7 @@ main(int argc, char *argv[])
+ 	PGresult   *result;
+ 
+ 	progname = get_progname(argv[0]);
+-	set_pglocale_pgservice(argv[0], "pgscripts");
++	set_pglocale_pgservice(argv[0], "pgscripts-8.2");
+ 
+ 	handle_help_version_opts(argc, argv, "createdb", help);
+ 
+--- a/src/bin/scripts/createlang.c
++++ b/src/bin/scripts/createlang.c
+@@ -52,7 +52,7 @@ main(int argc, char *argv[])
+ 	PGresult   *result;
+ 
+ 	progname = get_progname(argv[0]);
+-	set_pglocale_pgservice(argv[0], "pgscripts");
++	set_pglocale_pgservice(argv[0], "pgscripts-8.2");
+ 
+ 	handle_help_version_opts(argc, argv, "createlang", help);
+ 
+--- a/src/bin/scripts/createuser.c
++++ b/src/bin/scripts/createuser.c
+@@ -82,7 +82,7 @@ main(int argc, char *argv[])
+ 	PGresult   *result;
+ 
+ 	progname = get_progname(argv[0]);
+-	set_pglocale_pgservice(argv[0], "pgscripts");
++	set_pglocale_pgservice(argv[0], "pgscripts-8.2");
+ 
+ 	handle_help_version_opts(argc, argv, "createuser", help);
+ 
+--- a/src/bin/scripts/dropdb.c
++++ b/src/bin/scripts/dropdb.c
+@@ -51,7 +51,7 @@ main(int argc, char *argv[])
+ 	PGresult   *result;
+ 
+ 	progname = get_progname(argv[0]);
+-	set_pglocale_pgservice(argv[0], "pgscripts");
++	set_pglocale_pgservice(argv[0], "pgscripts-8.2");
+ 
+ 	handle_help_version_opts(argc, argv, "dropdb", help);
+ 
+--- a/src/bin/scripts/droplang.c
++++ b/src/bin/scripts/droplang.c
+@@ -63,7 +63,7 @@ main(int argc, char *argv[])
+ 	PGresult   *result;
+ 
+ 	progname = get_progname(argv[0]);
+-	set_pglocale_pgservice(argv[0], "pgscripts");
++	set_pglocale_pgservice(argv[0], "pgscripts-8.2");
+ 
+ 	handle_help_version_opts(argc, argv, "droplang", help);
+ 
+--- a/src/bin/scripts/dropuser.c
++++ b/src/bin/scripts/dropuser.c
+@@ -51,7 +51,7 @@ main(int argc, char *argv[])
+ 	PGresult   *result;
+ 
+ 	progname = get_progname(argv[0]);
+-	set_pglocale_pgservice(argv[0], "pgscripts");
++	set_pglocale_pgservice(argv[0], "pgscripts-8.2");
+ 
+ 	handle_help_version_opts(argc, argv, "dropuser", help);
+ 
+--- a/src/bin/scripts/nls.mk
++++ b/src/bin/scripts/nls.mk
+@@ -1,5 +1,5 @@
+ # $PostgreSQL: pgsql/src/bin/scripts/nls.mk,v 1.20 2006/09/22 18:50:41 petere Exp $
+-CATALOG_NAME    := pgscripts
++CATALOG_NAME    := pgscripts-8.2
+ AVAIL_LANGUAGES := cs de es fr it ko pt_BR ro ru sk sl sv tr zh_CN zh_TW
+ GETTEXT_FILES   := createdb.c createlang.c createuser.c \
+                    dropdb.c droplang.c dropuser.c \
+--- a/src/bin/scripts/reindexdb.c
++++ b/src/bin/scripts/reindexdb.c
+@@ -65,7 +65,7 @@ main(int argc, char *argv[])
+ 	const char *index = NULL;
+ 
+ 	progname = get_progname(argv[0]);
+-	set_pglocale_pgservice(argv[0], "pgscripts");
++	set_pglocale_pgservice(argv[0], "pgscripts-8.2");
+ 
+ 	handle_help_version_opts(argc, argv, "reindexdb", help);
+ 
+--- a/src/bin/scripts/vacuumdb.c
++++ b/src/bin/scripts/vacuumdb.c
+@@ -64,7 +64,7 @@ main(int argc, char *argv[])
+ 	bool		verbose = false;
+ 
+ 	progname = get_progname(argv[0]);
+-	set_pglocale_pgservice(argv[0], "pgscripts");
++	set_pglocale_pgservice(argv[0], "pgscripts-8.2");
+ 
+ 	handle_help_version_opts(argc, argv, "vacuumdb", help);
+ 
+--- a/src/interfaces/libpq/fe-misc.c
++++ b/src/interfaces/libpq/fe-misc.c
+@@ -1169,7 +1169,7 @@ libpq_gettext(const char *msgid)
+ 		ldir = getenv("PGLOCALEDIR");
+ 		if (!ldir)
+ 			ldir = LOCALEDIR;
+-		bindtextdomain("libpq", ldir);
++		bindtextdomain("libpq5", ldir);
+ #ifdef WIN32
+ 		SetLastError(save_errno);
+ #else
+--- a/src/interfaces/libpq/nls.mk
++++ b/src/interfaces/libpq/nls.mk
+@@ -1,5 +1,5 @@
+ # $PostgreSQL: pgsql/src/interfaces/libpq/nls.mk,v 1.20 2005/01/14 08:57:06 petere Exp $
+-CATALOG_NAME	:= libpq
++CATALOG_NAME	:= libpq5
+ AVAIL_LANGUAGES	:= af cs de es fr hr it ko nb pl pt_BR ru sk sl sv tr zh_CN zh_TW
+ GETTEXT_FILES	:= fe-auth.c fe-connect.c fe-exec.c fe-lobj.c fe-misc.c fe-protocol2.c fe-protocol3.c fe-secure.c
+ GETTEXT_TRIGGERS:= libpq_gettext pqInternalNotice:2

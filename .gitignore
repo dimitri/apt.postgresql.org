@@ -13,9 +13,11 @@ debian/debian-?.?/configure.in
 debian/debian-?.?/contrib/
 debian/debian-?.?/doc/
 debian/debian-?.?/src/
+debian/debian-?.?/debian/*.debhelper
 debian/debian-?.?/debian/*.log
 debian/debian-?.?/debian/*.substvars
 debian/debian-?.?/debian/files
+debian/debian-?.?/debian/lib-*/
 debian/debian-?.?/debian/postgresql-*/
 debian/debian-8.4
 debian/debian-9.*

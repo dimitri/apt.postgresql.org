@@ -1,0 +1,27 @@
+Author: Martin Pitt <mpitt@debian.org>
+Description: Use Debian alternatives for external tools instead of hardcoded programs
+Forwarded: No, Debian specific
+
+--- a/src/bin/psql/print.h
++++ b/src/bin/psql/print.h
+@@ -89,7 +89,7 @@ void printQuery(const PGresult *result,
+ void		setDecimalLocale(void);
+ 
+ #ifndef __CYGWIN__
+-#define DEFAULT_PAGER "more"
++#define DEFAULT_PAGER "/usr/bin/pager"
+ #else
+ #define DEFAULT_PAGER "less"
+ #endif
+--- a/src/bin/psql/settings.h
++++ b/src/bin/psql/settings.h
+@@ -19,7 +19,8 @@
+ #if defined(WIN32) || defined(__CYGWIN__)
+ #define DEFAULT_EDITOR	"notepad.exe"
+ #else
+-#define DEFAULT_EDITOR	"vi"
++#define DEFAULT_EDITOR	"sensible-editor"
++/*#define DEFAULT_EDITOR_LINENUMBER_ARG "+"*/
+ #endif
+ 
+ #define DEFAULT_PROMPT1 "%/%R%# "

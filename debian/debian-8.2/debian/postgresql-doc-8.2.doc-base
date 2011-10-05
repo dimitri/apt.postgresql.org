@@ -1,0 +1,13 @@
+Document: postgresql-8.2
+Title: PostgreSQL 8.2 Documentation
+Author: The PostgreSQL Global Development Group
+Abstract: The documentation for the PostgreSQL database management system,
+ version 8.2. PostgreSQL is a sophisticated Object-Relational DBMS, supporting
+ almost all SQL constructs, including subselects, transactions, and
+ user-defined types and functions.
+Section: Data Management
+
+Format: HTML
+Index: /usr/share/doc/postgresql-doc-8.2/html/index.html
+Files: /usr/share/doc/postgresql-doc-8.2/html/*
+

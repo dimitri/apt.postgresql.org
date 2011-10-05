@@ -1,0 +1,13 @@
+usr/include/postgresql/ecpg*.h
+usr/include/postgresql/informix/*
+usr/include/postgresql/pgtypes_*.h
+usr/include/postgresql/sql3types.h
+usr/include/postgresql/sqlca.h
+usr/lib/postgresql/8.3/bin/ecpg usr/bin
+usr/lib/libecpg.so
+usr/lib/libecpg_compat.so
+usr/lib/libpgtypes.so
+usr/lib/libecpg.a
+usr/lib/libecpg_compat.a
+usr/lib/libpgtypes.a
+usr/share/postgresql/8.3/man/man1/ecpg.1 /usr/share/man/man1

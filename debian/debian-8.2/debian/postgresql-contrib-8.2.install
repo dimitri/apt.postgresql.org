@@ -1,0 +1,35 @@
+#usr/share/doc/postgresql/extension/* usr/share/doc/postgresql-contrib-8.2
+usr/share/doc/postgresql-doc-8.2/contrib/* usr/share/doc/postgresql-contrib-8.2
+usr/share/postgresql/8.2/contrib/*
+usr/lib/postgresql/8.2/bin/oid2name
+usr/lib/postgresql/8.2/bin/pgbench
+usr/lib/postgresql/8.2/bin/vacuumlo
+usr/lib/postgresql/8.2/lib/_int.so
+usr/lib/postgresql/8.2/lib/autoinc.so
+usr/lib/postgresql/8.2/lib/btree_gist.so
+usr/lib/postgresql/8.2/lib/chkpass.so
+usr/lib/postgresql/8.2/lib/cube.so
+usr/lib/postgresql/8.2/lib/dblink.so
+usr/lib/postgresql/8.2/lib/earthdistance.so
+usr/lib/postgresql/8.2/lib/fuzzystrmatch.so
+usr/lib/postgresql/8.2/lib/insert_username.so
+usr/lib/postgresql/8.2/lib/lo.so
+usr/lib/postgresql/8.2/lib/ltree.so
+usr/lib/postgresql/8.2/lib/moddatetime.so
+usr/lib/postgresql/8.2/lib/pg_trgm.so
+usr/lib/postgresql/8.2/lib/pgcrypto.so
+usr/lib/postgresql/8.2/lib/pgstattuple.so
+usr/lib/postgresql/8.2/lib/refint.so
+usr/lib/postgresql/8.2/lib/seg.so
+usr/lib/postgresql/8.2/lib/tablefunc.so
+usr/lib/postgresql/8.2/lib/timetravel.so
+usr/lib/postgresql/8.2/lib/pgxml.so
+usr/lib/postgresql/8.2/lib/pg_buffercache.so
+usr/lib/postgresql/8.2/lib/adminpack.so
+usr/lib/postgresql/8.2/lib/sslinfo.so
+usr/lib/postgresql/8.2/lib/isn.so
+usr/lib/postgresql/8.2/lib/hstore.so
+usr/lib/postgresql/8.2/lib/pgrowlocks.so
+usr/lib/postgresql/8.2/lib/pg_freespacemap.so
+usr/lib/postgresql/8.2/lib/int_aggregate.so
+usr/lib/postgresql/8.2/lib/tsearch2.so

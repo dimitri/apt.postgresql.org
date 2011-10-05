@@ -1,0 +1,33 @@
+--- a/src/backend/main/main.c
++++ b/src/backend/main/main.c
+@@ -328,7 +328,7 @@ static void
+ check_root(const char *progname)
+ {
+ #ifndef WIN32
+-	if (geteuid() == 0)
++	if (0 && geteuid() == 0)
+ 	{
+ 		write_stderr("\"root\" execution of the PostgreSQL server is not permitted.\n"
+ 					 "The server must be started under an unprivileged user ID to prevent\n"
+--- a/src/bin/initdb/initdb.c
++++ b/src/bin/initdb/initdb.c
+@@ -637,7 +637,7 @@ get_id(void)
+ 
+ 	pw = getpwuid(geteuid());
+ 
+-	if (geteuid() == 0)			/* 0 is root's uid */
++	if (0 && geteuid() == 0)		/* 0 is root's uid */
+ 	{
+ 		fprintf(stderr,
+ 				_("%s: cannot be run as root\n"
+--- a/src/bin/pg_ctl/pg_ctl.c
++++ b/src/bin/pg_ctl/pg_ctl.c
+@@ -1626,7 +1626,7 @@ main(int argc, char **argv)
+ 	 * Disallow running as root, to forestall any possible security holes.
+ 	 */
+ #ifndef WIN32
+-	if (geteuid() == 0)
++	if (0 && geteuid() == 0)
+ 	{
+ 		write_stderr(_("%s: cannot be run as root\n"
+ 					   "Please log in (using, e.g., \"su\") as the "

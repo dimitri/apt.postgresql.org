@@ -16,10 +16,17 @@ $(UPSTREAM):
 
 divert-supported-versions:
 	# divert supported versions so that it returns all our local PG build versions
+	! test -f /usr/share/postgresql-common/supported-versions.distrib
 	sudo dpkg-divert \
 	  --divert /usr/share/postgresql-common/supported-versions.distrib \
 	  --rename /usr/share/postgresql-common/supported-versions
 	sudo install -m 0755 supported-versions /usr/share/postgresql-common
+
+undivert-supported-versions:
+	test -f /usr/share/postgresql-common/supported-versions.distrib
+	sudo rm /usr/share/postgresql-common/supported-versions
+	sudo dpkg-divert --rename \
+	  --remove /usr/share/postgresql-common/supported-versions
 
 postgresql-common: divert-supported-versions
 	test -d common && (cd common && bzr pull) || bzr clone lp:~pitti/postgresql/common

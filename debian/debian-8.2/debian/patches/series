@@ -1,0 +1,13 @@
+01-build-contrib.patch
+01-armel-tas.patch
+02-relax-sslkey-permscheck.patch
+03-gettext-domains.patch
+04-timezone-symlinks.patch
+05-check-rlimits-nofile.patch
+12-m32r-tas.patch
+50-contrib-enablemodules.patch
+50-per-version-dirs.patch
+51-default-sockets-in-var.patch
+52-tutorial-README.patch
+53-pg_service.conf_directory_doc.patch
+54-debian-alternatives-for-external-tools.patch

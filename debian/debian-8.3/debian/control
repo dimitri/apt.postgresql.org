@@ -2,19 +2,122 @@ Source: postgresql-8.3
 Section: database
 Priority: optional
 Maintainer: Martin Pitt <mpitt@debian.org>
-Standards-Version: 3.8.3
-XS-Python-Version: current
-Build-Depends: debhelper (>= 7), perl (>= 5.8),
- libperl-dev, tcl8.5-dev, libreadline-dev | libreadline5-dev, libssl-dev, 
- zlib1g-dev | libz-dev, libpam0g-dev | libpam-dev, libxml2-dev, libkrb5-dev,
- libldap2-dev, libxslt1-dev, libossp-uuid-dev, python-dev,
- python-central (>= 0.5), gettext, bzip2, hardening-wrapper,
- libpq-dev (>= 8.3)
+Uploaders: Peter Eisentraut <petere@debian.org>
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 7.0.50~),
+ perl (>= 5.8),
+ libperl-dev,
+ tcl8.5-dev,
+ libedit-dev,
+ libssl-dev, 
+ zlib1g-dev | libz-dev,
+ libpam0g-dev | libpam-dev,
+ libxml2-dev, libkrb5-dev,
+ libldap2-dev,
+ libxslt1-dev,
+ libossp-uuid-dev,
+ python-dev,
+ jade,
+ gettext,
+ hardening-wrapper
+Homepage: http://www.postgresql.org/
+Vcs-Browser: http://bazaar.launchpad.net/~pitti/postgresql/debian-8.3
+Vcs-Bzr: https://code.launchpad.net/~pitti/postgresql/debian-8.3
+
+Package: libpq-dev
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends},
+ ${shlibs:Depends},
+ libpq5 (= ${binary:Version}),
+ libssl-dev,
+ libkrb5-dev,
+ comerr-dev
+Conflicts: postgresql-dev (<< 7.5)
+Replaces: postgresql-dev
+Suggests: postgresql-doc-8.3
+Description: header files for libpq5 (PostgreSQL library)
+ Header files and static library for compiling C programs to link
+ with the libpq library in order to communicate with a PostgreSQL
+ database backend.
+ .
+ PostgreSQL is an object-relational SQL database management system.
+
+Package: libpq5
+Architecture: any
+Section: libs
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: PostgreSQL C client library
+ libpq is a C library that enables user programs to communicate with
+ the PostgreSQL database server.  The server can be on another machine
+ and accessed through TCP/IP.  This version of libpq is compatible
+ with servers from PostgreSQL 8.2 or later.
+ .
+ This package contains the run-time library, needed by packages using
+ libpq.
+ .
+ PostgreSQL is an object-relational SQL database management system.
+
+Package: libecpg6
+Architecture: any
+Section: libs
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: run-time library for ECPG programs
+ The libecpg shared library is used by programs built with ECPG
+ (Embedded PostgreSQL for C).
+ .
+ PostgreSQL is an object-relational SQL database management system.
+
+Package: libecpg-dev
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends},
+ ${shlibs:Depends},
+ libpq-dev,
+ libecpg6 (= ${binary:Version}),
+ libecpg-compat3 (= ${binary:Version}),
+ libpgtypes3 (= ${binary:Version})
+Conflicts: postgresql-dev, libecpg3-dev
+Description: development files for ECPG (Embedded PostgreSQL for C)
+ This package contains the necessary files to build ECPG (Embedded
+ PostgreSQL for C) programs.  It includes the development libraries
+ and the preprocessor program ecpg.
+ .
+ PostgreSQL is an object-relational SQL database management system.
+ .
+ Install this package if you want to write C programs with SQL statements
+ embedded in them (rather than run by an external process).
+
+Package: libecpg-compat3
+Architecture: any
+Section: libs
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: older version of run-time library for ECPG programs
+ The libecpg_compat shared library is used by programs built with ecpg.
+ (Embedded PostgreSQL for C).
+ .
+ PostgreSQL is an object-relational SQL database management system.
+
+Package: libpgtypes3
+Architecture: any
+Section: libs
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: shared library libpgtypes for PostgreSQL 8.3
+ The libpgtypes shared library is used by programs built with ecpg.
+ (Embedded PostgreSQL for C).
+ .
+ PostgreSQL is an object-relational SQL database management system.
 
 Package: postgresql-8.3
 Architecture: any
-Depends: ${shlibs:Depends}, postgresql-client-8.3, postgresql-common (>= 79), tzdata, ssl-cert, locales
-Suggests: oidentd | ident-server
+Depends: ${misc:Depends},
+ ${shlibs:Depends},
+ postgresql-client-8.3,
+ postgresql-common (>= 115~),
+ tzdata,
+ ssl-cert,
+ locales
+Suggests: oidentd | ident-server, locales-all
 Conflicts: postgresql (<< 7.5)
 Description: object-relational SQL database, version 8.3 server
  PostgreSQL is a fully featured object-relational database management
@@ -36,7 +139,7 @@ Section: debug
 Priority: extra
 Architecture: any
 Depends: ${misc:Depends}, postgresql-8.3 (= ${binary:Version})
-Replaces: postgresql-9.0-dbg, postgresql-9.1-dbg
+Replaces: postgresql-9.0-dbg
 Description: debug symbols for postgresql-8.3
  PostgreSQL is a fully featured object-relational database management
  system.  It supports a large part of the SQL standard and is designed
@@ -50,7 +153,9 @@ Description: debug symbols for postgresql-8.3
 
 Package: postgresql-client-8.3
 Architecture: any
-Depends: ${shlibs:Depends}, postgresql-client-common
+Depends: ${misc:Depends},
+ ${shlibs:Depends},
+ postgresql-client-common (>= 115~)
 Conflicts: postgresql (<< 7.5)
 Suggests: postgresql-8.3, postgresql-doc-8.3
 Provides: postgresql-client
@@ -70,9 +175,10 @@ Description: front-end programs for PostgreSQL 8.3
 Package: postgresql-server-dev-8.3
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, libpq-dev (>= 8.3~beta)
-Conflicts: pgxs, libpq-dev (<< 8.3~beta4-2)
-Replaces: pgxs, libpq-dev (<< 8.3~beta4-2)
+Depends: ${misc:Depends},
+ ${shlibs:Depends},
+ libpq-dev (>= 8.3~),
+ postgresql-common (>= 117~)
 Description: development files for PostgreSQL 8.3 server-side programming
  Header files for compiling SSI code to link into PostgreSQL's backend; for
  example, for C functions to be called from SQL.
@@ -86,6 +192,7 @@ Description: development files for PostgreSQL 8.3 server-side programming
 Package: postgresql-doc-8.3
 Architecture: all
 Section: doc
+Depends: ${misc:Depends}
 Conflicts: postgresql-doc (<< 7.5)
 Description: documentation for the PostgreSQL database management system
  This package contains all README files, user manual, and examples for
@@ -95,10 +202,12 @@ Description: documentation for the PostgreSQL database management system
 
 Package: postgresql-contrib-8.3
 Architecture: any
-Depends: postgresql-8.3, ${shlibs:Depends}, postgresql-common (>= 79)
+Depends: postgresql-8.3 (= ${binary:Version}),
+ ${misc:Depends},
+ ${shlibs:Depends},
+ postgresql-common (>= 115~)
 Suggests: libdbd-pg-perl
 Conflicts: postgresql-contrib (<< 7.5)
-Replaces: postgresql-client-8.3 (<< 8.3~beta1-2)
 Description: additional facilities for PostgreSQL
  The PostgreSQL contrib package provides several additional features
  for the PostgreSQL database. This version is built to work with the
@@ -152,7 +261,11 @@ Description: additional facilities for PostgreSQL
 
 Package: postgresql-plperl-8.3
 Architecture: any
-Depends: ${shlibs:Depends}, postgresql-8.3, perl
+Depends: ${misc:Depends}, 
+ ${shlibs:Depends},
+ postgresql-8.3 (= ${binary:Version}),
+ perl
+Provides: postgresql-plperl
 Description: PL/Perl procedural language for PostgreSQL 8.3
  PL/Perl enables an SQL developer to write procedural language functions
  for PostgreSQL 8.3 in Perl.  You need this package if you have any
@@ -162,8 +275,10 @@ Description: PL/Perl procedural language for PostgreSQL 8.3
 
 Package: postgresql-plpython-8.3
 Architecture: any
-Depends: ${shlibs:Depends}, postgresql-8.3
-XB-Python-Version: ${python:Versions}
+Depends: ${misc:Depends},
+ ${shlibs:Depends},
+ postgresql-8.3 (= ${binary:Version})
+Provides: postgresql-plpython
 Description: PL/Python procedural language for PostgreSQL 8.3
  PL/Python enables an SQL developer to write procedural language functions
  for PostgreSQL 8.3 in Python.  You need this package if you have any
@@ -173,7 +288,10 @@ Description: PL/Python procedural language for PostgreSQL 8.3
 
 Package: postgresql-pltcl-8.3
 Architecture: any
-Depends: ${shlibs:Depends}, postgresql-8.3
+Depends: ${misc:Depends},
+ ${shlibs:Depends},
+ postgresql-8.3 (= ${binary:Version})
+Provides: postgresql-pltcl
 Description: PL/Tcl procedural language for PostgreSQL 8.3
  PL/Tcl enables an SQL developer to write procedural language functions
  for PostgreSQL 8.3 in Tcl.  You need this package if you have any
