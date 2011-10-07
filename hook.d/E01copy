@@ -1,5 +1,0 @@
-#!/bin/sh
-
-pwd
-apt-get install lftp
-lftp -c "mirror http://localhost:80/apt.postgresql.org"

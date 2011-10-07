@@ -2,6 +2,7 @@
 #
 # Prepare sources for given PostgreSQL version
 #
+set -x
 
 dirname=$1   # postgresql-X.Y
 versions=$2  # filename where we have latest major minor table
