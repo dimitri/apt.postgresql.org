@@ -22,5 +22,7 @@ ln -s `pwd`/postgresql-${version}.tar.bz2 ${build_dir}/postgresql-${major}_${ver
 cd ${build_dir}/postgresql-${version} && \
 EMAIL=dimitri@2ndQuadrant.fr dch -v ${version}-1+pgdg "see Releases Notes"
 
+cd ${build_dir}/postgresql-${version} && echo yes | mk-build-deps -i -r
+apt-get-clean
 cd ${build_dir}/postgresql-${version} && debuild -us -uc -sa
-
+rm -rf ${build_dir}/postgresql-${version}

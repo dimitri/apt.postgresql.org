@@ -24,9 +24,6 @@ build-depends:
                             debootstrap rebuildd
 	apt-get -f install
 	apt-get autoclean
-	for v in $(VERSIONS); do \
-		apt-get build-dep -y postgresql-$$v; \
-	done
 	apt-get autoclean
 
 $(DISTROS):
