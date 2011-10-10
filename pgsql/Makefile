@@ -12,7 +12,7 @@ SKYTOOLS_DEB = $(abspath ../debian/divert/skytools/debian)
 EXTENSIONS = postgresql-plproxy prefix preprepare pgfincore \
              postgresql-pllua postgresql-plsh
 
-.PHONY: setup $(VERSIONS) $(EXTENSIONS)
+.PHONY: setup $(VERSIONS) $(EXTENSIONS) minor-versions.txt
 
 build: $(VERSIONS)
 
