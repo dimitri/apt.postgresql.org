@@ -43,8 +43,8 @@ postgresql-common: divert-supported-versions
 
 fstab:
 	if ! `grep -q $(OUT) /etc/fstab`; then \
-		echo "proc $(OUT)/proc proc defaults 0 0" | sudo tee -a /etc/fstab;  \
-		echo "sysfs $(OUT)/sys sysfs defaults 0 0" | sudo tee -a /etc/fstab; \
+		echo "proc $(OUT)/proc proc defaults,noauto 0 0" | sudo tee -a /etc/fstab;  \
+		echo "sysfs $(OUT)/sys sysfs defaults,noauto 0 0" | sudo tee -a /etc/fstab; \
 	fi
 
 sid: fstab
@@ -58,7 +58,7 @@ sid: fstab
 	sudo mount sysfs $(OUT)/sys -t sysfs
 	sudo cp /etc/hosts $(OUT)/etc/hosts
 
-	sudo rsync -avC --delete --exclude=debian/common ../../apt.postgresql.org $(OUT)/root
+	sudo rsync -avC --exclude=debian/common ../../apt.postgresql.org $(OUT)/root
 	LANG=C sudo chroot $(OUT) /root/apt.postgresql.org/debian/install-postgresql.sh
 
 	sudo umount $(OUT)/sys
