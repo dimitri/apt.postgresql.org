@@ -9,9 +9,9 @@ OUT  = /var/cache/pbuilder/build/pg
 REL  = $(shell lsb_release -sc)
 ARCH = $(shell dpkg --print-architecture)
 
-VERSIONS = 8.2 8.3 8.4 9.0 9.1
+VERSIONS = 9.1 9.0 8.4 8.3 8.2
 MAJORS   = $(addprefix postgresql-, $(VERSIONS))
-DISTROS  = sid #wheezy squeeze lenny
+DISTROS  = lenny squeeze lucid # wheezy sid maverick natty oneiric
 
 all: postgresql extensions
 
@@ -21,7 +21,7 @@ build-depends:
 	# this typically runs as root inside a chroot
 	apt-get update
 	apt-get install -y  bzr curl bzip2 tar gawk lsb-release git-core \
-                            debootstrap rebuildd
+                            debootstrap devscripts
 	apt-get -f install
 	apt-get autoclean
 	apt-get autoclean

@@ -4,9 +4,12 @@
 # See http://www.gnu.org/s/hello/manual/make/Phony-Targets.html
 
 DEBMIRROR= http://debian.hi-media-techno.com/mirrors/debian
+OBTMIRROR= http://fr.archive.ubuntu.com/ubuntu/
 PKG_URL  = svn://anonscm.debian.org/pkg-postgresql/trunk
 UPSTREAM = debian-8.4 debian-9.0 debian-9.1
 VERSIONS = debian-8.2 debian-8.3 debian-8.4 debian-9.0 debian-9.1
+DISTROS  = lenny squeeze wheezy sid
+UBUNTUS  = lucid maverick natty oneiric
 
 # .PHONY: setup $(UPSTREAM)
 
@@ -33,6 +36,7 @@ undivert-supported-versions:
 postgresql-common: divert-supported-versions
 	# this typically runs as root inside a chroot
 	test -d common && (cd common && bzr pull) || bzr clone lp:~pitti/postgresql/common
+	cd common && (echo yes | mk-build-deps -i -r)
 	cd common && debuild -us -uc -sa
 	for p in `(cd common && debc)| awk '/^postgresql/ && (/common/)'`; do \
 		echo $$p; \
@@ -47,31 +51,29 @@ fstab:
 		echo "sysfs $(OUT)/sys sysfs defaults,noauto 0 0" | sudo tee -a /etc/fstab; \
 	fi
 
-sid: fstab
+
+$(addprefix debootstrap-, $(DISTROS)):
 	# this runs on the 'host' system to prepare the chroot, you need sudo here
 	test -d $(OUT)/usr || \
           (mkdir -p $(OUT) \
-           && sudo debootstrap $@ $(OUT) $(DEBMIRROR) \
-           && echo 'deb-src $(DEBMIRROR) sid main'  $(OUT)/etc/apt/sources.list)
+           && sudo debootstrap $(subst debootstrap-,,$@) $(OUT) $(DEBMIRROR) \
+           && echo 'deb-src $(DEBMIRROR) $(subst debootstrap-,,$@) main'  $(OUT)/etc/apt/sources.list)
 
+$(addprefix debootstrap-, $(UBUNTUS)):
+	# this runs on the 'host' system to prepare the chroot, you need sudo here
+	test -d $(OUT)/usr || \
+          (mkdir -p $(OUT) \
+           && sudo debootstrap $(subst debootstrap-,,$@) $(OUT) $(OBTMIRROR) \
+           && echo 'deb-src $(OBTMIRROR) $(subst debootstrap-,,$@) main'  $(OUT)/etc/apt/sources.list)
+
+$(DISTROS) $(UBUNTUS): %: fstab debootstrap-%
 	sudo mount proc $(OUT)/proc -t proc
 	sudo mount sysfs $(OUT)/sys -t sysfs
 	sudo cp /etc/hosts $(OUT)/etc/hosts
 
-	sudo rsync -avC --exclude=debian/common ../../apt.postgresql.org $(OUT)/root
+	sudo rsync -avC --exclude=debian/common --exclude=build \
+                   $(abspath ../../apt.postgresql.org) $(OUT)/root
 	LANG=C sudo chroot $(OUT) /root/apt.postgresql.org/debian/install-postgresql.sh
 
 	sudo umount $(OUT)/sys
 	sudo umount $(OUT)/proc
-
-# sid:
-# 	sudo pbuilder --create $@ --distribution $@ --basetgz base-$@.tgz --mirror http://ftp.fr.debian.org/debian --extrapackages build-essential lsb-release
-# 	cp /var/cache/pbuilder/base.tgz pbuilder/sid.tgz 
-
-# 	# we want to know the PATH
-# 	mkdir -p /tmp/apt.postgresql.org
-# 	cd .. && rsync -aC --exclude=build --exclude=debian/pbuilder ./ /tmp/apt.postgresql.org/
-
-# 	sudo pbuilder --basetgz pbuilder/$@.tgz --bindmounts /tmp/apt.postgresql.org --execute install-postgresql.sh --save-after-exec
-# 	sudo pbuilder --login --basetgz base-$@.tgz --bindmounts /tmp/apt.postgresql.org
-

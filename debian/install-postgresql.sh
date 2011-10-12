@@ -23,8 +23,10 @@ cd /root/apt.postgresql.org/
 make build-depends
 make setup
 make postgresql-9.1
-dpkg -i debian/build/postgresql-server-dev-all*deb
+dpkg -i debian/build/libpq5_9.1*deb \
+        debian/build/postgresql-server-dev-9.1*deb \
+        debian/build/postgresql-server-dev-all*deb
 make postgresql-8.2
 make postgresql-8.3
-make postgresql-8.4
-make postgresql-9.0
+#make postgresql-8.4
+#make postgresql-9.0
