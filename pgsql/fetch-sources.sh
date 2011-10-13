@@ -10,23 +10,25 @@ mirror=$3   # where to fetch PostgreSQL sources from
 source apt-fun.sh
 version=`get-full-pg-version $1`
 
-if [ -f postgresql-${version}.tar.bz2 ]; then
+`set-archive-md5sum`
+
+if [ -f ${archive} ]; then
     echo checking PostgreSQL ${version}
 
-    rm -f postgresql-${version}.tar.bz2.md5
-    wget -nv ${mirror}/v${version}/postgresql-${version}.tar.bz2.md5
+    rm -f ${md5sum}
+    wget -nv ${mirror}/v${version}/${md5sum}
 
-    md5sum -c postgresql-${version}.tar.bz2.md5
+    md5sum -c ${md5sum}
     if [ $? -ne 0 ]; then
 	echo md5 failure, fetching a new copy
-	rm -f postgresql-${version}.tar.bz2
-	wget -nv ${mirror}/v${version}/postgresql-${version}.tar.bz2
+	rm -f ${archive}
+	wget -nv ${mirror}/v${version}/${archive}
     fi
 else
     echo fetching PostgreSQL ${version}
 
-    wget -nv ${mirror}/v${version}/postgresql-${version}.tar.bz2.md5
-    wget -nv ${mirror}/v${version}/postgresql-${version}.tar.bz2
+    wget -nv ${mirror}/v${version}/${md5sum}
+    wget -nv ${mirror}/v${version}/${archive}
 
-    md5sum -c postgresql-${version}.tar.bz2.md5
+    md5sum -c ${md5sum}
 fi

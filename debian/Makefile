@@ -51,7 +51,6 @@ fstab:
 		echo "sysfs $(OUT)/sys sysfs defaults,noauto 0 0" | sudo tee -a /etc/fstab; \
 	fi
 
-
 $(addprefix debootstrap-, $(DISTROS)):
 	# this runs on the 'host' system to prepare the chroot, you need sudo here
 	test -d $(OUT)/usr || \
