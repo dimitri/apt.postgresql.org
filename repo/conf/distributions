@@ -1,0 +1,70 @@
+Codename: sid-pgapt
+Suite: unstable-pgapt
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main
+SignWith: ACCC4CF8
+Log: sid-pgapt.log
+Uploaders: uploaders
+Update: sid-debian experimental-debian
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+
+Codename: wheezy-pgapt
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main
+SignWith: ACCC4CF8
+Log: wheezy-pgapt.log
+Uploaders: uploaders
+Update: wheezy-debian
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+
+Codename: squeeze-pgapt
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main
+SignWith: ACCC4CF8
+Log: squeeze-pgapt.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Update: squeeze-backports squeeze-security squeeze-debian
+Tracking: all
+
+Codename: lenny-pgapt
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main
+SignWith: ACCC4CF8
+Log: lenny-pgapt.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Update: lenny-backports lenny-backports-sloppy lenny-security lenny-debian
+Tracking: all
+
+Codename: etch-pgapt
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main
+SignWith: ACCC4CF8
+Log: etch-pgapt.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Update: etch-backports etch-debian
+Tracking: all

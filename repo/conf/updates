@@ -1,0 +1,91 @@
+Name: debian
+Method: http://debian.netcologne.de/debian
+VerifyRelease: AED4B06F473041FA
+
+Name: experimental-debian
+From: debian
+Suite: experimental
+FilterList: hold postgresql-packages modules-packages
+
+Name: sid-debian
+From: debian
+Suite: sid
+FilterList: hold postgresql-packages modules-packages
+
+Name: wheezy-debian
+From: debian
+Suite: wheezy
+FilterList: hold postgresql-packages modules-packages
+
+Name: squeeze-debian
+From: debian
+Suite: squeeze
+FilterList: hold postgresql-packages modules-packages
+
+Name: lenny-debian
+From: debian
+Suite: lenny
+FilterList: hold postgresql-packages modules-packages
+#VerifyRelease: 9AA38DCD55BE302B
+
+#############################################################
+
+Name: debian-archive
+Method: http://archive.debian.org/debian
+VerifyRelease: 9AA38DCD55BE302B
+
+Name: etch-debian
+From: debian-archive
+Suite: etch
+FilterList: hold postgresql-packages modules-packages
+
+#############################################################
+
+Name: debian-security
+Method: http://debian.netcologne.de/debian-security
+#VerifyRelease: 9AA38DCD55BE302B
+VerifyRelease: AED4B06F473041FA
+
+Name: squeeze-security
+From: debian-security
+Suite: squeeze/updates
+FilterList: hold postgresql-packages modules-packages
+
+Name: lenny-security
+From: debian-security
+Suite: lenny/updates
+FilterList: hold postgresql-packages modules-packages
+VerifyRelease: 9AA38DCD55BE302B
+
+#############################################################
+
+Name: backports
+Method: http://debian.netcologne.de/debian-backports
+VerifyRelease: AED4B06F473041FA
+
+Name: squeeze-backports
+From: backports
+Suite: squeeze-backports
+FilterList: hold postgresql-packages modules-packages
+
+Name: lenny-backports
+From: backports
+Suite: lenny-backports
+FilterList: hold postgresql-packages modules-packages
+
+Name: lenny-backports-sloppy
+From: backports
+Suite: lenny-backports-sloppy
+FilterList: hold postgresql-packages modules-packages
+
+#############################################################
+
+Name: backports.org
+Method: http://archive.debian.org/backports.org
+VerifyRelease: EA8E8B2116BA136C
+
+Name: etch-backports
+From: backports.org
+Suite: etch-backports
+FilterList: hold postgresql-packages modules-packages
+

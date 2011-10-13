@@ -1,0 +1,51 @@
+<title>PostgreSQL in Debian</title>
+<h1>PostgreSQL in Debian</h1>
+
+<p>We aim at building <a href="http://www.postgresql.org/">PostgreSQL</a>
+extensions and modules on several <a href="http://www.debian.org/">Debian</a>
+releases for all PostgreSQL versions supported.</p>
+
+<p>Currently, we support
+
+<ul>
+	<li>Debian 5.0 (lenny)
+	<li>Debian 6.0 (squeeze)
+	<li>Debian unstable (sid)
+</ul>
+<ul>
+	<li>PostgreSQL 8.2
+	<li>PostgreSQL 8.3
+	<li>PostgreSQL 8.4
+	<li>PostgreSQL 9.0
+	<li>PostgreSQL 9.1
+</ul></p>
+
+<h2>Using the repository</h2>
+
+Depending on your Debian version, use one of the following lines in your
+/etc/apt/sources.list:
+<pre>
+# 5.0
+deb http://pgapt.debian.net/ lenny-pgapt main
+# 6.0
+deb http://pgapt.debian.net/ squeeze-pgapt main
+</pre>
+
+The repository is signed with <a href="ACCC4CF8.asc">gpg key ACCC4CF8</a>.
+(Import with "apt-key add ACCC4CF8.asc".)
+
+<h2>Resources</h2>
+
+<ul>
+	<li><a href="bin/packages.cgi">Overview of available packages and versions</a>
+	<li><a href="dists/">Debian dists</a>
+	<li><a href="pool/main/">Debian packages pool</a>
+</ul>
+
+<h2>Links</h2>
+
+<ul>
+	<li><a href="http://wiki.postgresql.org/wiki/ExtensionPackaging">Extension Packaging</a> (PostgreSQL Wiki)
+	<li><a href="http://wiki.debian.org/pkg-postgresql">pkg-postgresql</a> (Debian Wiki)
+	<li><a href="http://archives.postgresql.org/pgsql-pkg-debian/">pgsql-pkg-debian mailing list</a>
+</ul>
