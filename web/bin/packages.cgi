@@ -59,7 +59,8 @@ foreach my $db (@dbs) {
 
 		$data =~ /^Version: (.*)/m or die "no Version in $data";
 		my $version = my $realversion = $1;
-		$version =~ s/~pgapt\d\d\+\d//;
+		$version =~ s/~(?:pgapt|bpo)(?:\d\d)?\+\d$//;
+		$version =~ s/\+b\d+$//;
 
 		my $pgversion = '';
 		$pgversion = $1 if ($pkg =~ /(\d\.\d)/);
