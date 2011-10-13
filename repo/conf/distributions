@@ -1,5 +1,5 @@
 Codename: sid-pgapt
-Suite: unstable-pgapt
+Suite: sid-pgapt
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
@@ -14,6 +14,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 
 Codename: wheezy-pgapt
+Suite: wheezy-pgapt
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
@@ -28,6 +29,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 
 Codename: squeeze-pgapt
+Suite: squeeze-pgapt
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
@@ -42,6 +44,7 @@ Update: squeeze-backports squeeze-security squeeze-debian
 Tracking: all
 
 Codename: lenny-pgapt
+Suite: lenny-pgapt
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
@@ -56,6 +59,7 @@ Update: lenny-backports lenny-backports-sloppy lenny-security lenny-debian
 Tracking: all
 
 Codename: etch-pgapt
+Suite: etch-pgapt
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
