@@ -1,4 +1,4 @@
-VERSIONS=8.1 8.2 8.3 8.4 9.0 9.1
+VERSIONS=8.1 8.2 8.3 8.4 9.0 9.1 9.2
 
 POSTGRES = \
 	   postgresql-XY             \
@@ -16,13 +16,20 @@ POSTGRES = \
 	   postgresql                \
 	   postgresql-client         \
 	   postgresql-doc            \
-	   postgresql-contrib
+	   postgresql-contrib        \
+	   libpq5                    \
+	   libpq-dev                 \
+	   libecpg-compat2           \
+	   libecpg-dev               \
+	   libecpg5                  \
+	   libpgtypes2
 
 MODULES = \
 	  ip4r			postgresql-XY-ip4r \
 	  hstore-new		postgresql-XY-hstore-new \
 	  orafce		postgresql-XY-orafce \
 	  pgfincore		postgresql-XY-pgfincore \
+	  pgmemcache		postgresql-XY-pgmemcache \
 	  plr			postgresql-XY-plr \
 	  postgresql-debversion	postgresql-XY-debversion \
 	  postgresql-pljava	postgresql-XY-pljava-gcj \
