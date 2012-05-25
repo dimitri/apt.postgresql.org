@@ -12,6 +12,7 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+Contents:
 
 Codename: wheezy-pgapt
 Suite: wheezy-pgapt
@@ -27,6 +28,7 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+Contents:
 
 Codename: squeeze-pgapt
 Suite: squeeze-pgapt
@@ -42,6 +44,7 @@ UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Update: squeeze-backports squeeze-security squeeze-debian
 Tracking: all
+Contents:
 
 Codename: lenny-pgapt
 Suite: lenny-pgapt
@@ -55,8 +58,9 @@ Uploaders: uploaders
 DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
-Update: lenny-backports lenny-backports-sloppy lenny-security lenny-debian
+#Update: lenny-backports lenny-backports-sloppy lenny-security lenny-debian
 Tracking: all
+Contents:
 
 Codename: etch-pgapt
 Suite: etch-pgapt
@@ -70,5 +74,6 @@ Uploaders: uploaders
 DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
-Update: etch-backports etch-debian
+#Update: etch-backports etch-debian
 Tracking: all
+Contents:
