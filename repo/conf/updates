@@ -22,11 +22,11 @@ From: debian
 Suite: squeeze
 FilterList: hold postgresql-packages modules-packages
 
-Name: lenny-debian
-From: debian
-Suite: lenny
-FilterList: hold postgresql-packages modules-packages
-#VerifyRelease: 9AA38DCD55BE302B
+#Name: lenny-debian
+#From: debian
+#Suite: lenny
+#FilterList: hold postgresql-packages modules-packages
+##VerifyRelease: 9AA38DCD55BE302B
 
 #############################################################
 
@@ -51,11 +51,11 @@ From: debian-security
 Suite: squeeze/updates
 FilterList: hold postgresql-packages modules-packages
 
-Name: lenny-security
-From: debian-security
-Suite: lenny/updates
-FilterList: hold postgresql-packages modules-packages
-VerifyRelease: 9AA38DCD55BE302B
+#Name: lenny-security
+#From: debian-security
+#Suite: lenny/updates
+#FilterList: hold postgresql-packages modules-packages
+#VerifyRelease: 9AA38DCD55BE302B
 
 #############################################################
 
@@ -68,24 +68,24 @@ From: backports
 Suite: squeeze-backports
 FilterList: hold postgresql-packages modules-packages
 
-Name: lenny-backports
-From: backports
-Suite: lenny-backports
-FilterList: hold postgresql-packages modules-packages
+#Name: lenny-backports
+#From: backports
+#Suite: lenny-backports
+#FilterList: hold postgresql-packages modules-packages
 
-Name: lenny-backports-sloppy
-From: backports
-Suite: lenny-backports-sloppy
-FilterList: hold postgresql-packages modules-packages
+#Name: lenny-backports-sloppy
+#From: backports
+#Suite: lenny-backports-sloppy
+#FilterList: hold postgresql-packages modules-packages
 
 #############################################################
 
-Name: backports.org
-Method: http://archive.debian.org/backports.org
-VerifyRelease: EA8E8B2116BA136C
-
-Name: etch-backports
-From: backports.org
-Suite: etch-backports
-FilterList: hold postgresql-packages modules-packages
+#Name: backports.org
+#Method: http://archive.debian.org/backports.org
+#VerifyRelease: EA8E8B2116BA136C
+#
+#Name: etch-backports
+#From: backports.org
+#Suite: etch-backports
+#FilterList: hold postgresql-packages modules-packages
 
