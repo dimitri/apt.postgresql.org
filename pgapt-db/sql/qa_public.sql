@@ -2,6 +2,8 @@ BEGIN;
 
 SET search_path TO public;
 
-CREATE LANGUAGE plpgsql;
+CREATE EXTENSION plpgsql;
+
+CREATE EXTENSION debversion;
 
 COMMIT;

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (c) 2009, 2010, 2011 Christoph Berg <myon@debian.org>
+# Copyright (c) 2009, 2010, 2011, 2012 Christoph Berg <myon@debian.org>
 #
 # getdpkginfo by
 # Copyright (C) 2005  Jeroen van Wolffelaar <jeroen@wolffelaar.nl>
@@ -99,18 +99,7 @@ def parseFile(suite_id, archive, suite, component, architecture, packagesfile):
             package_id = found[0]
         else: # this is the first time we see this package, extract more information
 
-            # There's no INSERT RETURNING in PG 8.1
-            cur.execute("""INSERT INTO package (package, version, pkg_architecture)
-                           VALUES (%s, %s, %s)""",
-                           [package, version, pkg_architecture])
-            cur.execute("""SELECT package_id FROM package
-                           WHERE (package, version, pkg_architecture) = (%s, %s, %s)""",
-                           [package, version, pkg_architecture])
-            package_id = cur.fetchone()[0]
-            cur.execute("""INSERT INTO package_control (package_id, control)
-                           VALUES (%s, %s)""", [package_id, control])
-
-            # this is a binary package
+            source_id = None
             if pkg_architecture <> 'source':
                 # decode 'Source' field
                 sourcefield = parse.section.get('Source')
@@ -128,19 +117,27 @@ def parseFile(suite_id, archive, suite, component, architecture, packagesfile):
                                 package, version, pkg_architecture)
                     source_version = binnmu_re.sub('', source_version)
 
-                # store link to source package
+                # find link to source package
                 cur.execute("""SELECT package_id FROM package
                                WHERE (package, version, pkg_architecture) =
                                      (%s, %s, 'source')""", [source, source_version])
                 found = cur.fetchone()
                 if found:
-                    cur.execute("""INSERT INTO package_source
-                                   (package_id, source_id) VALUES (%s, %s)""",
-                                   [package_id, found[0]])
+                    source_id = found[0]
                 else:
                     print "WARNING: %s %s %s %s: source %s %s for %s %s (%s) not found" % \
                         (archive, suite, component, architecture, source, source_version,
                                 package, version, pkg_architecture)
+
+            cur.execute("""INSERT INTO package (package, version, pkg_architecture, source_id)
+                           VALUES (%s, %s, %s, %s) RETURNING package_id""",
+                           [package, version, pkg_architecture, source_id])
+            package_id = cur.fetchone()[0]
+            cur.execute("""INSERT INTO package_control (package_id, control)
+                           VALUES (%s, %s)""", [package_id, control])
+
+            # this is a binary package
+            if pkg_architecture <> 'source':
 
                 # extract more fields
                 description = re.sub(striplong_re, '', parse.section.get('Description'))

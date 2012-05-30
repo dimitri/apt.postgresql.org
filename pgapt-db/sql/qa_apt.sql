@@ -42,11 +42,14 @@ COMMENT ON TABLE distribution IS 'Symbolic names for archive/suite/* combination
 CREATE TABLE package (
 	package_id serial PRIMARY KEY,
 	package text NOT NULL,
-	version text NOT NULL,
+	version public.debversion NOT NULL,
 	pkg_architecture text NOT NULL
-		REFERENCES architecture (architecture)
+		REFERENCES architecture (architecture),
+	source_id integer
+		CONSTRAINT source_architecture CHECK (NOT (source_id IS NOT NULL AND pkg_architecture = 'source'))
 );
 COMMENT ON TABLE package IS 'All known packages and sources';
+ALTER TABLE package ADD FOREIGN KEY (source_id) REFERENCES package (package_id);
 
 CREATE INDEX package__package_version_pkg_architecture ON package (package, version, pkg_architecture);
 CREATE INDEX package__package_pkg_architecture ON package (package, pkg_architecture);
@@ -60,6 +63,7 @@ COMMENT ON TABLE package_control IS
 'Control files of all known packages and sources';
 
 
+/*
 CREATE TABLE package_source (
 	package_id integer PRIMARY KEY REFERENCES package,
 	source_id integer NOT NULL REFERENCES package (package_id)
@@ -68,6 +72,7 @@ CREATE TABLE package_source (
 CREATE INDEX package_source__source_id ON package_source (source_id);
 COMMENT ON TABLE package_source IS
 'Table relating binary packages to their source package';
+*/
 
 
 -- SUITE DATA
