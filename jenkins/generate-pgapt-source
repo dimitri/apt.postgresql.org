@@ -1,0 +1,83 @@
+#!/bin/sh
+
+set -x
+set -e
+set -u
+
+[ -n "${DEBEMAIL:-}" ] || DEBEMAIL="apt.postgresql.org autobuilder <myon@debian.org>"
+export DEBEMAIL
+
+if [ -z "${BUILD_NUMBER:-}" ] ; then
+  echo "No BUILD_NUMBER defined, please run it in jenkins." >&2
+  exit 1
+fi
+
+if [ "${GIT_COMMIT:-}" ]; then
+  VCS=git
+  VCS_REVISION=$GIT_COMMIT
+  VCS_REVERT=checkout
+  # building in 'source'
+  cd source
+  RESULT=../result
+elif [ "${BZR_REVISION:-}" ] ; then
+  VCS=bzr
+  VCS_REVISION=$BZR_REVISION
+  VCS_REVERT=revert
+  # building in '.'
+  RESULT=result
+elif [ "${SVN_REVISION:-}" ] ; then
+  VCS=svn
+  VCS_REVISION=$SVN_REVISION
+  VCS_REVERT=revert
+  # building in 'source'
+  cd source
+  RESULT=../result
+else
+  echo "Unable to determine the VCS used from the environment" >&2
+  exit 1
+fi
+
+# remove artifacts from last build
+rm -rf $RESULT ../*.dsc ../*.debian.tar.* ../*.diff.gz
+
+# get newest version number from changelog
+PREVIOUS_VERSION=$(dpkg-parsechangelog --count 1 | awk '/^Version: / {print $2}')
+BASE_VERSION=$(echo $PREVIOUS_VERSION | sed -e 's/[~.]pgapt.*//')
+
+case ${distribution:-} in
+  sid)     PGAPT="~pgapt"   ;;
+  jessie)  PGAPT="~pgapt80" ;;
+  wheezy)  PGAPT="~pgapt70" ;;
+  squeeze) PGAPT="~pgapt60" ;;
+  lenny)   PGAPT="~pgapt50" ;;
+  etch)    PGAPT="~pgapt40" ;;
+  *) echo "Unknown distribution ${distribution:-}" >&2 ; exit 1 ;;
+esac
+
+CL_DISTRIBUTION=$(dpkg-parsechangelog --count 1 | awk '/^Distribution/ {print $2}')
+if [ "$CL_DISTRIBUTION" = "UNRELEASED" ] ; then
+  TIMESTAMP=$(date +%s) # seconds since 1970-01-01 00:00:00 UTC, ensuring version gets always newer...
+  SUFFIX="+1~${TIMESTAMP}.${VCS}${VCS_REVISION}.${BUILD_NUMBER}"
+else
+  SUFFIX="+1"
+fi
+
+# clean up behind a possibly broken last job
+$VCS $VCS_REVERT debian/changelog
+
+VERSION_STRING="$BASE_VERSION$PGAPT$SUFFIX"
+dch --force-distribution --distribution="$distribution-pgapt" \
+  --release-heuristic log -b --newversion=$VERSION_STRING -- \
+  "Rebuild for $distribution-pgapt ($BUILD_TAG)"
+
+# put 'USCAN_SYMLINK=rename' in ~jenkins/.devscripts or else cp -l below will
+# make the copy artifact plugin die on symlinks created by uscan.
+origtargz --tar-only -u
+dpkg-buildpackage -nc -d -sa -S
+
+$VCS $VCS_REVERT debian/changelog
+
+mkdir $RESULT
+dcmd cp -alv ../*_${VERSION_STRING}_*.changes $RESULT
+
+# vim:foldmethod=marker ts=2 ft=sh ai expandtab sw=2
