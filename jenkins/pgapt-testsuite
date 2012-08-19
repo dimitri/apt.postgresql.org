@@ -1,0 +1,127 @@
+#!/bin/sh
+
+# The MIT License
+#
+# Copyright (c) 2011,2012 by Michael Prokop <mika@debian.org>
+# Copyright (c) 2012 by Christoph Berg <myon@debian.org>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+set -eux
+
+#if [ -z "${version:-}" ] ; then
+#  echo "Missing \$version parameter" >&2
+#  exit 1
+#fi
+
+dist_and_arch_settings() {
+  if [ -z "${architecture:-}" ] || [ "${architecture:-}" = "all" ] ; then
+    arch="$(dpkg-architecture -qDEB_HOST_ARCH)"
+    echo "*** No architecture set or architecture set to 'all', using system arch ${arch} ***"
+  else
+    arch="${architecture}"
+    echo "*** architecture is set to ${architecture} ***"
+  fi
+
+  # only set $arch for other functions in this script if PROVIDE_ONLY is set
+  if [ -n "${PROVIDE_ONLY:-}" ] ; then
+    echo "*** Config variable 'PROVIDE_ONLY' is set, not setting COWBUILDER_BASE, COWBUILDER_DIST and DIST ***"
+    return 0
+  fi
+
+  if [ -n "${distribution:-}" ] ; then
+    local DIST="${distribution}"
+  else
+    # default to the currently running distribution to avoid hardcoding
+    # a distribution which might not be supported by the running system
+    local distribution=$(lsb_release --short --codename 2>/dev/null)
+    [ -n "${distribution}" ] || distribution="sid"  # fallback to "sid" iff lsb_release fails
+    local DIST="$distribution"
+  fi
+
+  # if COWBUILDER_DIST is set it overrides distribution then
+  if [ -n "${COWBUILDER_DIST:-}" ]; then
+    echo "*** COWBUILDER_DIST is set to $COWBUILDER_DIST - using it for base.cow if it does not exist yet. ***"
+  else
+    echo "*** Using cowbuilder base for distribution ${DIST} ***"
+    COWBUILDER_DIST="${DIST}"
+  fi
+
+  if [ -n "${COWBUILDER_BASE:-}" ] ; then
+    echo "*** COWBUILDER_BASE is set to $COWBUILDER_BASE - using as cowbuilder base.cow ***"
+  else
+    COWBUILDER_BASE="/var/cache/pbuilder/base-${COWBUILDER_DIST}-${arch}.cow"
+    echo "*** No COWBUILDER_BASE set, using $COWBUILDER_BASE as cowbuilder base.cow ***"
+  fi
+}
+
+cowbuilder_run() {
+  echo "*** cowbuilder build phase for arch $architecture ***"
+  #mkdir -p "$WORKSPACE"/binaries/
+
+  case "$architecture" in
+    i386)
+      linux32 sudo cowbuilder \
+        "$@" \
+        --basepath "${COWBUILDER_BASE}" --debbuildopts "${DEBBUILDOPTS:-}"
+      [ $? -eq 0 ] || bailout 1 "Error: Failed to build with cowbuilder."
+      ;;
+    amd64|all|*)
+      sudo cowbuilder \
+        "$@" \
+        --basepath "${COWBUILDER_BASE}" --debbuildopts "${DEBBUILDOPTS:-}"
+      [ $? -eq 0 ] || bailout 1 "Error: Failed to build with cowbuilder."
+      ;;
+    *)
+      bailout 1 "Error: Unsupported architecture: $architecture"
+      ;;
+  esac
+}
+
+dist_and_arch_settings
+
+TESTDIR="/tmp/pgapt-testsuite"
+rm -rf $TESTDIR/*
+mkdir -p $TESTDIR
+cp * $TESTDIR
+
+cat > $TESTDIR/testsuite <<EOF
+#!/bin/sh
+set -eux
+
+# /var/lib/jenkins will probably not exist
+test -w ${HOME:-/does/not/exist} || export HOME=/tmp
+
+echo 'en_US.UTF-8' > /etc/default/locale
+echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
+echo 'ru_RU ISO-8859-5' >> /etc/locale.gen
+echo 'ru_RU.UTF-8 UTF-8' >> /etc/locale.gen
+
+apt-get install -y net-tools hunspell-en-us
+dpkg -i $TESTDIR/*.deb || apt-get install -fy
+
+export LC_ALL='en_US.UTF-8'
+cd /usr/share/postgresql-common/
+./testsuite
+EOF
+chmod +x $TESTDIR/testsuite
+
+cowbuilder_run --bindmount $TESTDIR --execute $TESTDIR/testsuite
+
+# vim:foldmethod=marker ts=2 ft=sh ai expandtab sw=2
