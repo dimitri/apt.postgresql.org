@@ -96,6 +96,9 @@ dch --force-distribution --distribution="$distribution-pgapt" \
 # put 'USCAN_SYMLINK=rename' in ~jenkins/.devscripts or else cp -l below will
 # make the copy artifact plugin die on symlinks created by uscan.
 origtargz --tar-only -u
+if ! [ -f debian/control ] ; then
+  make -f debian/rules debian/control
+fi
 dpkg-buildpackage -nc -d -sa -S
 
 $VCS $VCS_REVERT debian/changelog
