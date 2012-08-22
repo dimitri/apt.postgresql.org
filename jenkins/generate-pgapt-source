@@ -56,8 +56,17 @@ elif [ "${SVN_REVISION:-}" ] ; then
   cd source
   RESULT=../result
 else
-  echo "Unable to determine the VCS used from the environment" >&2
-  exit 1
+  echo "Using apt-get source"
+  PACKAGE=${JOB_NAME%-source*}
+  rm -rf $PACKAGE* source
+  apt-get source -d $PACKAGE
+  dpkg-source -x $PACKAGE*.dsc
+  mv $PACKAGE-*/ source
+  VCS=apt-get
+  VCS_REVISION=""
+  VCS_REVERT=moo
+  cd source
+  RESULT=../result
 fi
 
 # remove artifacts from last build
@@ -65,33 +74,38 @@ rm -rf $RESULT ../*.dsc ../*.debian.tar.* ../*.diff.gz
 
 # get newest version number from changelog
 PREVIOUS_VERSION=$(dpkg-parsechangelog --count 1 | awk '/^Version: / {print $2}')
-BASE_VERSION=$(echo $PREVIOUS_VERSION | sed -e 's/[~.]pgapt.*//')
+BASE_VERSION=$(echo $PREVIOUS_VERSION | sed -e 's/[~.]\(pgdg\|pgapt\).*//')
 
 case ${distribution:-} in
-  sid)     PGAPT="~pgapt"   ;;
-  jessie)  PGAPT="~pgapt80" ;;
-  wheezy)  PGAPT="~pgapt70" ;;
-  squeeze) PGAPT="~pgapt60" ;;
-  lenny)   PGAPT="~pgapt50" ;;
-  etch)    PGAPT="~pgapt40" ;;
+  sid)     PGDG_DISTRIBUTION=".pgdg"   ;;
+  jessie)  PGDG_DISTRIBUTION=".pgdg80" ;;
+  wheezy)  PGDG_DISTRIBUTION=".pgdg70" ;;
+  squeeze) PGDG_DISTRIBUTION=".pgdg60" ;;
+  lenny)   PGDG_DISTRIBUTION=".pgdg50" ;;
+  etch)    PGDG_DISTRIBUTION=".pgdg40" ;;
   *) echo "Unknown distribution ${distribution:-}" >&2 ; exit 1 ;;
+esac
+
+case $PREVIOUS_VERSION in
+  *pgdg*|*pgapt*) PGDG_REVISION=$(echo $PREVIOUS_VERSION | sed -e 's/.*+/+/') ;;
+  *) PGDG_REVISION="+1" ;;
 esac
 
 CL_DISTRIBUTION=$(dpkg-parsechangelog --count 1 | awk '/^Distribution/ {print $2}')
 if [ "$CL_DISTRIBUTION" = "UNRELEASED" ] ; then
   TIMESTAMP=$(date +%s) # seconds since 1970-01-01 00:00:00 UTC, ensuring version gets always newer...
-  SUFFIX="+1~${TIMESTAMP}.${VCS}${VCS_REVISION}.${BUILD_NUMBER}"
+  SUFFIX="~${TIMESTAMP}.${VCS}${VCS_REVISION}.${BUILD_NUMBER}"
 else
-  SUFFIX="+1"
+  SUFFIX=""
 fi
 
 # clean up behind a possibly broken last job
 $VCS $VCS_REVERT debian/changelog
 
-VERSION_STRING="$BASE_VERSION$PGAPT$SUFFIX"
-dch --force-distribution --distribution="$distribution-pgapt" \
+VERSION_STRING="$BASE_VERSION$PGDG_DISTRIBUTION$PGDG_REVISION$SUFFIX"
+dch --force-distribution --distribution="$distribution-pgdg" \
   --release-heuristic log -b --newversion=$VERSION_STRING -- \
-  "Rebuild for $distribution-pgapt ($BUILD_TAG, $VCS revision $VCS_REVISION)"
+  "Rebuild for $distribution-pgdg ($BUILD_TAG, $VCS revision $VCS_REVISION)"
 
 # put 'USCAN_SYMLINK=rename' in ~jenkins/.devscripts or else cp -l below will
 # make the copy artifact plugin die on symlinks created by uscan.
