@@ -8,7 +8,6 @@ releases for all PostgreSQL versions supported.</p>
 <p>Currently, we support
 
 <ul>
-	<li>Debian 5.0 (lenny)
 	<li>Debian 6.0 (squeeze)
 	<li>Debian unstable (sid)
 </ul>
@@ -18,21 +17,41 @@ releases for all PostgreSQL versions supported.</p>
 	<li>PostgreSQL 8.4
 	<li>PostgreSQL 9.0
 	<li>PostgreSQL 9.1
+	<li>PostgreSQL 9.2
 </ul></p>
 
 <h2>Using the repository</h2>
 
 Depending on your Debian version, use one of the following lines in your
 /etc/apt/sources.list:
+<b>
 <pre>
-# 5.0
-deb http://pgapt.debian.net/ lenny-pgapt main
 # 6.0
 deb http://pgapt.debian.net/ squeeze-pgapt main
+# unstable
+deb http://pgapt.debian.net/ sid-pgapt main
 </pre>
+</b>
 
 The repository is signed with <a href="ACCC4CF8.asc">gpg key ACCC4CF8</a>.
 (Import with "apt-key add ACCC4CF8.asc".)
+
+<h2>News</h2>
+
+<ul>
+	<li>2012-06-07: 9.2 added, Lenny marked unsupported now
+
+	<li>2012-06-07: separate components "9.0", "9.2" etc added for
+	libpq5/libpg-dev/lib... packages that would otherwise overwrite
+	packages from other versions in the same suite. To install these
+	packages:
+<pre>
+# 6.0
+deb http://pgapt.debian.net/ squeeze-pgapt main 9.0 9.2
+# unstable
+deb http://pgapt.debian.net/ sid-pgapt main 9.0 9.2
+</pre>
+</ul>
 
 <h2>Resources</h2>
 
