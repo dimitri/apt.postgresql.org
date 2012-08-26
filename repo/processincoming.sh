@@ -2,6 +2,6 @@
 
 [ "$USER" = "aptuser" ] || SUDO="sudo -u aptuser"
 
-set -x
+set -ex
 
-$SUDO /usr/bin/reprepro -b /srv/apt/repo processincoming pgdg
+$SUDO /usr/bin/reprepro -b /srv/apt/repo --verbose processincoming pgdg

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+HOST="atalia.postgresql.org"
+
+trap "rm -rf *" 0 2 3 15
+
+ls -AlR
+
+set -eux
+
+for f in $(find . -name '*.changes' -not -name '*_source.changes') ; do
+	dcmd rsync -av $f $HOST:/srv/apt/incoming
+	UPLOAD=upload
+done
+
+# call processincoming.sh once for all packages uploaded
+[ "$UPLOAD" ] && ssh $HOST /srv/apt/processincoming.sh
+
+# trap will clean up here
