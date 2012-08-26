@@ -1,5 +1,6 @@
 Name: debian
 Method: http://debian.netcologne.de/debian
+Components: main
 VerifyRelease: AED4B06F473041FA
 
 Name: experimental-debian
@@ -7,20 +8,26 @@ From: debian
 Suite: experimental
 FilterList: hold postgresql-packages modules-packages
 
+Name: experimental-debian-libs
+From: debian
+Suite: experimental
+Components: main>9.2
+FilterList: hold postgresql-lib-packages
+
 Name: sid-debian
 From: debian
 Suite: sid
-FilterList: hold postgresql-packages modules-packages
+FilterList: hold postgresql-packages postgresql-lib-packages modules-packages
 
 Name: wheezy-debian
 From: debian
 Suite: wheezy
-FilterList: hold postgresql-packages modules-packages
+FilterList: hold postgresql-packages postgresql-lib-packages modules-packages
 
 Name: squeeze-debian
 From: debian
 Suite: squeeze
-FilterList: hold postgresql-packages modules-packages
+FilterList: hold postgresql-packages postgresql-lib-packages modules-packages
 
 #Name: lenny-debian
 #From: debian
@@ -32,6 +39,7 @@ FilterList: hold postgresql-packages modules-packages
 
 Name: debian-archive
 Method: http://archive.debian.org/debian
+Components: main
 VerifyRelease: 9AA38DCD55BE302B
 
 Name: etch-debian
@@ -43,6 +51,7 @@ FilterList: hold postgresql-packages modules-packages
 
 Name: debian-security
 Method: http://debian.netcologne.de/debian-security
+Components: main
 #VerifyRelease: 9AA38DCD55BE302B
 VerifyRelease: AED4B06F473041FA
 
@@ -61,6 +70,7 @@ FilterList: hold postgresql-packages modules-packages
 
 Name: backports
 Method: http://debian.netcologne.de/debian-backports
+Components: main
 VerifyRelease: AED4B06F473041FA
 
 Name: squeeze-backports

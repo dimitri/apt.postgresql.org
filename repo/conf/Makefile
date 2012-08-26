@@ -16,7 +16,9 @@ POSTGRES = \
 	   postgresql                \
 	   postgresql-client         \
 	   postgresql-doc            \
-	   postgresql-contrib        \
+	   postgresql-contrib
+
+POSTGRES_LIBS = \
 	   libpq5                    \
 	   libpq-dev                 \
 	   libecpg-compat2           \
@@ -44,10 +46,13 @@ MODULES = \
 	  slony1		slony1-bin postgresql-XY-slony1 slony1-doc \
 	  slony1-2		slony1-2-bin postgresql-XY-slony1-2 slony1-2-doc \
 
-all: postgresql-packages modules-packages
+all: postgresql-packages postgresql-lib-packages modules-packages
 
 postgresql-packages: Makefile
 	for pkg in $(foreach version,$(VERSIONS),$(subst XY,$(version),$(POSTGRES))) ; do echo $$pkg install ; done | sort -u > $@
+
+postgresql-lib-packages: Makefile
+	for pkg in $(foreach version,$(VERSIONS),$(subst XY,$(version),$(POSTGRES_LIBS))) ; do echo $$pkg install ; done | sort -u > $@
 
 modules-packages: Makefile
 	for pkg in $(foreach version,$(VERSIONS),$(subst XY,$(version),$(MODULES))) ; do echo $$pkg install ; done | sort -u > $@
