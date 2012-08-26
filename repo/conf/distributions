@@ -1,79 +1,75 @@
-Codename: sid-pgapt
-Suite: sid-pgapt
+Codename: sid-pgdg
+Suite: sid-pgdg
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
-Components: main
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
 SignWith: ACCC4CF8
-Log: sid-pgapt.log
+Log: sid-pgdg.log
 Uploaders: uploaders
-Update: sid-debian experimental-debian
 DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
 Contents:
 
-Codename: wheezy-pgapt
-Suite: wheezy-pgapt
+Codename: wheezy-pgdg
+Suite: wheezy-pgdg
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
-Components: main
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
 SignWith: ACCC4CF8
-Log: wheezy-pgapt.log
+Log: wheezy-pgdg.log
 Uploaders: uploaders
-Update: wheezy-debian
 DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
 Contents:
 
-Codename: squeeze-pgapt
-Suite: squeeze-pgapt
+Codename: squeeze-pgdg
+Suite: squeeze-pgdg
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
-Components: main
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
 SignWith: ACCC4CF8
-Log: squeeze-pgapt.log
+Log: squeeze-pgdg.log
 Uploaders: uploaders
 DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
-Update: squeeze-backports squeeze-security squeeze-debian
 Tracking: all
 Contents:
 
-Codename: lenny-pgapt
-Suite: lenny-pgapt
+Codename: lenny-pgdg
+Suite: lenny-pgdg
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
-Components: main
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
 SignWith: ACCC4CF8
-Log: lenny-pgapt.log
+Log: lenny-pgdg.log
 Uploaders: uploaders
 DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
-#Update: lenny-backports lenny-backports-sloppy lenny-security lenny-debian
 Tracking: all
 Contents:
 
-Codename: etch-pgapt
-Suite: etch-pgapt
+Codename: etch-pgdg
+Suite: etch-pgdg
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
-Components: main
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
 SignWith: ACCC4CF8
-Log: etch-pgapt.log
+Log: etch-pgdg.log
 Uploaders: uploaders
 DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
-#Update: etch-backports etch-debian
 Tracking: all
 Contents:
+

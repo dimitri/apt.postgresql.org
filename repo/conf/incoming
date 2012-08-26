@@ -1,9 +1,9 @@
-Name: pgapt
-IncomingDir: /cb/www.df7cb.de/public_html/projects/postgresql-apt/incoming
-TempDir: /cb/www.df7cb.de/public_html/projects/postgresql-apt/tmp
-Allow: sid-pgapt
- wheezy-pgapt
- squeeze-pgapt
- lenny-pgapt
- etch-pgapt
+Name: pgdg
+IncomingDir: /srv/apt/repo/incoming
+TempDir: /srv/apt/repo/tmp
+Allow: sid-pgdg
+ wheezy-pgdg
+ squeeze-pgdg
+ lenny-pgdg
+ etch-pgdg
 Multiple: yes
