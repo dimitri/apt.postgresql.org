@@ -1,1 +1,0 @@
-extend-diff-ignore = "src/interfaces/libpq/libpq.rc|gettext-files"
