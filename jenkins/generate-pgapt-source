@@ -1,0 +1,123 @@
+#!/bin/sh
+
+# The MIT License
+#
+# Copyright (c) 2011,2012 by Michael Prokop <mika@debian.org>
+# Copyright (c) 2012 by Christoph Berg <myon@debian.org>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+set -x
+set -e
+set -u
+
+[ -n "${DEBEMAIL:-}" ] || DEBEMAIL="apt.postgresql.org autobuilder <myon@debian.org>"
+export DEBEMAIL
+
+if [ -z "${BUILD_NUMBER:-}" ] ; then
+  echo "No BUILD_NUMBER defined, please run it in jenkins." >&2
+  exit 1
+fi
+
+if [ "${GIT_COMMIT:-}" ]; then
+  VCS=git
+  VCS_REVISION=$GIT_COMMIT
+  VCS_REVERT=checkout
+  # building in 'source'
+  cd source
+  RESULT=../result
+elif [ "${BZR_REVISION:-}" ] ; then
+  VCS=bzr
+  VCS_REVISION=$BZR_REVISION
+  VCS_REVERT=revert
+  # building in '.'
+  RESULT=result
+elif [ "${SVN_REVISION:-}" ] ; then
+  VCS=svn
+  VCS_REVISION=$SVN_REVISION
+  VCS_REVERT=revert
+  # building in 'source'
+  cd source
+  RESULT=../result
+else
+  echo "Using apt-get source"
+  PACKAGE=${JOB_NAME%-source*}
+  rm -rf $PACKAGE* source
+  apt-get source -d $PACKAGE
+  dpkg-source -x $PACKAGE*.dsc
+  mv $PACKAGE-*/ source
+  VCS=apt-get
+  VCS_REVISION=""
+  VCS_REVERT=moo
+  cd source
+  RESULT=../result
+fi
+
+# remove artifacts from last build
+rm -rf $RESULT ../*.dsc ../*.debian.tar.* ../*.diff.gz
+
+# get newest version number from changelog
+PREVIOUS_VERSION=$(dpkg-parsechangelog --count 1 | awk '/^Version: / {print $2}')
+BASE_VERSION=$(echo $PREVIOUS_VERSION | sed -e 's/[~.]\(pgdg\|pgapt\).*//')
+
+case ${distribution:-} in
+  sid)     PGDG_DISTRIBUTION=".pgdg"   ;;
+  jessie)  PGDG_DISTRIBUTION=".pgdg80" ;;
+  wheezy)  PGDG_DISTRIBUTION=".pgdg70" ;;
+  squeeze) PGDG_DISTRIBUTION=".pgdg60" ;;
+  lenny)   PGDG_DISTRIBUTION=".pgdg50" ;;
+  etch)    PGDG_DISTRIBUTION=".pgdg40" ;;
+  *) echo "Unknown distribution ${distribution:-}" >&2 ; exit 1 ;;
+esac
+
+case $PREVIOUS_VERSION in
+  *pgdg*|*pgapt*) PGDG_REVISION=$(echo $PREVIOUS_VERSION | sed -e 's/.*+/+/') ;;
+  *) PGDG_REVISION="+1" ;;
+esac
+
+CL_DISTRIBUTION=$(dpkg-parsechangelog --count 1 | awk '/^Distribution/ {print $2}')
+if [ "$CL_DISTRIBUTION" = "UNRELEASED" ] ; then
+  TIMESTAMP=$(date +%s) # seconds since 1970-01-01 00:00:00 UTC, ensuring version gets always newer...
+  SUFFIX="~${TIMESTAMP}.${VCS}${VCS_REVISION}.${BUILD_NUMBER}"
+else
+  SUFFIX=""
+fi
+
+# clean up behind a possibly broken last job
+$VCS $VCS_REVERT debian/changelog
+
+VERSION_STRING="$BASE_VERSION$PGDG_DISTRIBUTION$PGDG_REVISION$SUFFIX"
+dch --force-distribution --distribution="$distribution-pgdg" \
+  --release-heuristic log -b --newversion=$VERSION_STRING -- \
+  "Rebuild for $distribution-pgdg ($BUILD_TAG, $VCS revision $VCS_REVISION)"
+
+# put 'USCAN_SYMLINK=rename' in ~jenkins/.devscripts or else cp -l below will
+# make the copy artifact plugin die on symlinks created by uscan.
+origtargz --tar-only -u
+if ! [ -f debian/control ] ; then
+  make -f debian/rules debian/control
+fi
+dpkg-buildpackage -nc -d -sa -S
+
+$VCS $VCS_REVERT debian/changelog
+
+mkdir $RESULT
+dcmd cp -alv ../*_${VERSION_STRING}_*.changes $RESULT
+
+# vim:foldmethod=marker ts=2 ft=sh ai expandtab sw=2
