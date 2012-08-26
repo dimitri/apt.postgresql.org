@@ -13,6 +13,36 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 Contents:
 
+Codename: sid-pgdg-testing
+Suite: sid-pgdg-testing
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: sid-pgdg-testing.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+Contents:
+
+Codename: sid-pgdg-deprecated
+Suite: sid-pgdg-deprecated
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: sid-pgdg-deprecated.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+Contents:
+
 Codename: wheezy-pgdg
 Suite: wheezy-pgdg
 Origin: apt.postgresql.org
@@ -21,6 +51,36 @@ Architectures: source amd64 i386
 Components: main 8.2 8.3 8.4 9.0 9.1 9.2
 SignWith: ACCC4CF8
 Log: wheezy-pgdg.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+Contents:
+
+Codename: wheezy-pgdg-testing
+Suite: wheezy-pgdg-testing
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: wheezy-pgdg-testing.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+Contents:
+
+Codename: wheezy-pgdg-deprecated
+Suite: wheezy-pgdg-deprecated
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: wheezy-pgdg-deprecated.log
 Uploaders: uploaders
 DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
@@ -43,6 +103,36 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 Contents:
 
+Codename: squeeze-pgdg-testing
+Suite: squeeze-pgdg-testing
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: squeeze-pgdg-testing.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+Contents:
+
+Codename: squeeze-pgdg-deprecated
+Suite: squeeze-pgdg-deprecated
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: squeeze-pgdg-deprecated.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+Contents:
+
 Codename: lenny-pgdg
 Suite: lenny-pgdg
 Origin: apt.postgresql.org
@@ -58,6 +148,36 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 Contents:
 
+Codename: lenny-pgdg-testing
+Suite: lenny-pgdg-testing
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: lenny-pgdg-testing.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+Contents:
+
+Codename: lenny-pgdg-deprecated
+Suite: lenny-pgdg-deprecated
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: lenny-pgdg-deprecated.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+Contents:
+
 Codename: etch-pgdg
 Suite: etch-pgdg
 Origin: apt.postgresql.org
@@ -66,6 +186,36 @@ Architectures: source amd64 i386
 Components: main 8.2 8.3 8.4 9.0 9.1 9.2
 SignWith: ACCC4CF8
 Log: etch-pgdg.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+Contents:
+
+Codename: etch-pgdg-testing
+Suite: etch-pgdg-testing
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: etch-pgdg-testing.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+Contents:
+
+Codename: etch-pgdg-deprecated
+Suite: etch-pgdg-deprecated
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: etch-pgdg-deprecated.log
 Uploaders: uploaders
 DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
