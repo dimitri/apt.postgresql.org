@@ -32,3 +32,4 @@ pgsql/*bz2
 pgsql/*md5
 repo/conf/modules-packages
 repo/conf/postgresql-packages
+web/*.html

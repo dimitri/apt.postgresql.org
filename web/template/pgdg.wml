@@ -1,0 +1,13 @@
+#include <pgweb.wml>
+
+{#HEAD#}
+{#BODY#}
+{#FOOT#}
+
+# redirect <title> tag to TITLE stream
+<define-tag title endtag=required>
+{#TITLE#:%body:##}
+</define-tag>
+
+# per default we are in body
+{#BODY#:

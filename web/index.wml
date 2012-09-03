@@ -1,4 +1,7 @@
+#include <pgdg.wml>
+
 <title>PostgreSQL in Debian</title>
+
 <h1>PostgreSQL in Debian</h1>
 
 <p>We aim at building <a href="http://www.postgresql.org/">PostgreSQL</a>
