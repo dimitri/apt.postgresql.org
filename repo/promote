@@ -1,0 +1,13 @@
+#!/bin/sh
+
+PKG="$1"
+
+set -eux
+
+reprepro ls $PKG
+
+for DIST in sid wheezy squeeze ; do
+	reprepro copysrc $DIST-pgdg $DIST-pgdg-testing $PKG
+done
+
+reprepro ls $PKG
