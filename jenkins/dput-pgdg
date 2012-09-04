@@ -8,12 +8,11 @@ ls -AlR
 
 set -eux
 
-for f in $(find . -name '*.changes' -not -name '*_source.changes') ; do
-	dcmd rsync -av $f $HOST:/srv/apt/incoming
-	UPLOAD=upload
-done
+CHANGES="$(find . -name '*.changes' -not -name '*_source.changes')"
+
+dcmd rsync -av $CHANGES $HOST:/srv/apt/incoming
 
 # call processincoming.sh once for all packages uploaded
-[ "$UPLOAD" ] && ssh $HOST /srv/apt/processincoming.sh
+ssh $HOST /srv/apt/processincoming.sh
 
 # trap will clean up here
