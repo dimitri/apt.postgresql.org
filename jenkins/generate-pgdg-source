@@ -35,6 +35,14 @@ if [ -z "${BUILD_NUMBER:-}" ] ; then
   exit 1
 fi
 
+PACKAGE=${JOB_NAME%-source*}
+if [ "$PACKAGE" = "$JOB_NAME" ] ; then
+  echo "JOB_NAME $JOB_NAME does not end with -source" >2
+  exit 1
+fi
+
+REVERTS="debian/changelog"
+
 if [ "${GIT_COMMIT:-}" ]; then
   VCS=git
   VCS_REVISION=$GIT_COMMIT
@@ -57,14 +65,13 @@ elif [ "${SVN_REVISION:-}" ] ; then
   RESULT=../result
 else
   echo "Using apt-get source"
-  PACKAGE=${JOB_NAME%-source*}
   rm -rf $PACKAGE* source
   apt-get source -d $PACKAGE
   dpkg-source -x $PACKAGE*.dsc
   mv $PACKAGE-*/ source
-  VCS=apt-get
-  VCS_REVISION=""
-  VCS_REVERT=moo
+  VCS=apt
+  VCS_REVISION="sid"
+  VCS_REVERT=moo # apt-get noop :)
   cd source
   RESULT=../result
 fi
@@ -76,14 +83,39 @@ rm -rf $RESULT ../*.dsc ../*.debian.tar.* ../*.diff.gz
 PREVIOUS_VERSION=$(dpkg-parsechangelog --count 1 | awk '/^Version: / {print $2}')
 BASE_VERSION=$(echo $PREVIOUS_VERSION | sed -e 's/[~.]\(pgdg\|pgapt\).*//')
 
+# which postgresql major version to pull libpq et al. from
+# defaults to latest stable release
+PGLIBVER="9.1"
+
 case ${distribution:-} in
-  sid)     PGDG_DISTRIBUTION=".pgdg"   ;;
+  sid)     PGLIBVER="9.2" # use latest beta for sid
+           PGDG_DISTRIBUTION=".pgdg"   ;;
   jessie)  PGDG_DISTRIBUTION=".pgdg80" ;;
   wheezy)  PGDG_DISTRIBUTION=".pgdg70" ;;
   squeeze) PGDG_DISTRIBUTION=".pgdg60" ;;
   lenny)   PGDG_DISTRIBUTION=".pgdg50" ;;
   etch)    PGDG_DISTRIBUTION=".pgdg40" ;;
   *) echo "Unknown distribution ${distribution:-}" >&2 ; exit 1 ;;
+esac
+
+# for postgresql server packages, move all lib packages to a separate
+# component, unless we are building postgresql-$PGLIBVER
+case $PACKAGE in
+  postgresql-$PGLIBVER)
+    # remove x.y/ prefix (if any)
+    echo "Lib packages from $PACKAGE will go to the main component"
+    perl -i -000 -pe "s/^Section: (?:lib\/)?(.*)/Section: \$1/m if (/^Package: lib/)" \
+      debian/control
+    REVERTS="$REVERTS debian/control"
+    ;;
+  postgresql-?.?|postgresql-??.?)
+    # add x.y/ prefix
+    PGVERSION=$(echo $PACKAGE | sed -e 's/^postgresql-//')
+    echo "Setting lib packages component to $PGVERSION"
+    perl -i -000 -pe "s/^Section: (?:lib\/)?(.*)/Section: $PGVERSION\/\$1/m if (/^Package: lib/)" \
+      debian/control
+    REVERTS="$REVERTS debian/control"
+    ;;
 esac
 
 case $PREVIOUS_VERSION in
@@ -100,7 +132,7 @@ else
 fi
 
 # clean up behind a possibly broken last job
-$VCS $VCS_REVERT debian/changelog
+$VCS $VCS_REVERT $REVERTS
 
 VERSION_STRING="$BASE_VERSION$PGDG_DISTRIBUTION$PGDG_REVISION$SUFFIX"
 dch --force-distribution --distribution="$distribution-pgdg" \
@@ -115,7 +147,7 @@ if ! [ -f debian/control ] ; then
 fi
 dpkg-buildpackage -nc -d -sa -S
 
-$VCS $VCS_REVERT debian/changelog
+$VCS $VCS_REVERT $REVERTS
 
 mkdir $RESULT
 dcmd cp -alv ../*_${VERSION_STRING}_*.changes $RESULT
