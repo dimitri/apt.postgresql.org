@@ -1,13 +1,15 @@
 #!/bin/sh
 
 PKG="$1"
+#[ "$USER" = "aptuser" ] || SUDO="sudo -u aptuser"
+REPREPRO="reprepro -b /srv/apt/repo --verbose"
 
 set -eux
 
-reprepro ls $PKG
+$REPREPRO ls $PKG
 
 for DIST in sid wheezy squeeze ; do
-	reprepro copysrc $DIST-pgdg $DIST-pgdg-testing $PKG
+	$REPREPRO copysrc $DIST-pgdg $DIST-pgdg-testing $PKG
 done
 
-reprepro ls $PKG
+$REPREPRO ls $PKG
