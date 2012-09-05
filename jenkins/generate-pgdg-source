@@ -126,7 +126,8 @@ esac
 CL_DISTRIBUTION=$(dpkg-parsechangelog --count 1 | awk '/^Distribution/ {print $2}')
 if [ "$CL_DISTRIBUTION" = "UNRELEASED" ] ; then
   TIMESTAMP=$(date +%s) # seconds since 1970-01-01 00:00:00 UTC, ensuring version gets always newer...
-  SUFFIX="~${TIMESTAMP}.${VCS}${VCS_REVISION}.${BUILD_NUMBER}"
+  SHORT_REVISION=$(echo $VCS_REVISION | cut -c 1-7)
+  SUFFIX="~${TIMESTAMP}.${VCS}${SHORT_REVISION}.${BUILD_NUMBER}"
 else
   SUFFIX=""
 fi
