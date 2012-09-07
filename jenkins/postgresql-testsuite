@@ -118,7 +118,7 @@ dpkg -i $TESTDIR/*.deb || apt-get install -fy
 
 export LC_ALL='en_US.UTF-8'
 cd /usr/share/postgresql-common/
-./testsuite
+./testsuite -u 077
 EOF
 chmod +x $TESTDIR/testsuite
 
