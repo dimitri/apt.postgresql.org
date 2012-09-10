@@ -96,11 +96,13 @@ cowbuilder_run() {
 
 dist_and_arch_settings
 
-TESTDIR="/tmp/pgapt-testsuite"
-rm -rf $TESTDIR/*
-mkdir -p $TESTDIR
+TESTDIR=$(mktemp -d "/tmp/pgapt-testsuite.XXXXXXXX")
+trap "rm -rf $TESTDIR" 0 2 3 15
+
+# put packages in temp dir
 cp * $TESTDIR
 
+# create script to run testsuite in temp dir
 cat > $TESTDIR/testsuite <<EOF
 #!/bin/sh
 set -eux
@@ -113,15 +115,16 @@ echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
 echo 'ru_RU ISO-8859-5' >> /etc/locale.gen
 echo 'ru_RU.UTF-8 UTF-8' >> /etc/locale.gen
 
-apt-get install -y net-tools hunspell-en-us
+apt-get install -y eatmydata net-tools hunspell-en-us
 dpkg -i $TESTDIR/*.deb || apt-get install -fy
 
 export LC_ALL='en_US.UTF-8'
 cd /usr/share/postgresql-common/
-./testsuite -u 077
+eatmydata ./testsuite -u 077
 EOF
 chmod +x $TESTDIR/testsuite
 
+# run testsuite
 cowbuilder_run --bindmount $TESTDIR --execute $TESTDIR/testsuite
 
 # vim:foldmethod=marker ts=2 ft=sh ai expandtab sw=2
