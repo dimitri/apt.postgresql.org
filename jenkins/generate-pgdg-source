@@ -85,7 +85,7 @@ BASE_VERSION=$(echo $PREVIOUS_VERSION | sed -e 's/[~.]\(pgdg\|pgapt\).*//')
 
 # which postgresql major version to pull libpq et al. from
 # defaults to latest stable release
-PGLIBVER="9.1"
+PGLIBVER="9.2"
 
 case ${distribution:-} in
   sid)     PGLIBVER="9.2" # use latest beta for sid
