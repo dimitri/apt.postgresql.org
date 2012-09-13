@@ -118,10 +118,15 @@ case $PACKAGE in
     ;;
 esac
 
-case $PREVIOUS_VERSION in
-  *pgdg*|*pgapt*) PGDG_REVISION=$(echo $PREVIOUS_VERSION | sed -e 's/.*+/+/') ;;
-  *) PGDG_REVISION="+1" ;;
-esac
+# for binnmu-style rebuilds, add a "revision" parameter to the source job
+if [ "${revision:-}" ] ; then
+  PGDG_REVISION="+${revision}"
+else
+  case $PREVIOUS_VERSION in
+    *pgdg*|*pgapt*) PGDG_REVISION=$(echo $PREVIOUS_VERSION | sed -e 's/.*+/+/') ;;
+    *) PGDG_REVISION="+1" ;;
+  esac
+fi
 
 CL_DISTRIBUTION=$(dpkg-parsechangelog --count 1 | awk '/^Distribution/ {print $2}')
 if [ "$CL_DISTRIBUTION" = "UNRELEASED" ] ; then
