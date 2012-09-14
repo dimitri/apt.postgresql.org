@@ -79,6 +79,9 @@ fi
 # remove artifacts from last build
 rm -rf $RESULT ../*.dsc ../*.debian.tar.* ../*.diff.gz
 
+# clean up behind a possibly broken last job
+$VCS $VCS_REVERT debian/changelog debian/control || :
+
 # get newest version number from changelog
 PREVIOUS_VERSION=$(dpkg-parsechangelog --count 1 | awk '/^Version: / {print $2}')
 BASE_VERSION=$(echo $PREVIOUS_VERSION | sed -e 's/[~.]\(pgdg\|pgapt\).*//')
@@ -104,17 +107,15 @@ case $PACKAGE in
   postgresql-$PGLIBVER)
     # remove x.y/ prefix (if any)
     echo "Lib packages from $PACKAGE will go to the main component"
-    perl -i -000 -pe "s/^Section: (?:lib\/)?(.*)/Section: \$1/m if (/^Package: lib/)" \
+    perl -i -000 -pe "s/^Section: (?:lib\/)?(.*)/Section: \$1/m if (/^Package: lib/m)" \
       debian/control
-    REVERTS="$REVERTS debian/control"
     ;;
   postgresql-?.?|postgresql-??.?)
     # add x.y/ prefix
     PGVERSION=$(echo $PACKAGE | sed -e 's/^postgresql-//')
     echo "Setting lib packages component to $PGVERSION"
-    perl -i -000 -pe "s/^Section: (?:lib\/)?(.*)/Section: $PGVERSION\/\$1/m if (/^Package: lib/)" \
+    perl -i -000 -pe "s/^Section: (?:lib\/)?(.*)/Section: $PGVERSION\/\$1/m if (/^Package: lib/m)" \
       debian/control
-    REVERTS="$REVERTS debian/control"
     ;;
 esac
 
@@ -137,9 +138,6 @@ else
   SUFFIX=""
 fi
 
-# clean up behind a possibly broken last job
-$VCS $VCS_REVERT $REVERTS
-
 VERSION_STRING="$BASE_VERSION$PGDG_DISTRIBUTION$PGDG_REVISION$SUFFIX"
 dch --force-distribution --distribution="$distribution-pgdg" \
   --release-heuristic log -b --newversion=$VERSION_STRING -- \
@@ -153,7 +151,8 @@ if ! [ -f debian/control ] ; then
 fi
 dpkg-buildpackage -nc -d -sa -S
 
-$VCS $VCS_REVERT $REVERTS
+# leave no modified files behind
+$VCS $VCS_REVERT debian/changelog debian/control || :
 
 mkdir $RESULT
 dcmd cp -alv ../*_${VERSION_STRING}_*.changes $RESULT
