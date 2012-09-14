@@ -96,7 +96,7 @@ cowbuilder_run() {
 
 dist_and_arch_settings
 
-TESTDIR=$(mktemp -d "/tmp/pgapt-testsuite.XXXXXXXX")
+TESTDIR=$(mktemp -d "/tmp/postgresql-testsuite.XXXXXXXX")
 trap "rm -rf $TESTDIR" 0 2 3 15
 
 # put packages in temp dir
