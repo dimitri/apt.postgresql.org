@@ -12,10 +12,10 @@ releases for all PostgreSQL versions supported.</p>
 
 <ul>
 	<li>Debian 6.0 (squeeze)
+	<li>Debian 7.0 (wheezy)
 	<li>Debian unstable (sid)
 </ul>
 <ul>
-	<li>PostgreSQL 8.2
 	<li>PostgreSQL 8.3
 	<li>PostgreSQL 8.4
 	<li>PostgreSQL 9.0
@@ -23,18 +23,31 @@ releases for all PostgreSQL versions supported.</p>
 	<li>PostgreSQL 9.2
 </ul></p>
 
+We plan to also add support for Ubuntu.
+
+Packages for older PostgreSQL versions and older Debian distributions will be
+added on an ad-hoc basis.
+
 <h2>Using the repository</h2>
 
 Depending on your Debian version, use one of the following lines in your
 /etc/apt/sources.list:
+
+<ul>
+<li>Debian 6.0 (squeeze):
 <b>
 <pre>
-# 6.0
-deb http://pgapt.debian.net/ squeeze-pgapt main
-# unstable
-deb http://pgapt.debian.net/ sid-pgapt main
+deb http://pgapt.debian.net/ squeeze-pgdg main
 </pre>
 </b>
+<li>
+Debian 7.0 (wheezy):
+<b>
+<pre>
+deb http://pgapt.debian.net/ wheezy-pgdg main
+</pre>
+</b>
+</ul>
 
 The repository is signed with <a href="ACCC4CF8.asc">gpg key ACCC4CF8</a>.
 (Import with "apt-key add ACCC4CF8.asc".)
@@ -42,6 +55,11 @@ The repository is signed with <a href="ACCC4CF8.asc">gpg key ACCC4CF8</a>.
 <h2>News</h2>
 
 <ul>
+	<li>2012-09-15: 9.2.0 is in the repository
+
+	<li>2012-08-22: PostgreSQL in Debian Hackathon: <a href="http://www.df7cb.de/blog/2012/PostgreSQL_in_Debian_Hackathon.html">Blog posting</a> and <a href="https://github.com/dimitri/apt.postgresql.org/blob/master/hackaton-20120821.md">notes</a> <br />
+	    <b>The distribution names changed from *-pgapt to *-pgdg, please update your sources.list.</b>
+
 	<li>2012-06-07: 9.2 added, Lenny marked unsupported now
 
 	<li>2012-06-07: separate components "9.0", "9.2" etc added for
@@ -49,11 +67,12 @@ The repository is signed with <a href="ACCC4CF8.asc">gpg key ACCC4CF8</a>.
 	packages from other versions in the same suite. To install these
 	packages:
 <pre>
-# 6.0
-deb http://pgapt.debian.net/ squeeze-pgapt main 9.0 9.2
-# unstable
-deb http://pgapt.debian.net/ sid-pgapt main 9.0 9.2
+deb http://pgapt.debian.net/ squeeze-pgdg main 9.0 9.2
+deb http://pgapt.debian.net/ wheezy-pgdg main 9.0 9.2
 </pre>
+	(Usually, using the latest stable libpq5 version will be ok for users.
+	The packages built from other PostgreSQL versions are provided only for
+	completeness.)
 </ul>
 
 <h2>Resources</h2>
@@ -76,5 +95,7 @@ deb http://pgapt.debian.net/ sid-pgapt main 9.0 9.2
 <ul>
 	<li>pgsql-pkg-debian@postgresql.org (<a href="http://archives.postgresql.org/pgsql-pkg-debian/">Archives</a>)
 	<li>#postgresql-apt @ irc.freenode.net
-	<li>Christoph Berg &lt;myon@debian.org&gt;
+	<li>Christoph Berg &lt;myon@debian.org&gt;,
+	Dimitri Fontaine &lt;dimitri@2ndquadrant.fr&gt;,
+	Magnus Hagander &lt;magnus@hagander.net&gt;
 </ul>
