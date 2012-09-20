@@ -1,3 +1,0 @@
-#! /bin/bash
-
-dpkg -l postgresql-server-dev-[89]* | awk -F '[ -]' '/^ii/ {print $6}'
