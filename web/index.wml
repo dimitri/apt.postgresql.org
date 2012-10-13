@@ -55,6 +55,8 @@ The repository is signed with <a href="ACCC4CF8.asc">gpg key ACCC4CF8</a>.
 <h2>News</h2>
 
 <ul>
+	<li>2012-10-13: Repository key renewed with new expiry date.
+
 	<li>2012-10-02: Minor releases 9.2.1, 9.1.6, 9.0.10, 8.4.14, 8.3.21 built
 
 	<li>2012-09-15: 9.2.0 is in the repository
