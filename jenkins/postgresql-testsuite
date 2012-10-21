@@ -118,12 +118,16 @@ echo 'ru_RU.UTF-8 UTF-8' >> /etc/locale.gen
 apt-get install -y eatmydata net-tools hunspell-en-us
 dpkg -i $TESTDIR/*.deb || apt-get install -fy
 
+dpkg -l 'libpq*' 'postgresql*' | cat
+
 export LC_ALL='en_US.UTF-8'
 cd /usr/share/postgresql-common/
 eatmydata ./testsuite -u 077
 EOF
 chmod +x $TESTDIR/testsuite
 
+# update chroot
+cowbuilder_run --update
 # run testsuite
 cowbuilder_run --bindmount $TESTDIR --execute $TESTDIR/testsuite
 
