@@ -19,7 +19,10 @@ case $distribution in
     > /etc/apt/sources.list.d/backports.list ;;
   etch|lenny) echo "deb http://archive.debian.org/debian-backports/ ${distribution}-backports main" \
     > /etc/apt/sources.list.d/backports.list
-    PKGS="debhelper/${distribution}-backports"
+    # pull in some backports
+    # debhelper: just to make sure apt doesn't insist on the lenny version
+    # libtest-simple-perl: the testsuite needs a newer Test::More version
+    PKGS="debhelper/${distribution}-backports libtest-simple-perl/${distribution}-backports"
   ;;
 esac
 echo "deb http://atalia.postgresql.org/pgapt/pub/repos/apt/ ${distribution}-pgdg main" \
