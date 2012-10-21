@@ -107,14 +107,14 @@ case $PACKAGE in
   postgresql-$PGLIBVER)
     # remove x.y/ prefix (if any)
     echo "Lib packages from $PACKAGE will go to the main component"
-    perl -i -000 -pe "s/^Section: (?:lib\/)?(.*)/Section: \$1/m if (/^Package: lib/m)" \
+    perl -i -000 -pe "s/^Section: (?:.+\/)?(.*)/Section: \$1/m if (/^Package: lib/m)" \
       debian/control
     ;;
   postgresql-?.?|postgresql-??.?)
     # add x.y/ prefix
     PGVERSION=$(echo $PACKAGE | sed -e 's/^postgresql-//')
     echo "Setting lib packages component to $PGVERSION"
-    perl -i -000 -pe "s/^Section: (?:lib\/)?(.*)/Section: $PGVERSION\/\$1/m if (/^Package: lib/m)" \
+    perl -i -000 -pe "s/^Section: (?:.+\/)?(.*)/Section: $PGVERSION\/\$1/m if (/^Package: lib/m)" \
       debian/control
     ;;
 esac
