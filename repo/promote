@@ -1,14 +1,26 @@
 #!/bin/sh
 
+set -eu
+
 PKG="$1"
 #[ "$USER" = "aptuser" ] || SUDO="sudo -u aptuser"
 REPREPRO="reprepro -b /srv/apt/repo --verbose"
+DISTS="sid wheezy squeeze"
 
-set -eux
+while getopts "d:" opt ; do
+	case $opt in
+		d) DISTS="$OPTARG" ;;
+		*) exit 5 ;;
+	esac
+done
+# shift away args
+shift $(($OPTIND - 1))
+
+set -x
 
 $REPREPRO ls $PKG
 
-for DIST in sid wheezy squeeze ; do
+for DIST in $DISTS ; do
 	$REPREPRO copysrc $DIST-pgdg $DIST-pgdg-testing $PKG
 done
 
