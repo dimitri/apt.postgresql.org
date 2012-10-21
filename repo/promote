@@ -2,7 +2,6 @@
 
 set -eu
 
-PKG="$1"
 #[ "$USER" = "aptuser" ] || SUDO="sudo -u aptuser"
 REPREPRO="reprepro -b /srv/apt/repo --verbose"
 DISTS="sid wheezy squeeze"
@@ -15,6 +14,8 @@ while getopts "d:" opt ; do
 done
 # shift away args
 shift $(($OPTIND - 1))
+
+PKG="$1"
 
 set -x
 
