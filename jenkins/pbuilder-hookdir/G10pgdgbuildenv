@@ -18,7 +18,9 @@ case $distribution in
   squeeze) echo "deb http://deb/debian-backports/ ${distribution}-backports main" \
     > /etc/apt/sources.list.d/backports.list ;;
   etch|lenny) echo "deb http://archive.debian.org/debian-backports/ ${distribution}-backports main" \
-    > /etc/apt/sources.list.d/backports.list ;;
+    > /etc/apt/sources.list.d/backports.list
+    PKGS="debhelper/${distribution}-backports"
+  ;;
 esac
 echo "deb http://atalia.postgresql.org/pgapt/pub/repos/apt/ ${distribution}-pgdg main" \
   > /etc/apt/sources.list.d/pgdg.list
@@ -70,4 +72,4 @@ EOK
 apt-key add /etc/apt/ACCC4CF8.asc
 
 apt-get update
-apt-get install -y pgdg-buildenv
+apt-get install -y pgdg-buildenv ${PKGS:-}
