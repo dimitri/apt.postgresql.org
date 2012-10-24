@@ -41,7 +41,7 @@ if [ "$PACKAGE" = "$JOB_NAME" ] ; then
   exit 1
 fi
 
-REVERTS="debian/changelog"
+REVERTS="debian/changelog debian/control debian/rules"
 
 if [ "${GIT_COMMIT:-}" ]; then
   VCS=git
@@ -80,7 +80,7 @@ fi
 rm -rf $RESULT ../*.dsc ../*.debian.tar.* ../*.diff.gz
 
 # clean up behind a possibly broken last job
-$VCS $VCS_REVERT debian/changelog debian/control || :
+$VCS $VCS_REVERT $REVERTS || :
 
 # get newest version number from changelog
 PREVIOUS_VERSION=$(dpkg-parsechangelog --count 1 | awk '/^Version: / {print $2}')
@@ -119,6 +119,15 @@ case $PACKAGE in
     ;;
 esac
 
+# lenny does not support xz compression
+case ${distribution:-} in
+  lenny|etch)
+    case $PACKAGE in
+      postgresql-?.?|postgresql-??.?)
+        sed -i -e 's/ dh_builddeb -- -Zxz/  dh_builddeb/' debian/rules ;;
+    esac ;;
+esac
+
 # for binnmu-style rebuilds, add a "revision" parameter to the source job
 if [ "${revision:-}" ] ; then
   PGDG_REVISION="+${revision}"
@@ -152,7 +161,7 @@ fi
 dpkg-buildpackage -nc -d -sa -S
 
 # leave no modified files behind
-$VCS $VCS_REVERT debian/changelog debian/control || :
+$VCS $VCS_REVERT $REVERTS || :
 
 mkdir $RESULT
 dcmd cp -alv ../*_${VERSION_STRING}_*.changes $RESULT
