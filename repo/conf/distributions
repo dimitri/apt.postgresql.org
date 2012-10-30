@@ -11,6 +11,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: sid-pgdg-testing
@@ -26,6 +28,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: sid-pgdg-deprecated
@@ -41,6 +45,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: wheezy-pgdg
@@ -56,6 +62,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: wheezy-pgdg-testing
@@ -71,6 +79,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: wheezy-pgdg-deprecated
@@ -86,6 +96,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: squeeze-pgdg
@@ -101,6 +113,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: squeeze-pgdg-testing
@@ -116,6 +130,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: squeeze-pgdg-deprecated
@@ -131,6 +147,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: lenny-pgdg
@@ -146,6 +164,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: lenny-pgdg-testing
@@ -161,6 +181,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: lenny-pgdg-deprecated
@@ -176,6 +198,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: etch-pgdg
@@ -191,6 +215,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: etch-pgdg-testing
@@ -206,6 +232,8 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
 Codename: etch-pgdg-deprecated
@@ -221,5 +249,7 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
 Contents:
 
