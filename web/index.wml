@@ -37,14 +37,14 @@ Depending on your Debian version, use one of the following lines in your
 <li>Debian 6.0 (squeeze):
 <b>
 <pre>
-deb http://pgapt.debian.net/ squeeze-pgdg main
+deb http://apt.postgresql.org/pub/repos/apt/ squeeze-pgdg main
 </pre>
 </b>
 <li>
 Debian 7.0 (wheezy):
 <b>
 <pre>
-deb http://pgapt.debian.net/ wheezy-pgdg main
+deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main
 </pre>
 </b>
 </ul>
@@ -55,6 +55,8 @@ The repository is signed with <a href="ACCC4CF8.asc">gpg key ACCC4CF8</a>.
 <h2>News</h2>
 
 <ul>
+	<li>2012-10-31: We are on apt.postgresql.org now.
+
 	<li>2012-10-13: Repository key renewed with new expiry date.
 
 	<li>2012-10-02: Minor releases 9.2.1, 9.1.6, 9.0.10, 8.4.14, 8.3.21 built
@@ -69,10 +71,10 @@ The repository is signed with <a href="ACCC4CF8.asc">gpg key ACCC4CF8</a>.
 	<li>2012-06-07: separate components "9.0", "9.2" etc added for
 	libpq5/libpg-dev/lib... packages that would otherwise overwrite
 	packages from other versions in the same suite. To install these
-	packages:
+	packages use this (example for 9.0):
 <pre>
-deb http://pgapt.debian.net/ squeeze-pgdg main 9.0 9.2
-deb http://pgapt.debian.net/ wheezy-pgdg main 9.0 9.2
+deb http://apt.postgresql.org/pub/repos/apt/ squeeze-pgdg main 9.0
+deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main 9.0
 </pre>
 	(Usually, using the latest stable libpq5 version will be ok for users.
 	The packages built from other PostgreSQL versions are provided only for
@@ -82,9 +84,9 @@ deb http://pgapt.debian.net/ wheezy-pgdg main 9.0 9.2
 <h2>Resources</h2>
 
 <ul>
-	<li><a href="bin/packages.cgi">Overview of available packages and versions</a>
-	<li><a href="dists/">Debian dists</a>
-	<li><a href="pool/main/">Debian packages pool</a>
+#	<li><a href="bin/packages.cgi">Overview of available packages and versions</a>
+	<li><a href="pub/repos/apt/dists/">Debian dists</a>
+	<li><a href="pub/repos/apt/pool/main/">Debian packages pool</a>
 </ul>
 
 <h2>Links</h2>
