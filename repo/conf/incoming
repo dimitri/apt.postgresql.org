@@ -7,4 +7,6 @@ Allow: sid-pgdg>sid-pgdg-testing
  squeeze-pgdg>squeeze-pgdg-testing
  lenny-pgdg>lenny-pgdg-testing
  etch-pgdg>etch-pgdg-testing
+ precise-pgdg>precise-pgdg-testing
+ lucid-pgdg>lucid-pgdg-testing
 Multiple: yes
