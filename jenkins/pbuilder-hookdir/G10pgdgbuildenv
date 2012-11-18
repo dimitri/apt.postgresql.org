@@ -25,8 +25,15 @@ case $distribution in
     PKGS="debhelper/${distribution}-backports libtest-simple-perl/${distribution}-backports"
   ;;
 esac
-echo "deb http://atalia.postgresql.org/pgapt/pub/repos/apt/ ${distribution}-pgdg main" \
-  > /etc/apt/sources.list.d/pgdg.list
+cat > /etc/apt/sources.list.d/pgdg.list <<EOF
+deb http://atalia.postgresql.org/pub/repos/apt/ ${distribution}-pgdg main
+deb http://atalia.postgresql.org/pub/repos/apt/ ${distribution}-pgdg-testing main
+EOF
+cat > /etc/apt/preferences.d/pgdg.pref <<EOF
+Package: *
+Pin: release o=apt.postgresql.org
+Pin-Priority: 900
+EOF
 
 cat > /etc/apt/ACCC4CF8.asc <<EOK
 -----BEGIN PGP PUBLIC KEY BLOCK-----
