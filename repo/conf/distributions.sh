@@ -1,6 +1,7 @@
 #!/bin/sh
 
-DISTRIBUTIONS="sid wheezy squeeze lenny etch"
+DISTRIBUTIONS="sid wheezy squeeze lenny etch
+	precise lucid"
 FLAVORS="pgdg pgdg-testing pgdg-deprecated"
 
 for DIST in $DISTRIBUTIONS ; do

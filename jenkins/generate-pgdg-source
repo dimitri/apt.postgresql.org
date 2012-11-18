@@ -91,6 +91,7 @@ BASE_VERSION=$(echo $PREVIOUS_VERSION | sed -e 's/[~.]\(pgdg\|pgapt\).*//')
 PGLIBVER="9.2"
 
 case ${distribution:-} in
+  # Debian
   sid)     PGLIBVER="9.2" # use latest beta for sid
            PGDG_DISTRIBUTION=".pgdg"   ;;
   jessie)  PGDG_DISTRIBUTION=".pgdg80" ;;
@@ -98,6 +99,9 @@ case ${distribution:-} in
   squeeze) PGDG_DISTRIBUTION=".pgdg60" ;;
   lenny)   PGDG_DISTRIBUTION=".pgdg50" ;;
   etch)    PGDG_DISTRIBUTION=".pgdg40" ;;
+  # Ubuntu
+  precise) PGDG_DISTRIBUTION=".pgdg12.4" ;;
+  lucid)   PGDG_DISTRIBUTION=".pgdg10.4" ;;
   *) echo "Unknown distribution ${distribution:-}" >&2 ; exit 1 ;;
 esac
 

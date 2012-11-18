@@ -253,3 +253,105 @@ NotAutomatic: yes
 ButAutomaticUpgrades: yes
 Contents:
 
+Codename: precise-pgdg
+Suite: precise-pgdg
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: precise-pgdg.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
+Contents:
+
+Codename: precise-pgdg-testing
+Suite: precise-pgdg-testing
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: precise-pgdg-testing.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
+Contents:
+
+Codename: precise-pgdg-deprecated
+Suite: precise-pgdg-deprecated
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: precise-pgdg-deprecated.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
+Contents:
+
+Codename: lucid-pgdg
+Suite: lucid-pgdg
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: lucid-pgdg.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
+Contents:
+
+Codename: lucid-pgdg-testing
+Suite: lucid-pgdg-testing
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: lucid-pgdg-testing.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
+Contents:
+
+Codename: lucid-pgdg-deprecated
+Suite: lucid-pgdg-deprecated
+Origin: apt.postgresql.org
+Label: PostgreSQL for Debian/Ubuntu repository
+Architectures: source amd64 i386
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+SignWith: ACCC4CF8
+Log: lucid-pgdg-deprecated.log
+Uploaders: uploaders
+DebIndices: Packages Release . .gz .bz2
+UDebIndices: Packages . .gz .bz2
+DscIndices: Sources Release .gz .bz2
+Tracking: all
+NotAutomatic: yes
+ButAutomaticUpgrades: yes
+Contents:
+
