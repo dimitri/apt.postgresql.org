@@ -81,5 +81,11 @@ VPZ67j5UMxqtT/Y4+NHcQGgwF/1i
 EOK
 apt-key add /etc/apt/ACCC4CF8.asc
 
+mkdir -p /etc/postgresql-common/
+cat >> /etc/postgresql-common/supported_versions <<EOF
+# See /usr/share/postgresql-common/supported-versions for documentation of this file
+pgdg
+EOF
+
 apt-get update
 apt-get install -y pgdg-buildenv ${PKGS:-}
