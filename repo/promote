@@ -4,7 +4,7 @@ set -eu
 
 #[ "$USER" = "aptuser" ] || SUDO="sudo -u aptuser"
 REPREPRO="reprepro -b /srv/apt/repo --verbose"
-DISTS="sid wheezy squeeze"
+DISTS="sid wheezy squeeze precise"
 
 while getopts "d:" opt ; do
 	case $opt in
@@ -22,7 +22,7 @@ set -x
 $REPREPRO ls $PKG
 
 for DIST in $DISTS ; do
-	$REPREPRO copysrc $DIST-pgdg $DIST-pgdg-testing $PKG
+	${SUDO:-} $REPREPRO copysrc $DIST-pgdg $DIST-pgdg-testing $PKG
 done
 
 $REPREPRO ls $PKG
