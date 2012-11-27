@@ -77,7 +77,7 @@ else
 fi
 
 # remove artifacts from last build
-rm -rf $RESULT ../*.dsc ../*.debian.tar.* ../*.diff.gz
+rm -rf $RESULT ../*.dsc ../*.debian.tar.* ../*.diff.gz ../*.changes
 
 # clean up behind a possibly broken last job
 $VCS $VCS_REVERT $REVERTS || :
@@ -168,6 +168,6 @@ dpkg-buildpackage -nc -d -sa -S
 $VCS $VCS_REVERT $REVERTS || :
 
 mkdir $RESULT
-dcmd cp -alv ../*_${VERSION_STRING}_*.changes $RESULT
+dcmd cp -alv ../${PACKAGE}_*.changes $RESULT
 
 # vim:foldmethod=marker ts=2 ft=sh ai expandtab sw=2
