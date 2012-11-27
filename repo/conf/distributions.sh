@@ -23,7 +23,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 EOF
 	done

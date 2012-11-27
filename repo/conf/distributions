@@ -13,7 +13,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: sid-pgdg-testing
 Suite: sid-pgdg-testing
@@ -30,7 +30,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: sid-pgdg-deprecated
 Suite: sid-pgdg-deprecated
@@ -47,7 +47,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: wheezy-pgdg
 Suite: wheezy-pgdg
@@ -64,7 +64,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: wheezy-pgdg-testing
 Suite: wheezy-pgdg-testing
@@ -81,7 +81,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: wheezy-pgdg-deprecated
 Suite: wheezy-pgdg-deprecated
@@ -98,7 +98,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: squeeze-pgdg
 Suite: squeeze-pgdg
@@ -115,7 +115,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: squeeze-pgdg-testing
 Suite: squeeze-pgdg-testing
@@ -132,7 +132,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: squeeze-pgdg-deprecated
 Suite: squeeze-pgdg-deprecated
@@ -149,7 +149,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: lenny-pgdg
 Suite: lenny-pgdg
@@ -166,7 +166,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: lenny-pgdg-testing
 Suite: lenny-pgdg-testing
@@ -183,7 +183,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: lenny-pgdg-deprecated
 Suite: lenny-pgdg-deprecated
@@ -200,7 +200,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: etch-pgdg
 Suite: etch-pgdg
@@ -217,7 +217,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: etch-pgdg-testing
 Suite: etch-pgdg-testing
@@ -234,7 +234,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: etch-pgdg-deprecated
 Suite: etch-pgdg-deprecated
@@ -251,7 +251,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: precise-pgdg
 Suite: precise-pgdg
@@ -268,7 +268,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: precise-pgdg-testing
 Suite: precise-pgdg-testing
@@ -285,7 +285,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: precise-pgdg-deprecated
 Suite: precise-pgdg-deprecated
@@ -302,7 +302,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: lucid-pgdg
 Suite: lucid-pgdg
@@ -319,7 +319,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: lucid-pgdg-testing
 Suite: lucid-pgdg-testing
@@ -336,7 +336,7 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
 Codename: lucid-pgdg-deprecated
 Suite: lucid-pgdg-deprecated
@@ -353,5 +353,5 @@ DscIndices: Sources Release .gz .bz2
 Tracking: all
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents:
+Contents: percomponent nocompatsymlink
 
