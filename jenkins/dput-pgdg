@@ -1,6 +1,7 @@
 #!/bin/sh
 
 HOST="atalia.postgresql.org"
+QUEUE="${1:-incoming}"
 
 trap "rm -rf *" 0 2 3 15
 
@@ -10,9 +11,9 @@ set -eux
 
 CHANGES="$(find . -name '*.changes' -not -name '*_source.changes')"
 
-dcmd rsync -av $CHANGES $HOST:/srv/apt/incoming
+dcmd rsync -av $CHANGES $HOST:/srv/apt/$QUEUE
 
 # call processincoming.sh once for all packages uploaded
-ssh $HOST /srv/apt/processincoming.sh
+ssh $HOST /srv/apt/processincoming.sh $QUEUE
 
 # trap will clean up here
