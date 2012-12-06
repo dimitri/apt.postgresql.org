@@ -22,7 +22,8 @@ ones in /etc/apt/preferences.d/pgdg.pref:
   Pin: release o=apt.postgresql.org
   Pin-Priority: 500
 
-Update the package lists, and install the pgdg-keyring package:
+Update the package lists, and install the pgdg-keyring package to automatically
+get repository key updates:
 
   apt-get update
   apt-get install pgdg-keyring
