@@ -1,0 +1,30 @@
+PostgreSQL for Debian and Ubuntu Apt Repository
+===============================================
+
+This repository hosts PostgreSQL server and extension module packages, as well
+as some client applications.
+
+To use the repository, do the following:
+
+Import the repository key from ACCC4CF8.asc:
+
+  wget -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
+
+Edit /etc/apt/sources.list (replace squeeze with the actual distribution you
+are using):
+
+  deb http://apt.postgresql.org/pub/repos/apt/ squeeze-pgdg main
+
+Configure apt's package pinning to prefer the PGDG packages over the Debian
+ones in /etc/apt/preferences.d/pgdg.pref:
+
+  Package: *
+  Pin: release o=apt.postgresql.org
+  Pin-Priority: 500
+
+Update the package lists, and install the pgdg-keyring package:
+
+  apt-get update
+  apt-get install pgdg-keyring
+
+More information: http://wiki.postgresql.org/wiki/Apt
