@@ -1,0 +1,15 @@
+#!/bin/sh
+
+pool="/srv/apt/pub/repos/apt/pool/"
+stats="/srv/apt/stats.sql"
+date=$(date +%F)
+
+debs=$(find $pool -name \*.deb | wc -l)
+dscs=$(find $pool -name \*.dsc | wc -l)
+distinctsourceversions=$(find $pool -name '*.dsc' | xargs -n1 basename | sed -e 's/.pgdg.*//' -e 's/.bpo.*//' -e 's/.pgapt.*//' | sort -u | wc -l)
+distinctsourcenames=$(find $pool -name '*.dsc' | xargs -n1 basename | sed -e 's/_.*//' | sort -u | wc -l)
+poolsizekb=$(du -s $pool | awk '{ print $1 }')
+poolsize=$((poolsizekb*1024))
+
+echo "INSERT INTO stats (date, debs, dscs, distinctsourceversions, distinctsourceversions, poolsize)" \
+ "VALUES ('$date', $debs, $dscs, $distinctsourceversions, $distinctsourcenames, $poolsize);" >> $stats

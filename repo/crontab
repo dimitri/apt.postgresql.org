@@ -1,0 +1,4 @@
+# do not edit, this file is stored in git
+
+# collect statistics about the repository
+0 0 * * *  /srv/apt/apt.postgresql.org/repo/apt-stats
