@@ -1,0 +1,57 @@
+#!/usr/bin/perl
+
+# Copyright (C) 2012 Christoph Berg <myon@debian.org>
+# No rights reserved. Do whatever you want with this file.
+
+# Gross hack to read the contents of Pg_magic_data from a .so file
+
+use strict;
+use warnings;
+
+my $version_only = 0;
+if ($ARGV[0] eq '-v') {
+	$version_only = 1;
+	shift @ARGV;
+}
+
+my $so = $ARGV[0] || die "Usage: $0 .so";
+
+my $objdump = `objdump -d $so`;
+my $address;
+# ... # 50a0 <Pg_magic_data.18191>
+if ($objdump =~ /# ([[:xdigit:]]+) <Pg_magic_data/) {
+	$address = hex($1);
+# 0000000000006880 <Pg_magic_func>:
+#     6880:	48 8d 05 19 06 01 00 	lea    0x10619(%rip),%rax        # 16ea0 <_fini+0x11c>
+} elsif ($objdump =~ /<Pg_magic_func>:\n.* # ([[:xdigit:]]+) </) {
+	$address = hex($1);
+} else {
+	die "No Pg_magic_data found in objdump -d $so output";
+}
+#print "address is $address ($1)\n";
+
+open F, $so;
+seek F, $address, 0;
+my $data;
+read F, $data, 4; # one integer
+my $sizeof_pg_magic_struct = unpack("l", $data);;
+#print "sizeof(Pg_magic_struct): $sizeof_pg_magic_struct\n";
+read F, $data, $sizeof_pg_magic_struct - 4; # rest of Pg_magic_struct
+my @integers = unpack("l*", $data);
+my $PG_VERSION_NUM = $integers[0];
+
+if ($version_only) {
+	printf "%d.%d\n", $PG_VERSION_NUM / 100, $PG_VERSION_NUM % 100;
+	exit 0;
+}
+
+my @fields = qw(PG_VERSION_NUM);
+if ($PG_VERSION_NUM <= 803) { # 8.2 and 8.3 (Pg_magic_struct was introduced in 8.2)
+	@fields = qw(PG_VERSION_NUM FUNC_MAX_ARGS INDEX_MAX_KEYS NAMEDATALEN);
+} else { # 8.4 to 9.2
+	@fields = qw(PG_VERSION_NUM FUNC_MAX_ARGS INDEX_MAX_KEYS NAMEDATALEN FLOAT4PASSBYVAL FLOAT8PASSBYVAL);
+}
+foreach my $integer (@integers) {
+	my $field = shift @fields;
+	print "$field: $integer\n";
+}
