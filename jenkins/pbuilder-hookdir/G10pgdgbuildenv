@@ -89,5 +89,14 @@ cat >> /etc/postgresql-common/supported_versions <<EOF
 pgdg
 EOF
 
+# Ubuntu handles locales differently from Debian
+case $distribution in
+  precise|lucid)
+    locale-gen en_US.UTF-8
+    locale-gen ru_RU
+    locale-gen ru_RU.UTF-8
+  ;;
+esac
+
 apt-get update
 apt-get install -y pgdg-buildenv ${PKGS:-}
