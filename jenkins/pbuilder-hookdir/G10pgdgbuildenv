@@ -24,6 +24,8 @@ case $distribution in
     # libtest-simple-perl: the testsuite needs a newer Test::More version
     PKGS="debhelper/${distribution}-backports libtest-simple-perl/${distribution}-backports"
   ;;
+  lucid) echo "deb http://de.archive.ubuntu.com/ubuntu/ ${distribution}-backports universe" \
+    > /etc/apt/sources.list.d/backports.list ;;
 esac
 cat > /etc/apt/sources.list.d/pgdg.list <<EOF
 deb http://atalia.postgresql.org/pub/repos/apt/ ${distribution}-pgdg main
