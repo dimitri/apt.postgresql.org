@@ -123,9 +123,9 @@ case $PACKAGE in
     ;;
 esac
 
-# lenny does not support xz compression
+# lenny/lucid do not support xz compression
 case ${distribution:-} in
-  lenny|etch)
+  lenny|etch|lucid)
     case $PACKAGE in
       postgresql-?.?|postgresql-??.?)
         sed -i -e 's/	dh_builddeb -- -Zxz/	dh_builddeb/' debian/rules ;;
