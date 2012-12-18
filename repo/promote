@@ -4,7 +4,7 @@ set -eu
 
 [ "$USER" = "aptuser" ] || SUDO="sudo -u aptuser"
 REPREPRO="reprepro -b /srv/apt/repo --verbose"
-DISTS="sid wheezy squeeze precise"
+DISTS="sid wheezy squeeze precise lucid"
 
 while getopts "d:" opt ; do
 	case $opt in
