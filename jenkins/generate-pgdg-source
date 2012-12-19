@@ -160,7 +160,7 @@ origtargz --tar-only --path=/home/jenkins/tarballs -d
 if ! [ -f debian/control ] ; then
   make -f debian/rules debian/control
 fi
-dpkg-buildpackage -nc -d -sa -S
+dpkg-buildpackage -nc -d -sa -S -i -I
 
 # leave no modified files behind
 $VCS $VCS_REVERT $REVERTS || :
