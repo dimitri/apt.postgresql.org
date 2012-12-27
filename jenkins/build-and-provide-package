@@ -50,6 +50,7 @@ bailout() {
 
   echo "*** Getting rid of files in $WORKSPACE/binaries/ to avoid problems in next run. ***"
   rm -f "$WORKSPACE"/binaries/*
+  sudo rm -rf /tmp/adt-$$
 
   [ -n "$start_seconds" ] && SECONDS="$[$(cut -d . -f 1 /proc/uptime)-$start_seconds]" || SECONDS="unknown"
   echo "*** Finished execution of $0 at $(date) [running ${SECONDS} seconds] ***"
@@ -477,7 +478,6 @@ binaries_to_workspace() {
   cp -a /tmp/adt-$$ adt
   touch adt/summary # fake file if there is no testsuite
   adtsummary2junit adt/summary > autopkgtest.xml
-  sudo rm -rf /tmp/adt-$$
 }
 
 # main execution
