@@ -14,7 +14,8 @@ if [ ! -f debian/files ]; then
 	exit 1
 fi
 
-TMPADT=/tmp/adt-*/
+set -- /tmp/adt-*/
+TMPADT="$1"
 if [ ! -d "$TMPADT" ]; then
 	echo "Didn't find any /tmp/adt-*/ directory. It should have been created before invoking cowbuilder."
 	ls -al /tmp
