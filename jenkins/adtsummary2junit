@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+
+# http://stackoverflow.com/questions/4922867/junit-xml-format-specification-that-hudson-supports
+
+use strict;
+use warnings;
+
+my $seen = 0;
+
+print "<testsuite>\n";
+
+while (<>) {
+	/^(\S+)\s+(\S+)\s*(.*)/ or warn "could not parse: $_";
+	my ($name, $result, $error) = ($1, $2, $3);
+	if ($result eq "PASS") {
+		print "  <testcase classname=\"autopkgtest\" name=\"$name\"/>\n";
+	} else {
+		print "  <testcase classname=\"autopkgtest\" name=\"$name\">\n";
+		print "    <failure type=\"$result\">$result $error</failure>\n";
+		print "  </testcase>\n";
+	}
+	$seen++;
+}
+
+unless ($seen) {
+	print "  <testcase classname=\"dummy\" name=\"no-tests-run\"/>\n";
+}
+
+print "</testsuite>\n";
+

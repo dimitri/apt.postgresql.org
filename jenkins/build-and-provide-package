@@ -280,7 +280,7 @@ identify_build_type() {
 
 cowbuilder_run() {
   echo "*** cowbuilder build phase for arch $architecture ***"
-  mkdir -p "$WORKSPACE"/binaries/
+  mkdir -p "$WORKSPACE"/binaries/ /tmp/adt-$$
 
   # make sure we build arch specific packages only when necessary
   identify_build_type
@@ -294,14 +294,14 @@ cowbuilder_run() {
       linux32 sudo cowbuilder --buildresult "$WORKSPACE"/binaries/ \
         --build $sourcefile \
         --basepath "${COWBUILDER_BASE}" --debbuildopts "${DEBBUILDOPTS:-}" \
-        --hookdir $HOME/pbuilder-hookdir
+        --hookdir $HOME/pbuilder-hookdir --bindmounts /tmp/adt-$$
       [ $? -eq 0 ] || bailout 1 "Error: Failed to build with cowbuilder."
       ;;
     amd64|all|*)
       sudo cowbuilder --buildresult "$WORKSPACE"/binaries/ \
         --build $sourcefile \
         --basepath "${COWBUILDER_BASE}" --debbuildopts "${DEBBUILDOPTS:-}" \
-        --hookdir $HOME/pbuilder-hookdir
+        --hookdir $HOME/pbuilder-hookdir --bindmounts /tmp/adt-$$
       [ $? -eq 0 ] || bailout 1 "Error: Failed to build with cowbuilder."
       ;;
     *)
@@ -471,6 +471,13 @@ binaries_to_workspace() {
   echo "*** Moving binaries files to workspace. ***"
   mv "${WORKSPACE}/binaries/"* "${WORKSPACE}/"
   rmdir "${WORKSPACE}/binaries/"
+  # copy autopkgtest results from /tmp
+  rm -rf adt autopkgtest.xml
+  sudo chmod -R go+rX /tmp/adt-$$
+  cp -a /tmp/adt-$$ adt
+  touch adt/summary # fake file if there is no testsuite
+  adtsummary2junit adt/summary > autopkgtest.xml
+  sudo rm -rf /tmp/adt-$$
 }
 
 # main execution
