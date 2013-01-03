@@ -3,7 +3,7 @@ Suite: sid-pgdg
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
-Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2 9.3
 SignWith: ACCC4CF8
 Log: sid-pgdg.log
 Uploaders: uploaders
@@ -20,7 +20,7 @@ Suite: sid-pgdg-testing
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
-Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2 9.3
 SignWith: ACCC4CF8
 Log: sid-pgdg-testing.log
 Uploaders: uploaders
@@ -37,7 +37,7 @@ Suite: sid-pgdg-deprecated
 Origin: apt.postgresql.org
 Label: PostgreSQL for Debian/Ubuntu repository
 Architectures: source amd64 i386
-Components: main 8.2 8.3 8.4 9.0 9.1 9.2
+Components: main 8.2 8.3 8.4 9.0 9.1 9.2 9.3
 SignWith: ACCC4CF8
 Log: sid-pgdg-deprecated.log
 Uploaders: uploaders
