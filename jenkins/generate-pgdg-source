@@ -113,12 +113,18 @@ case $PACKAGE in
     echo "Lib packages from $PACKAGE will go to the main component"
     perl -i -000 -pe "s/^Section: (?:.+\/)?(.*)/Section: \$1/m if (/^Package: lib/m)" \
       debian/control
+    # display result
+    perl -000 -ne 'if (/^(Package: lib.*)/m) { print "$1 "; print "$1\n" if /^(Section: .*)/m; }' \
+      debian/control
     ;;
   postgresql-?.?|postgresql-??.?)
     # add x.y/ prefix
     PGVERSION=$(echo $PACKAGE | sed -e 's/^postgresql-//')
     echo "Setting lib packages component to $PGVERSION"
     perl -i -000 -pe "s/^Section: (?:.+\/)?(.*)/Section: $PGVERSION\/\$1/m if (/^Package: lib/m)" \
+      debian/control
+    # display result
+    perl -000 -ne 'if (/^(Package: lib.*)/m) { print "$1 "; print "$1\n" if /^(Section: .*)/m; }' \
       debian/control
     ;;
 esac
