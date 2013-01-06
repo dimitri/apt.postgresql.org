@@ -279,6 +279,15 @@ identify_build_type() {
   rm -rf "${TMPDIR}"
 }
 
+autopkgtest_resuts () {
+  # copy autopkgtest results from /tmp
+  rm -rf adt autopkgtest.xml
+  sudo chmod -R go+rX /tmp/adt-$$
+  cp -a /tmp/adt-$$ adt
+  touch adt/summary # fake file if there is no testsuite
+  adtsummary2junit adt/summary > autopkgtest.xml
+}
+
 cowbuilder_run() {
   echo "*** cowbuilder build phase for arch $architecture ***"
   mkdir -p "$WORKSPACE"/binaries/ /tmp/adt-$$
@@ -287,6 +296,7 @@ cowbuilder_run() {
   identify_build_type
 
   if $SKIP_ARCH_BUILD ; then
+    autopkgtest_resuts
     bailout 0 "Nothing to do, architecture all binary packages only for non-primary architecture."
   fi
 
@@ -472,12 +482,6 @@ binaries_to_workspace() {
   echo "*** Moving binaries files to workspace. ***"
   mv "${WORKSPACE}/binaries/"* "${WORKSPACE}/"
   rmdir "${WORKSPACE}/binaries/"
-  # copy autopkgtest results from /tmp
-  rm -rf adt autopkgtest.xml
-  sudo chmod -R go+rX /tmp/adt-$$
-  cp -a /tmp/adt-$$ adt
-  touch adt/summary # fake file if there is no testsuite
-  adtsummary2junit adt/summary > autopkgtest.xml
 }
 
 # main execution
@@ -507,6 +511,7 @@ else
 fi
 
 binaries_to_workspace
+autopkgtest_resuts
 
 bailout 0
 
