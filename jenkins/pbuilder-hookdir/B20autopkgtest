@@ -22,6 +22,9 @@ if [ ! -d "$TMPADT" ]; then
 	exit 1
 fi
 
+# environment variable for postgresql-common testsuite
+export PG_UMASKS="077"
+
 apt-get install -y autopkgtest apt-utils pbuilder
 
 mkdir -p "$TMPADT/out"
