@@ -25,7 +25,7 @@ fi
 # environment variable for postgresql-common testsuite
 export PG_UMASKS="077"
 
-apt-get install -y autopkgtest apt-utils pbuilder
+apt-get install -y autopkgtest apt-utils pbuilder newpid
 
 mkdir -p "$TMPADT/out"
 binaries=$(awk '/\.deb / { print "--binary ../" $1 }' debian/files)
