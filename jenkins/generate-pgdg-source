@@ -3,7 +3,7 @@
 # The MIT License
 #
 # Copyright (c) 2011,2012 by Michael Prokop <mika@debian.org>
-# Copyright (c) 2012 by Christoph Berg <myon@debian.org>
+# Copyright (c) 2012,2013 by Christoph Berg <myon@debian.org>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -69,7 +69,7 @@ else
   apt-get source -d $PACKAGE
   dpkg-source -x $PACKAGE*.dsc
   mv $PACKAGE-*/ source
-  VCS=apt
+  VCS=apt-get
   VCS_REVISION="sid"
   VCS_REVERT=moo # apt-get noop :)
   cd source
@@ -148,8 +148,9 @@ else
   esac
 fi
 
+# set $UNRELEASED to force using a ~version
 CL_DISTRIBUTION=$(dpkg-parsechangelog --count 1 | awk '/^Distribution/ {print $2}')
-if echo "$CL_DISTRIBUTION" | grep -q "UNRELEASED" ; then
+if [ "${UNRELEASED:-}" ] || echo "$CL_DISTRIBUTION" | grep -q "UNRELEASED" ; then
   SHORT_REVISION=$(echo $VCS_REVISION | cut -c 1-7)
   SUFFIX="~${BUILD_NUMBER}.${VCS}${SHORT_REVISION}"
 else
@@ -165,7 +166,7 @@ origtargz --tar-only --path=/home/jenkins/tarballs -d
 if ! [ -f debian/control ] ; then
   make -f debian/rules debian/control
 fi
-dpkg-buildpackage -nc -d -sa -S -i -I
+dpkg-buildpackage -uc -us -nc -d -sa -S -i -I
 
 # leave no modified files behind
 $VCS $VCS_REVERT $REVERTS || :
