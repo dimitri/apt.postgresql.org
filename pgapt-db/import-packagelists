@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright (c) 2009, 2010, 2011, 2012 Christoph Berg <myon@debian.org>
+# Copyright (c) 2009-2013 Christoph Berg <myon@debian.org>
 #
 # getdpkginfo by
 # Copyright (C) 2005  Jeroen van Wolffelaar <jeroen@wolffelaar.nl>
@@ -31,47 +31,24 @@
 
 import apt_pkg, psycopg2, os, re, sys, time
 
-ftp_prefix = "/cb/cb"
+ftp_prefix = "/home/cbe/projects/postgresql/apt.postgresql.org/repo"
 
-def getdpkginfo(archive, deb):
-    debpath = "%s/%s/%s" % (ftp_prefix, archive, deb)
-    if verbose:
-        print "  Reading", debpath
-    dpkginfo = os.popen("dpkg-deb -I %s control" % debpath)
-    section = priority = None
-    for dpkgline in dpkginfo:
-        if dpkgline.find(':') == -1: continue
-        (key, value) = dpkgline.split(':', 1)
-        key = key.lower()
-        if key == "section":
-            section = value.strip()
-        elif key == "priority":
-            priority = value.strip()
-    if dpkginfo.close():
-        #raise Exception, "Failed to read %s" % deb
-        print "Failed to read %s" % deb
-    return (section, priority)
-
-pg = psycopg2.connect('dbname=pgapt')
+pg = psycopg2.connect('dbname=pgdg')
 cur = pg.cursor()
 cur.execute("SET search_path TO apt")
 
-def parseFile(suite_id, archive, suite, component, architecture, packagesfile):
+def parseSourceFile(distribution, component, packagesfile):
     if not os.path.isfile(packagesfile):
         raise Exception("%s not found" % packagesfile)
     stdout = os.popen("bzcat '%s'" % packagesfile)
     #stdout = file(packagesfile)
     parse = apt_pkg.TagFile(stdout)
 
-    source_re = re.compile('(.*) \((.*)\)')
-    binnmu_re = re.compile('\+b\d+$')
-    # There must be a smarter way than to require the last char to be a >
-    uploaders_re = re.compile('[^,@ ][^@]+@[^@]+>')
-    striplong_re = re.compile('\n.*')
-
     # clear the suite
     cur.execute("BEGIN")
-    cur.execute("""DELETE FROM packagelist WHERE suite_id = %s""", [suite_id])
+    cur.execute("""DELETE FROM sourcelist WHERE
+                   (distribution, component) = (%s, %s)""",
+                   [distribution, component])
 
     # for every package ...
     while parse.step():
@@ -80,145 +57,104 @@ def parseFile(suite_id, archive, suite, component, architecture, packagesfile):
         control = "\n".join([ "%s: %s" % (k, parse.section.get(k)) \
                 for k in parse.section.keys() ])
 
-        if architecture == 'source':
-            pkg_architecture = 'source'
-            maintainer = parse.section.get('Maintainer')
-            uploaders = parse.section.get('Uploaders')
-            section = parse.section.get('Section')
-            priority = parse.section.get('Priority')
-            dm_upload_allowed = parse.section.get('Dm-Upload-Allowed') == 'yes'
-        else:
-            pkg_architecture = parse.section.get('Architecture')
+        # store package control file
+        cur.execute("""SELECT 1 FROM source
+                       WHERE (source, srcversion) = (%s, %s)""",
+                       [package, version])
+        found = cur.fetchone()
+        if not found: # this is the first time we see this package, extract more information
+            cur.execute("""INSERT INTO source (source, srcversion, control, c)
+                           VALUES (%s, %s, %s, control2hstore(%s))""",
+                           [package, version, control, control])
+
+        # finally, add the package to the suite's package list
+        cur.execute("""INSERT INTO sourcelist
+                       (distribution, component, source, srcversion)
+                       VALUES (%s, %s, %s, %s)""",
+                       [distribution, component, package, version])
+
+    cur.execute("COMMIT")
+
+def parseFile(distribution, component, architecture, packagesfile):
+    if not os.path.isfile(packagesfile):
+        raise Exception("%s not found" % packagesfile)
+    stdout = os.popen("bzcat '%s'" % packagesfile)
+    #stdout = file(packagesfile)
+    parse = apt_pkg.TagFile(stdout)
+
+    source_re = re.compile('(.*) \((.*)\)')
+    binnmu_re = re.compile('\+b\d+$')
+
+    # clear the suite
+    cur.execute("BEGIN")
+    cur.execute("""DELETE FROM packagelist WHERE
+                   (distribution, component, architecture) = (%s, %s, %s)""",
+                   [distribution, component, architecture])
+
+    # for every package ...
+    while parse.step():
+        package = parse.section.get('Package')
+        version = parse.section.get('Version')
+        arch = parse.section.get('Architecture')
+        control = "\n".join([ "%s: %s" % (k, parse.section.get(k)) \
+                for k in parse.section.keys() ])
 
         # store package control file
-        cur.execute("""SELECT package_id FROM package
-                       WHERE (package, version, pkg_architecture) = (%s, %s, %s)""",
-                       [package, version, pkg_architecture])
+        cur.execute("""SELECT 1 FROM package
+                       WHERE (package, version, arch) = (%s, %s, %s)""",
+                       [package, version, arch])
         found = cur.fetchone()
-        if found:
-            package_id = found[0]
-        else: # this is the first time we see this package, extract more information
+        if not found: # this is the first time we see this package, extract more information
 
-            source_id = None
-            if pkg_architecture <> 'source':
-                # decode 'Source' field
-                sourcefield = parse.section.get('Source')
-                if sourcefield:
-                    match = source_re.match(sourcefield)
-                    if match:
-                        source, source_version = match.group(1), match.group(2)
-                    else:
-                        source, source_version = sourcefield, version
+            sourcefield = parse.section.get('Source')
+            if sourcefield:
+                match = source_re.match(sourcefield)
+                if match:
+                    source, source_version = match.group(1), match.group(2)
                 else:
-                    source, source_version = package, version
-                if binnmu_re.search(source_version):
-                    print "WARNING: %s %s %s %s: source %s %s for %s %s (%s) has binnmu version number, fixing" % \
-                        (archive, suite, component, architecture, source, source_version,
-                                package, version, pkg_architecture)
-                    source_version = binnmu_re.sub('', source_version)
-
-                # find link to source package
-                cur.execute("""SELECT package_id FROM package
-                               WHERE (package, version, pkg_architecture) =
-                                     (%s, %s, 'source')""", [source, source_version])
-                found = cur.fetchone()
-                if found:
-                    source_id = found[0]
-                else:
-                    print "WARNING: %s %s %s %s: source %s %s for %s %s (%s) not found" % \
-                        (archive, suite, component, architecture, source, source_version,
-                                package, version, pkg_architecture)
-
-            cur.execute("""INSERT INTO package (package, version, pkg_architecture, source_id)
-                           VALUES (%s, %s, %s, %s) RETURNING package_id""",
-                           [package, version, pkg_architecture, source_id])
-            package_id = cur.fetchone()[0]
-            cur.execute("""INSERT INTO package_control (package_id, control)
-                           VALUES (%s, %s)""", [package_id, control])
-
-            # this is a binary package
-            if pkg_architecture <> 'source':
-
-                # extract more fields
-                description = re.sub(striplong_re, '', parse.section.get('Description'))
-                if description:
-                    cur.execute("""INSERT INTO package_info
-                                   (package_id, field, value)
-                                   VALUES (%s, 'Description', %s)""",
-                                   [package_id, description])
-
-                section = parse.section.get('Section')
-                if section:
-                    cur.execute("""INSERT INTO package_info
-                                   (package_id, field, value)
-                                   VALUES (%s, 'Section', %s)""",
-                                   [package_id, section])
-
-                priority = parse.section.get('Priority')
-                if priority:
-                    cur.execute("""INSERT INTO package_info
-                                   (package_id, field, value)
-                                   VALUES (%s, 'Priority', %s)""",
-                                   [package_id, priority])
-
-                filename = parse.section.get('Filename')
-                if filename:
-                    (debsection, debpriority) = getdpkginfo(archive, filename)
-                    if debsection:
-                        cur.execute("""INSERT INTO package_info
-                                       (package_id, field, value)
-                                       VALUES (%s, 'deb-Section', %s)""",
-                                       [package_id, debsection])
-                    if debpriority:
-                        cur.execute("""INSERT INTO package_info
-                                       (package_id, field, value)
-                                       VALUES (%s, 'deb-Priority', %s)""",
-                                       [package_id, debpriority])
-
-
-            # this is a source package
+                    source, source_version = sourcefield, version
             else:
-                cur.execute("""INSERT INTO source
-                               (package_id, maintainer, section, priority, dm_upload_allowed)
-                               VALUES (%s, maint_id_or_new(%s), %s, %s, %s)""",
-                               [package_id, maintainer, section, priority, dm_upload_allowed])
+                source, source_version = package, version
+            if binnmu_re.search(source_version):
+                print "WARNING: %s %s %s: source %s %s for %s %s (%s) has binnmu version number, fixing" % \
+                    (distribution, component, architecture, source, source_version,
+                            package, version, arch)
+                source_version = binnmu_re.sub('', source_version)
 
-                if uploaders:
-                    dudes = {}
-                    for uploader in uploaders_re.findall(uploaders):
-                        if dudes.has_key(uploader):
-                            print "WARNING: %s %s %s %s: package %s has listed uploader %s twice" % \
-                                    (archive, suite, component, architecture, package, uploader)
-                            continue
-                        cur.execute("""INSERT INTO uploader (package_id, maintainer)
-                                       VALUES (%s, maint_id_or_new(%s))""",
-                                       [package_id, uploader])
-                        dudes[uploader] = 1
+#            # find link to source package
+#            cur.execute("""SELECT 1 FROM source
+#                           WHERE (source, srcversion) = (%s, %s)""",
+#                        [source, source_version])
+#            found = cur.fetchone()
+#            if not found:
+#                print "WARNING: %s %s %s: source %s %s for %s %s (%s) not found" % \
+#                    (distribution, component, architecture, source, source_version,
+#                            package, version, arch)
+
+            cur.execute("""INSERT INTO package (package, version, arch, control, c, source, srcversion)
+                           VALUES (%s, %s, %s, %s, control2hstore(%s), %s, %s)""",
+                           [package, version, arch, control, control, source, source_version])
 
         # finally, add the package to the suite's package list
         cur.execute("""INSERT INTO packagelist
-                       (suite_id, package_id) VALUES (%s, %s)""",
-                       [suite_id, package_id])
+                       (distribution, component, architecture, package, version, arch)
+                       VALUES (%s, %s, %s, %s, %s, %s)""",
+                       [distribution, component, architecture, package, version, arch])
 
     cur.execute("COMMIT")
 
 verbose = sys.argv.__len__() > 1
 
-cur.execute("""SELECT suite_id, archive, suite, component, architecture,
+cur.execute("""SELECT distribution, component,
                   extract (epoch from last_update) AS last_update
-               FROM suite
+               FROM srcdistribution
                WHERE active
-               ORDER BY CASE WHEN architecture = 'source' THEN 1 ELSE 2 END
                FOR UPDATE NOWAIT""")
 suites = cur.fetchall()
 
-for suite_id, archive, suite, component, architecture, last_update in suites:
-    if architecture == 'source':
-        arch = 'source/Sources.bz2'
-    else:
-        arch = "binary-%s/Packages.bz2" % architecture
-    packagesfile = ftp_prefix + "/%s/dists/%s/%s/%s" % \
-            (archive, suite, component, arch)
+for distribution, component, last_update in suites:
+    packagesfile = ftp_prefix + "/dists/%s/%s/source/Sources.bz2" % \
+            (distribution, component)
 
     if not os.path.exists(packagesfile):
         print "WARNING:", packagesfile, "not found"
@@ -228,10 +164,41 @@ for suite_id, archive, suite, component, architecture, last_update in suites:
     if not last_update or mtime > last_update:
         if verbose:
             print "Reading %s" % packagesfile
-        parseFile(suite_id, archive, suite, component, architecture, packagesfile)
+        parseSourceFile(distribution, component, packagesfile)
 
-        update = """UPDATE suite SET last_update = %s WHERE suite_id = %s"""
-        cur.execute(update, [time.ctime(mtime), suite_id])
+        update = """UPDATE srcdistribution SET last_update = %s WHERE
+                    (distribution, component) = (%s, %s)"""
+        cur.execute(update, [time.ctime(mtime), distribution, component])
+        cur.execute("COMMIT")
+    else:
+        if verbose:
+            print "Skipping up to date %s" % packagesfile
+
+cur.execute("""SELECT distribution, component, architecture,
+                  extract (epoch from last_update) AS last_update
+               FROM distribution
+               WHERE active
+               ORDER BY CASE WHEN architecture = 'source' THEN 1 ELSE 2 END
+               FOR UPDATE NOWAIT""")
+suites = cur.fetchall()
+
+for distribution, component, architecture, last_update in suites:
+    packagesfile = ftp_prefix + "/dists/%s/%s/binary-%s/Packages.bz2" % \
+            (distribution, component, architecture)
+
+    if not os.path.exists(packagesfile):
+        print "WARNING:", packagesfile, "not found"
+        continue
+
+    mtime = os.path.getmtime(packagesfile)
+    if not last_update or mtime > last_update:
+        if verbose:
+            print "Reading %s" % packagesfile
+        parseFile(distribution, component, architecture, packagesfile)
+
+        update = """UPDATE distribution SET last_update = %s WHERE
+                    (distribution, component, architecture) = (%s, %s, %s)"""
+        cur.execute(update, [time.ctime(mtime), distribution, component, architecture])
         cur.execute("COMMIT")
     else:
         if verbose:
