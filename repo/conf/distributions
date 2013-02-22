@@ -11,8 +11,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: sid-pgdg-testing
@@ -28,9 +26,9 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+Contents: percomponent nocompatsymlink
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents: percomponent nocompatsymlink
 
 Codename: sid-pgdg-deprecated
 Suite: sid-pgdg-deprecated
@@ -45,8 +43,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: wheezy-pgdg
@@ -62,8 +58,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: wheezy-pgdg-testing
@@ -79,9 +73,9 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+Contents: percomponent nocompatsymlink
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents: percomponent nocompatsymlink
 
 Codename: wheezy-pgdg-deprecated
 Suite: wheezy-pgdg-deprecated
@@ -96,8 +90,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: squeeze-pgdg
@@ -113,8 +105,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: squeeze-pgdg-testing
@@ -130,9 +120,9 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+Contents: percomponent nocompatsymlink
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents: percomponent nocompatsymlink
 
 Codename: squeeze-pgdg-deprecated
 Suite: squeeze-pgdg-deprecated
@@ -147,8 +137,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: lenny-pgdg
@@ -164,8 +152,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: lenny-pgdg-testing
@@ -181,9 +167,9 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+Contents: percomponent nocompatsymlink
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents: percomponent nocompatsymlink
 
 Codename: lenny-pgdg-deprecated
 Suite: lenny-pgdg-deprecated
@@ -198,8 +184,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: etch-pgdg
@@ -215,8 +199,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: etch-pgdg-testing
@@ -232,9 +214,9 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+Contents: percomponent nocompatsymlink
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents: percomponent nocompatsymlink
 
 Codename: etch-pgdg-deprecated
 Suite: etch-pgdg-deprecated
@@ -249,8 +231,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: precise-pgdg
@@ -266,8 +246,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: precise-pgdg-testing
@@ -283,9 +261,9 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+Contents: percomponent nocompatsymlink
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents: percomponent nocompatsymlink
 
 Codename: precise-pgdg-deprecated
 Suite: precise-pgdg-deprecated
@@ -300,8 +278,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: lucid-pgdg
@@ -317,8 +293,6 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 
 Codename: lucid-pgdg-testing
@@ -334,9 +308,9 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
+Contents: percomponent nocompatsymlink
 NotAutomatic: yes
 ButAutomaticUpgrades: yes
-Contents: percomponent nocompatsymlink
 
 Codename: lucid-pgdg-deprecated
 Suite: lucid-pgdg-deprecated
@@ -351,7 +325,5 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
 

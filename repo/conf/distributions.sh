@@ -23,10 +23,13 @@ DebIndices: Packages Release . .gz .bz2
 UDebIndices: Packages . .gz .bz2
 DscIndices: Sources Release .gz .bz2
 Tracking: all
-NotAutomatic: yes
-ButAutomaticUpgrades: yes
 Contents: percomponent nocompatsymlink
-
 EOF
+		case $FLAVOR in *testing)
+			echo "NotAutomatic: yes"
+			echo "ButAutomaticUpgrades: yes"
+			;;
+		esac
+		echo
 	done
 done
