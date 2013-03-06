@@ -1,7 +1,7 @@
 BEGIN;
 
 INSERT INTO architecture
-    SELECT * FROM (VALUES ('amd64'), ('i386')) arch(architecture)
+    SELECT * FROM (VALUES ('all'), ('amd64'), ('i386')) arch(architecture)
     WHERE NOT EXISTS (SELECT * FROM architecture
           WHERE architecture = arch.architecture);
 
