@@ -68,7 +68,7 @@ CREATE TABLE package (
 
 	PRIMARY KEY (package, version, arch)
 );
-ALTER TABLE package ADD FOREIGN KEY (source, srcversion) REFERENCES source (source, srcversion);
+--ALTER TABLE package ADD FOREIGN KEY (source, srcversion) REFERENCES source (source, srcversion);
 
 
 -- SUITE DATA
