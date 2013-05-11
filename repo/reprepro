@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export REPREPRO_BASE_DIR="/srv/apt/repo"
+/usr/bin/reprepro -b "$REPREPRO_BASE_DIR" --morguedir "$REPREPRO_BASE_DIR/morgue" "$@"

@@ -5,6 +5,8 @@ QUEUE="${1:-incoming}"
 
 [ "$USER" = "aptuser" ] || SUDO="sudo -u aptuser"
 
+export REPREPRO_BASE_DIR="/srv/apt/repo"
+
 set -ex
 
-$SUDO /usr/bin/reprepro -b /srv/apt/repo --verbose processincoming pgdg
+$SUDO /usr/bin/reprepro -b "REPREPRO_BASE_DIR" --morguedir "$REPREPRO_BASE_DIR/morgue" --verbose processincoming pgdg
