@@ -7,8 +7,12 @@ FLAVORS="pgdg pgdg-testing pgdg-deprecated"
 for DIST in $DISTRIBUTIONS ; do
 	for FLAVOR in $FLAVORS ; do
 		D="$DIST-$FLAVOR"
-		COMPONENTS="main 8.2 8.3 8.4 9.0 9.1 9.2"
-		[ "$DIST" = "sid" ] && COMPONENTS="$COMPONENTS 9.3"
+		case $DIST in
+			lenny|etch)
+				COMPONENTS="main 8.2 8.3 8.4 9.0 9.1 9.2" ;;
+			*)
+				COMPONENTS="main 8.2 8.3 8.4 9.0 9.1 9.2 9.3" ;;
+		esac
 		cat <<EOF
 Codename: $D
 Suite: $D
