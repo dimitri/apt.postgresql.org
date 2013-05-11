@@ -9,4 +9,4 @@ export REPREPRO_BASE_DIR="/srv/apt/repo"
 
 set -ex
 
-$SUDO /usr/bin/reprepro -b "REPREPRO_BASE_DIR" --morguedir "$REPREPRO_BASE_DIR/morgue" --verbose processincoming pgdg
+$SUDO /usr/bin/reprepro -b "$REPREPRO_BASE_DIR" --morguedir "$REPREPRO_BASE_DIR/morgue" --verbose processincoming pgdg
