@@ -127,6 +127,14 @@ case $PACKAGE in
     perl -000 -ne 'if (/^(Package: lib.*)/m) { print "$1 "; print "$1\n" if /^(Section: .*)/m; }' \
       debian/control
     ;;
+
+  psqlodbc)
+    case ${distribution:-} in
+      wheezy|precise) # odbc-postgreql conflicts with libiodbc2, skip iodbc test here
+        sed -i -e 's/, iodbc//' debian/tests/control
+        ;;
+    esac
+    ;;
 esac
 
 # lenny/lucid do not support xz compression
