@@ -1,5 +1,9 @@
 #!/bin/sh
 
-dpkg -l 'libpq*' 'postgresql*'
+dpkg -l 'libpq*' 'postgresql*' libc6
+
+gcc --version | head -n1
+g++ --version | head -n1
+cpp --version | head -n1
 
 exit 0
