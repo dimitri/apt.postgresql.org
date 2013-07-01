@@ -93,15 +93,15 @@ PGLIBVER="9.2"
 case ${distribution:-} in
   # Debian
   sid)     PGLIBVER="9.2" # use latest beta for sid
-           PGDG_DISTRIBUTION=".pgdg"   ;;
-  jessie)  PGDG_DISTRIBUTION=".pgdg80" ;;
-  wheezy)  PGDG_DISTRIBUTION=".pgdg70" ;;
-  squeeze) PGDG_DISTRIBUTION=".pgdg60" ;;
-  lenny)   PGDG_DISTRIBUTION=".pgdg50" ;;
-  etch)    PGDG_DISTRIBUTION=".pgdg40" ;;
+           PGDG_DISTRIBUTION="pgdg"   ;;
+  jessie)  PGDG_DISTRIBUTION="pgdg80" ;;
+  wheezy)  PGDG_DISTRIBUTION="pgdg70" ;;
+  squeeze) PGDG_DISTRIBUTION="pgdg60" ;;
+  lenny)   PGDG_DISTRIBUTION="pgdg50" ;;
+  etch)    PGDG_DISTRIBUTION="pgdg40" ;;
   # Ubuntu
-  precise) PGDG_DISTRIBUTION=".pgdg12.4" ;;
-  lucid)   PGDG_DISTRIBUTION=".pgdg10.4" ;;
+  precise) PGDG_DISTRIBUTION="pgdg12.4" ;;
+  lucid)   PGDG_DISTRIBUTION="pgdg10.4" ;;
   *) echo "Unknown distribution ${distribution:-}" >&2 ; exit 1 ;;
 esac
 
@@ -127,6 +127,9 @@ case $PACKAGE in
     perl -000 -ne 'if (/^(Package: lib.*)/m) { print "$1 "; print "$1\n" if /^(Section: .*)/m; }' \
       debian/control
     ;;
+
+  autopkgtest)
+    DOT='~' ;;
 
   psqlodbc)
     case ${distribution:-} in
@@ -165,7 +168,9 @@ else
   SUFFIX=""
 fi
 
-VERSION_STRING="$BASE_VERSION$SUFFIX$PGDG_DISTRIBUTION$PGDG_REVISION"
+# $DOT defaults to '.', but can be set to '~'
+
+VERSION_STRING="$BASE_VERSION$SUFFIX${DOT:-.}$PGDG_DISTRIBUTION$PGDG_REVISION"
 dch --force-distribution --distribution="$distribution-pgdg" \
   --release-heuristic log -b --newversion=$VERSION_STRING -- \
   "Rebuild for $distribution-pgdg ($BUILD_TAG, $VCS revision $VCS_REVISION)"
