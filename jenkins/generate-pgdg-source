@@ -128,13 +128,22 @@ case $PACKAGE in
       debian/control
     ;;
 
-  autopkgtest|geos)
+  autopkgtest)
     DOT='~' ;;
 
   check-postgres) # add B-D for all PostgreSQL versions, not just "postgresql"
     for version in $(/usr/share/postgresql-common/supported-versions); do
       sed -i -e "s/^Build-Depends: /Build-Depends: postgresql-$version, /" debian/control
     done
+    ;;
+
+  geos)
+    DOT='~'
+    case ${distribution:-} in
+      squeeze) # squeeze's ruby1.8 package doesn't provide /usr/bin/ruby
+        sed -i -e "s/^Build-Depends: /Build-Depends: ruby, /" debian/control debian/control.in
+      ;;
+    esac
     ;;
 
   psqlodbc)
