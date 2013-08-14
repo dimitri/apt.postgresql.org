@@ -7,3 +7,13 @@ cat > /etc/postgresql-common/supported_versions <<EOF
 9.1
 9.2
 EOF
+
+echo "Versions supported by the system:"
+/usr/share/postgresql-common/supported-versions
+
+cd /tmp/buildd/*/
+
+if test -e debian/pgversions; then
+	echo "Versions supported by the package:"
+	pg_buildext supported-versions
+fi
