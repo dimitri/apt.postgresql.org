@@ -2,10 +2,7 @@
 
 cat > /etc/postgresql-common/supported_versions <<EOF
 # file managed by A20supportedversions, do not edit
-8.4
-9.0
-9.1
-9.2
+pgdg
 EOF
 
 echo "Versions supported by the system:"
