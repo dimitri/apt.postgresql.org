@@ -128,7 +128,7 @@ case $PACKAGE in
       debian/control
     ;;
 
-  autopkgtest)
+  autopkgtest|gdal)
     DOT='~' ;;
 
   check-postgres) # add B-D for all PostgreSQL versions, not just "postgresql"
