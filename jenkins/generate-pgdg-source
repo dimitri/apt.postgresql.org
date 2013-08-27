@@ -128,13 +128,23 @@ case $PACKAGE in
       debian/control
     ;;
 
-  autopkgtest|gdal)
+  autopkgtest)
     DOT='~' ;;
 
   check-postgres) # add B-D for all PostgreSQL versions, not just "postgresql"
     for version in $(/usr/share/postgresql-common/supported-versions); do
       sed -i -e "s/^Build-Depends: /Build-Depends: postgresql-$version, /" debian/control
     done
+    ;;
+
+  gdal)
+    DOT='~'
+    case ${distribution:-} in
+      precise) # precise's freexl is too old
+        sed -i -e "s/, libfreexl-dev[^,]*,/,/" debian/control
+        sed -i -e "s/--with-freexl=yes/--with-freexl=no/" debian/rules
+      ;;
+    esac
     ;;
 
   geos)
