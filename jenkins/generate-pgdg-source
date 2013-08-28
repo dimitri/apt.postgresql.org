@@ -169,8 +169,8 @@ esac
 case ${distribution:-} in
   lenny|etch|lucid)
     case $PACKAGE in
-      postgresql-?.?|postgresql-??.?)
-        sed -i -e 's/	dh_builddeb -- -Zxz/	dh_builddeb/' debian/rules ;;
+      postgresql-?.?|postgresql-??.?) # dh_builddeb ... -- -Zxz
+        sed -i -e 's/ -Zxz//' debian/rules ;;
     esac ;;
 esac
 
