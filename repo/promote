@@ -18,12 +18,45 @@ shift $(($OPTIND - 1))
 
 PKG="$1"
 
-set -x
+SOURCE=$($REPREPRO -A source list sid-pgdg-testing "$PKG")
+if [ -z "$SOURCE" ]; then
+	echo "ERROR: $PKG does not seem to be a source package"
+	exit 1
+fi
 
+echo "reprepro ls $PKG"
 $REPREPRO ls $PKG
+OLDLS=$($REPREPRO -A source ls "$PKG" | grep -v pgdg-testing | column -t)
+echo
 
 for DIST in $DISTS ; do
 	${SUDO:-} $REPREPRO copysrc $DIST-pgdg $DIST-pgdg-testing $PKG
 done
 
+echo
+echo "reprepro ls $PKG"
 $REPREPRO ls $PKG
+NEWLS=$($REPREPRO -A source ls "$PKG" | grep -v pgdg-testing | column -t)
+echo
+
+if [ "$OLDLS" = "$NEWLS" ]; then
+	echo "No change in the repository, not sending mail"
+	exit
+fi
+
+NEWVERSION=$(echo "$SOURCE" | awk '{ print $3 }')
+
+cat <<EOF | sendmail -t
+From: apt.postgresql.org repository <myon@debian.org>
+To: PostgreSQL in Debian <pgsql-pkg-debian@postgresql.org>
+Subject: $PKG updated to version $NEWVERSION
+
+The package $PKG was updated on apt.postgresql.org:
+
+Old status:
+$OLDLS
+
+New status:
+$NEWLS
+
+EOF
