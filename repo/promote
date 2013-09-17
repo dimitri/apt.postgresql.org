@@ -45,10 +45,14 @@ if [ "$OLDLS" = "$NEWLS" ]; then
 fi
 
 NEWVERSION=$(echo "$SOURCE" | awk '{ print $3 }')
+FROM="apt.postgresql.org repository <myon@debian.org>"
+TO="PostgreSQL in Debian <pgsql-pkg-debian@postgresql.org>"
+
+echo "Sending mail to $TO ..."
 
 cat <<EOF | sendmail -t
-From: apt.postgresql.org repository <myon@debian.org>
-To: PostgreSQL in Debian <pgsql-pkg-debian@postgresql.org>
+From: $FROM
+To: $TO
 Subject: $PKG updated to version $NEWVERSION
 
 The package $PKG was updated on apt.postgresql.org:
