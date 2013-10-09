@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dpkg -l 'libpq*' 'postgresql*' libc6
+dpkg -l autopkgtest libc6 'libpq*' 'postgresql*' 'pgdg*'
 
 gcc --version | head -n1
 g++ --version | head -n1
