@@ -2,10 +2,18 @@
 
 set -eu
 
+#DEBUG=1
+
 [ "$USER" = "aptuser" ] || SUDO="sudo -u aptuser"
 export REPREPRO_BASE_DIR="/srv/apt/repo"
 REPREPRO="reprepro -b $REPREPRO_BASE_DIR --morguedir $REPREPRO_BASE_DIR/morgue --verbose"
 DISTS="sid wheezy squeeze precise lucid"
+SENDMAIL="sendmail -t"
+
+if [ "${DEBUG:-}" ]; then
+	SUDO="echo"
+	SENDMAIL="cat"
+fi
 
 while getopts "d:" opt ; do
 	case $opt in
@@ -18,15 +26,21 @@ shift $(($OPTIND - 1))
 
 PKG="$1"
 
-SOURCE=$($REPREPRO -A source list sid-pgdg-testing "$PKG")
-if [ -z "$SOURCE" ]; then
+NEWVERSION=$($REPREPRO -A source list sid-pgdg-testing "$PKG" | awk '{ print $3 }')
+if [ -z "$NEWVERSION" ]; then
 	echo "ERROR: $PKG does not seem to be a source package"
 	exit 1
 fi
+INITIAL=$(echo $PKG | cut -c 1)
+test -d /srv/apt/repo/pool/main/$INITIAL/$PKG/
+BINARIES=$(ls /srv/apt/repo/pool/main/$INITIAL/$PKG/*deb | sed -e 's!.*/!!' -e 's/_.*//' | sort -u)
+OTHERBINARIES=$(echo "$BINARIES" | while read b; do if [ "$b" != "$PKG" ]; then echo "$b"; fi; done)
 
-echo "reprepro ls $PKG"
-$REPREPRO ls $PKG
-OLDLS=$($REPREPRO -A source ls "$PKG" | grep -v pgdg-testing | column -t)
+OLDVERSION=$($REPREPRO -A source list sid-pgdg "$PKG" | awk '{ print $3 }')
+echo "Old status:"
+OLDLS=$($REPREPRO ls $PKG; for p in $OTHERBINARIES; do $REPREPRO ls $p; done)
+echo "$OLDLS"
+OLDLSPROD=$(echo "$OLDLS" | grep -v pgdg-testing | column -t)
 echo
 
 for DIST in $DISTS ; do
@@ -34,33 +48,42 @@ for DIST in $DISTS ; do
 done
 
 echo
-echo "reprepro ls $PKG"
-$REPREPRO ls $PKG
-NEWLS=$($REPREPRO -A source ls "$PKG" | grep -v pgdg-testing | column -t)
+echo "New status:"
+NEWLS=$($REPREPRO ls $PKG; for p in $OTHERBINARIES; do $REPREPRO ls $p; done)
+echo "$NEWLS"
+NEWLSPROD=$(echo "$NEWLS" | grep -v pgdg-testing | column -t)
 echo
 
-if [ "$OLDLS" = "$NEWLS" ]; then
+if [ -z "${DEBUG:-}" ] && [ "$OLDLSPROD" = "$NEWLSPROD" ]; then
 	echo "No change in the repository, not sending mail"
 	exit
 fi
 
-NEWVERSION=$(echo "$SOURCE" | awk '{ print $3 }')
+NEWSHORTVERSION=$(echo "$NEWVERSION" | sed -e 's/.*://')
+SOMEDEB=$(ls /srv/apt/repo/pool/main/$INITIAL/$PKG/*$NEWSHORTVERSION*deb | head -1)
+CHANGES=$(/home/myon/alc -f text --which=changelogs --since=$OLDVERSION $SOMEDEB)
+
 FROM="apt.postgresql.org repository <myon@debian.org>"
 TO="PostgreSQL in Debian <pgsql-pkg-debian@postgresql.org>"
 
 echo "Sending mail to $TO ..."
 
-cat <<EOF | sendmail -t
+$SENDMAIL <<EOF
 From: $FROM
 To: $TO
 Subject: $PKG updated to version $NEWVERSION
 
 The package $PKG was updated on apt.postgresql.org:
 
-Old status:
-$OLDLS
+New version $NEWVERSION:
 
-New status:
-$NEWLS
+$NEWLSPROD
 
+Old version $OLDVERSION:
+
+$OLDLSPROD
+
+Changelog:
+
+$CHANGES
 EOF
