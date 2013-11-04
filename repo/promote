@@ -61,7 +61,7 @@ fi
 
 NEWSHORTVERSION=$(echo "$NEWVERSION" | sed -e 's/.*://')
 SOMEDEB=$(ls /srv/apt/repo/pool/main/$INITIAL/$PKG/*$NEWSHORTVERSION*deb | head -1)
-CHANGES=$(/home/myon/alc -f text --which=changelogs --since=$OLDVERSION $SOMEDEB)
+CHANGES=$(apt-listchanges -f text --which=changelogs --since=$OLDVERSION $SOMEDEB)
 
 FROM="apt.postgresql.org repository <myon@debian.org>"
 TO="PostgreSQL in Debian <pgsql-pkg-debian@postgresql.org>"
