@@ -253,7 +253,7 @@ identify_build_type() {
 
   for file in ${BASE_PATH}/${SOURCE_PACKAGE}_*.dsc ; do
     if egrep -q '^Architecture: all$' $file; then
-      echo "*** Package is "Architecture: all", so nothing to do for $architecture ***"
+      echo "*** Package is 'Architecture: all', so nothing to do for $architecture ***"
       SKIP_ARCH_BUILD=true
       break
     fi
