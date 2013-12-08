@@ -1,0 +1,148 @@
+# defaults and macros
+
+- defaults:
+    name: global
+    description: 'Do not edit this job through the web, it is generated via jenkins-job-builder!'
+    logrotate:
+        daysToKeep: -1
+        numToKeep: 2
+        artifactDaysToKeep: -1
+        artifactNumToKeep: -1
+    wrappers:
+        - timestamps
+    git-branch: master
+
+# git
+
+- job-template:
+        name: '{name}-git-source'
+        job-name: '{name}-source'
+        description: 'Build Debian source package of {name} from git.<br />Do not edit this job through the web, it is generated via jenkins-job-builder!'
+        project-type: matrix
+        axes:
+                - axis:
+                        type: user-defined
+                        name: distribution
+                        values:
+                                - sid
+                                - wheezy
+                                - squeeze
+                                - precise
+                                - lucid
+        scm:
+                - git:
+                        url: foo #'{git-url}'
+                        branches:
+                                - '{git-branch}'
+                        basedir: source
+        publishers:
+                - archive:
+                        artifacts: 'result/*'
+                - fingerprint:
+                        record-artifacts: true
+                - ircbot:
+                        matrix-notifier: only-parent
+                - trigger:
+                        project: '{name}-binaries'
+
+# svn template
+
+- job-template:
+        name: '{name}-svn-source'
+        job-name: '{name}-source'
+        description: 'Build Debian source package of {name} from svn.<br />Do not edit this job through the web, it is generated via jenkins-job-builder!'
+        project-type: matrix
+        axes:
+                - axis:
+                        type: user-defined
+                        name: distribution
+                        values:
+                                - sid
+                                - wheezy
+                                - squeeze
+                                - precise
+                                - lucid
+        scm:
+                - svn:
+                        url: '{svn-url}'
+                        basedir: source
+        publishers:
+                - archive:
+                        artifacts: 'result/*'
+                - fingerprint:
+                        record-artifacts: true
+                - ircbot:
+                        matrix-notifier: only-parent
+                - trigger:
+                        project: '{name}-binaries'
+
+# binaries template
+
+- builder:
+        name: build-package
+        builders:
+                - shell: 'BUILD_ONLY=yes build-and-provide-package'
+
+- job-template:
+        name: '{name}-binaries'
+        description: 'Build Debian binary package of {name}.<br />Do not edit this job through the web, it is generated via jenkins-job-builder!'
+        project-type: matrix
+        axes:
+                - axis:
+                        type: user-defined
+                        name: architecture
+                        values:
+                                - amd64
+                                - i386
+                - axis:
+                        type: user-defined
+                        name: distribution
+                        values:
+                                - sid
+                                - wheezy
+                                - squeeze
+                                - precise
+                                - lucid
+        builders:
+                - copyartifact:
+                        project: '{name}-source/distribution=$distribution'
+                        filter: 'result/*'
+                        flatten: true
+                        which-build: upstream-build
+                - build-package
+        publishers:
+                - archive:
+                        artifacts: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes'
+                - fingerprint:
+                        files: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes'
+                        #record-artifacts: false
+                - ircbot:
+                        strategy: any-failure
+                        matrix-notifier: only-parent
+
+# job groups
+
+- job-group:
+        name: git-packages
+        jobs:
+                - '{name}-git-source'
+                - '{name}-binaries'
+
+- job-group:
+        name: svn-packages
+        jobs:
+                - '{name}-svn-source'
+                - '{name}-binaries'
+
+# simple jobs
+
+- job:
+        name: apt.postgresql.org
+
+# project jobs
+
+- project:
+        name: apgdiff
+        svn-url: svn://svn.debian.org/pkg-postgresql/trunk/apgdiff
+        jobs:
+                - svn-packages
