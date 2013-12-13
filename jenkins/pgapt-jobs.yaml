@@ -12,7 +12,7 @@
         - timestamps
     git-branch: master
 
-# git
+# git template
 
 - job-template:
         name: '{name}-git-source'
@@ -39,9 +39,12 @@
                         branches:
                                 - '{git-branch}'
                         basedir: source
+        builders:
+                - shell: 'generate-pgdg-source'
         publishers:
                 - archive:
                         artifacts: 'result/*'
+                        latest-only: true
                 - fingerprint:
                         record-artifacts: true
                 - ircbot:
@@ -57,8 +60,8 @@
         description: 'Build Debian source package of {name} from svn.<br />Do not edit this job through the web, it is generated via jenkins-job-builder!'
         project-type: matrix
         execution-strategy:
+                sequential: true
                 touchstone:
-                        sequential: true
                         expr: 'distribution=="sid"'
         axes:
                 - axis:
@@ -75,9 +78,12 @@
                         url: '{svn-url}'
                         basedir: source
                         workspaceupdater: update
+        builders:
+                - shell: 'generate-pgdg-source'
         publishers:
                 - archive:
                         artifacts: 'result/*'
+                        latest-only: true
                 - fingerprint:
                         record-artifacts: true
                 - ircbot:
@@ -87,15 +93,13 @@
 
 # binaries template
 
-- builder:
-        name: build-package
-        builders:
-                - shell: 'BUILD_ONLY=yes build-and-provide-package'
-
 - job-template:
         name: '{name}-binaries'
         description: 'Build Debian binary package of {name}.<br />Do not edit this job through the web, it is generated via jenkins-job-builder!'
         project-type: matrix
+        execution-strategy:
+                touchstone:
+                        expr: '(distribution=="sid") && (architecture=="amd64")'
         axes:
                 - axis:
                         type: user-defined
@@ -113,21 +117,30 @@
                                 - precise
                                 - lucid
         builders:
+                - shell: 'rm -rf *'
                 - copyartifact:
                         project: '{name}-source/distribution=$distribution'
                         filter: 'result/*'
                         flatten: true
                         which-build: upstream-build
-                - build-package
+                        fallback-to-last-successful: true
+                - shell: 'BUILD_ONLY=yes build-and-provide-package'
         publishers:
                 - archive:
                         artifacts: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes'
+                        latest-only: true
                 - fingerprint:
-                        files: '*.gz,*.bz2,*.xz,*.deb,*.dsc,*.changes'
-                        #record-artifacts: false
+                        record-artifacts: true
+                - junit:
+                        results: autopkgtest.xml
                 - ircbot:
                         strategy: any-failure
-                        matrix-notifier: only-parent
+                        message-type: summary
+                        matrix-notifier: only-configurations
+                - trigger-parameterized-builds:
+                        - project: dput
+                          condition: SUCCESS
+                          predefined-parameters: 'binaries=$JOB_NAME'
 
 # job groups
 
@@ -147,6 +160,9 @@
 
 - job:
         name: apt.postgresql.org
+
+- job:
+        name: dput
 
 # project jobs
 
